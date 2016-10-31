@@ -4,6 +4,7 @@ This is a team project for CS151.
 * Bing Liang
 * Paul Nguyen
 * Ruiyang Wang
+* Christopher Leung
 
 ## Features will be accomplished:
 * The collaborate features  
