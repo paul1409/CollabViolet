@@ -31,99 +31,79 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
-
 /**
-   A frame for showing a graphical editor
-*/
-public class GraphFrame extends JInternalFrame
-{
-   /**
-      Constructs a graph frame with an empty tool bar
-      @param aGraph the initial graph
+ * A frame for showing a graphical editor
+ */
+public class GraphFrame extends JInternalFrame {
+  /**
+   * Constructs a graph frame with an empty tool bar
+   * @param aGraph the initial graph
    */
-   public GraphFrame(Graph aGraph)
-   {
-      graph = aGraph;
-      toolBar = new ToolBar(graph);
-      panel = new GraphPanel(toolBar);
-      Container contentPane = getContentPane();
-      contentPane.add(toolBar, BorderLayout.NORTH);
-      contentPane.add(new JScrollPane(panel), BorderLayout.CENTER);
-      // add listener to confirm frame closing
-      addVetoableChangeListener(new
-         VetoableChangeListener()
-         {
-            public void vetoableChange(PropertyChangeEvent event)
-               throws PropertyVetoException
-            {  
-               String name = event.getPropertyName();
-               Object value = event.getNewValue();
+  public GraphFrame(Graph aGraph) {
+    graph = aGraph;
+    toolBar = new ToolBar(graph);
+    panel = new GraphPanel(toolBar);
+    Container contentPane = getContentPane();
+    contentPane.add(toolBar, BorderLayout.NORTH);
+    contentPane.add(new JScrollPane(panel), BorderLayout.CENTER);
+    // add listener to confirm frame closing
+    addVetoableChangeListener(new VetoableChangeListener() {
+      public void vetoableChange(PropertyChangeEvent event) throws PropertyVetoException {
+        String name = event.getPropertyName();
+        Object value = event.getNewValue();
 
-               // we only want to check attempts to close a frame
-               if (name.equals("closed") 
-                  && value.equals(Boolean.TRUE) && panel.isModified())
-               {  
-                  ResourceBundle editorResources = 
-                     ResourceBundle.getBundle("com.horstmann.violet.framework.EditorStrings");                  
-                  
-                  // ask user if it is ok to close
-                  int result
-                     = JOptionPane.showInternalConfirmDialog(
-                        GraphFrame.this, 
-                        editorResources.getString("dialog.close.ok"),
-                        null,
-                        JOptionPane.YES_NO_OPTION);
+        // we only want to check attempts to close a frame
+        if (name.equals("closed") && value.equals(Boolean.TRUE) && panel.isModified()) {
+          ResourceBundle editorResources = ResourceBundle.getBundle("com.horstmann.violet.framework.EditorStrings");
 
-                  // if the user doesn't agree, veto the close
-                  if (result != JOptionPane.YES_OPTION)
-                     throw new PropertyVetoException(
-                        "User canceled close", event);
-               }
-            }           
-         });
+          // ask user if it is ok to close
+          int result = JOptionPane.showInternalConfirmDialog(GraphFrame.this,
+              editorResources.getString("dialog.close.ok"), null, JOptionPane.YES_NO_OPTION);
 
-      panel.setGraph(graph);
-   }
+          // if the user doesn't agree, veto the close
+          if (result != JOptionPane.YES_OPTION) throw new PropertyVetoException("User canceled close", event);
+        }
+      }
+    });
 
-   /**
-      Gets the graph that is being edited in this frame.
-      @return the graph
+    panel.setGraph(graph);
+  }
+
+  /**
+   * Gets the graph that is being edited in this frame.
+   * @return the graph
    */
-   public Graph getGraph()
-   {
-      return graph;
-   }
+  public Graph getGraph() {
+    return graph;
+  }
 
-   /**
-      Gets the graph panel that is contained in this frame.
-      @return the graph panel
+  /**
+   * Gets the graph panel that is contained in this frame.
+   * @return the graph panel
    */
-   public GraphPanel getGraphPanel()
-   {
-      return panel;
-   }
+  public GraphPanel getGraphPanel() {
+    return panel;
+  }
 
-   /**
-      Gets the fileName property.
-      @return the file name
+  /**
+   * Gets the fileName property.
+   * @return the file name
    */
-   public String getFileName()
-   {
-      return fileName;
-   }
+  public String getFileName() {
+    return fileName;
+  }
 
-   /**
-      Sets the fileName property.
-      @param newValue the file name
+  /**
+   * Sets the fileName property.
+   * @param newValue the file name
    */
-   public void setFileName(String newValue)
-   {
-      fileName = newValue;
-      setTitle(newValue);
-   }
+  public void setFileName(String newValue) {
+    fileName = newValue;
+    setTitle(newValue);
+  }
 
-   private Graph graph;
-   private GraphPanel panel;
-   private ToolBar toolBar;
-   private String fileName;
+  private Graph graph;
+  private GraphPanel panel;
+  private ToolBar toolBar;
+  private String fileName;
 }
