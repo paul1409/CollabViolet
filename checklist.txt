@@ -1,0 +1,21 @@
+Week 1
+
+Reports for all team members: No
+
+No report from Paul
+
+Wiki doc with features: No
+
+On the wiki, you should put feature and design documentation, not a progress report. 
+Your progress is documented in the issues and your weekly reports.
+
+I want to know what you plan to have done at the end of the project. What diagram types?
+What interaction features?
+
+Issues: Ok
+
+Work on these in the coming week.
+
+Code and build script: No
+
+You need to put something here, both for the client and server
