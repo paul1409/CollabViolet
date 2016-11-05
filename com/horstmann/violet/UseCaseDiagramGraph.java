@@ -24,68 +24,56 @@ import com.horstmann.violet.framework.Edge;
 import com.horstmann.violet.framework.Graph;
 import com.horstmann.violet.framework.Node;
 
-
 /**
-   A UML use case diagram.
-*/
-public class UseCaseDiagramGraph extends Graph
-{
+ * A UML use case diagram.
+ */
+public class UseCaseDiagramGraph extends Graph {
 
-   public Node[] getNodePrototypes()
-   {
-      return NODE_PROTOTYPES;
-   }
+  @Override
+  public Node[] getNodePrototypes() {
+    return NODE_PROTOTYPES;
+  }
 
-   public Edge[] getEdgePrototypes()
-   {
-      return EDGE_PROTOTYPES;
-   }
-   
-   private static final Node[] NODE_PROTOTYPES = new Node[3];
+  @Override
+  public Edge[] getEdgePrototypes() {
+    return EDGE_PROTOTYPES;
+  }
 
-   private static final Edge[] EDGE_PROTOTYPES = new Edge[5];
+  private static final Node[] NODE_PROTOTYPES = new Node[3];
 
-   static
-   {
-      NODE_PROTOTYPES[0] = new ActorNode();
-      NODE_PROTOTYPES[1] = new UseCaseNode();
-      NODE_PROTOTYPES[2] = new NoteNode();
+  private static final Edge[] EDGE_PROTOTYPES = new Edge[5];
 
-      ClassRelationshipEdge communication =
-         new ClassRelationshipEdge();
-      communication.setBentStyle(BentStyle.STRAIGHT);
-      communication.setLineStyle(LineStyle.SOLID);
-      communication.setEndArrowHead(ArrowHead.NONE);
-      EDGE_PROTOTYPES[0] = communication;
+  static {
+    NODE_PROTOTYPES[0] = new ActorNode();
+    NODE_PROTOTYPES[1] = new UseCaseNode();
+    NODE_PROTOTYPES[2] = new NoteNode();
 
-      ClassRelationshipEdge extendRel =
-         new ClassRelationshipEdge();
-      extendRel.setBentStyle(BentStyle.STRAIGHT);
-      extendRel.setLineStyle(LineStyle.DOTTED);
-      extendRel.setEndArrowHead(ArrowHead.V);
-      extendRel.setMiddleLabel("\u00ABextend\u00BB");
-      EDGE_PROTOTYPES[1] = extendRel;
+    ClassRelationshipEdge communication = new ClassRelationshipEdge();
+    communication.setBentStyle(BentStyle.STRAIGHT);
+    communication.setLineStyle(LineStyle.SOLID);
+    communication.setEndArrowHead(ArrowHead.NONE);
+    EDGE_PROTOTYPES[0] = communication;
 
-      ClassRelationshipEdge includeRel =
-         new ClassRelationshipEdge();
-      includeRel.setBentStyle(BentStyle.STRAIGHT);
-      includeRel.setLineStyle(LineStyle.DOTTED);
-      includeRel.setEndArrowHead(ArrowHead.V);
-      includeRel.setMiddleLabel("\u00ABinclude\u00BB");
-      EDGE_PROTOTYPES[2] = includeRel;
-      
-      ClassRelationshipEdge generalization =
-         new ClassRelationshipEdge();
-      generalization.setBentStyle(BentStyle.STRAIGHT);
-      generalization.setLineStyle(LineStyle.SOLID);
-      generalization.setEndArrowHead(ArrowHead.TRIANGLE);
-      EDGE_PROTOTYPES[3] = generalization;
+    ClassRelationshipEdge extendRel = new ClassRelationshipEdge();
+    extendRel.setBentStyle(BentStyle.STRAIGHT);
+    extendRel.setLineStyle(LineStyle.DOTTED);
+    extendRel.setEndArrowHead(ArrowHead.V);
+    extendRel.setMiddleLabel("\u00ABextend\u00BB");
+    EDGE_PROTOTYPES[1] = extendRel;
 
-      EDGE_PROTOTYPES[4] = new NoteEdge();
-   }
+    ClassRelationshipEdge includeRel = new ClassRelationshipEdge();
+    includeRel.setBentStyle(BentStyle.STRAIGHT);
+    includeRel.setLineStyle(LineStyle.DOTTED);
+    includeRel.setEndArrowHead(ArrowHead.V);
+    includeRel.setMiddleLabel("\u00ABinclude\u00BB");
+    EDGE_PROTOTYPES[2] = includeRel;
+
+    ClassRelationshipEdge generalization = new ClassRelationshipEdge();
+    generalization.setBentStyle(BentStyle.STRAIGHT);
+    generalization.setLineStyle(LineStyle.SOLID);
+    generalization.setEndArrowHead(ArrowHead.TRIANGLE);
+    EDGE_PROTOTYPES[3] = generalization;
+
+    EDGE_PROTOTYPES[4] = new NoteEdge();
+  }
 }
-
-
-
-
-

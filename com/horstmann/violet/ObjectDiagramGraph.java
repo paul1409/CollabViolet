@@ -26,45 +26,38 @@ import com.horstmann.violet.framework.MultiLineString;
 import com.horstmann.violet.framework.Node;
 
 /**
-   An UML-style object diagram that shows object references.
-*/
-public class ObjectDiagramGraph extends Graph
-{
-   public Node[] getNodePrototypes()
-   {
-      return NODE_PROTOTYPES;
-   }
+ * An UML-style object diagram that shows object references.
+ */
+public class ObjectDiagramGraph extends Graph {
+  @Override
+  public Node[] getNodePrototypes() {
+    return NODE_PROTOTYPES;
+  }
 
-   public Edge[] getEdgePrototypes()
-   {
-      return EDGE_PROTOTYPES;
-   }
+  @Override
+  public Edge[] getEdgePrototypes() {
+    return EDGE_PROTOTYPES;
+  }
 
-   private static final Node[] NODE_PROTOTYPES = new Node[3];
+  private static final Node[] NODE_PROTOTYPES = new Node[3];
 
-   private static final Edge[] EDGE_PROTOTYPES = new Edge[3];
+  private static final Edge[] EDGE_PROTOTYPES = new Edge[3];
 
-   static
-   {
-      NODE_PROTOTYPES[0] = new ObjectNode();
-      FieldNode f = new FieldNode();
-      MultiLineString fn = new MultiLineString();
-      fn.setText("name");
-      f.setName(fn);
-      MultiLineString fv = new MultiLineString();
-      fv.setText("value");
-      f.setValue(fv);
-      NODE_PROTOTYPES[1] = f;
-      NODE_PROTOTYPES[2] = new NoteNode();
-      EDGE_PROTOTYPES[0] = new ObjectReferenceEdge();
-      ClassRelationshipEdge association = new ClassRelationshipEdge();
-      association.setBentStyle(BentStyle.STRAIGHT);
-      EDGE_PROTOTYPES[1] = association;
-      EDGE_PROTOTYPES[2] = new NoteEdge();
-   }
+  static {
+    NODE_PROTOTYPES[0] = new ObjectNode();
+    FieldNode f = new FieldNode();
+    MultiLineString fn = new MultiLineString();
+    fn.setText("name");
+    f.setName(fn);
+    MultiLineString fv = new MultiLineString();
+    fv.setText("value");
+    f.setValue(fv);
+    NODE_PROTOTYPES[1] = f;
+    NODE_PROTOTYPES[2] = new NoteNode();
+    EDGE_PROTOTYPES[0] = new ObjectReferenceEdge();
+    ClassRelationshipEdge association = new ClassRelationshipEdge();
+    association.setBentStyle(BentStyle.STRAIGHT);
+    EDGE_PROTOTYPES[1] = association;
+    EDGE_PROTOTYPES[2] = new NoteEdge();
+  }
 }
-
-
-
-
-

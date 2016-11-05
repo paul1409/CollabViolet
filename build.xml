@@ -21,7 +21,7 @@
 			</fileset>
 		</copy>
 		<javac srcdir="src"  includeantruntime="false"/>
-			
+			<javadoc sourcepath="." destdir="bin"/>
 	</target>
 	<target name="clean">
 		<delete dir="bin" />

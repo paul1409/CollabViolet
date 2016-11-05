@@ -27,6 +27,9 @@ import com.horstmann.violet.framework.PropertySelector;
 */
 public class BentStyleEditor extends PropertySelector
 {
+  /**
+   * Properties
+   */
    public BentStyleEditor()
    {
       super(names, values);

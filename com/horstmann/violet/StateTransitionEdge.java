@@ -33,151 +33,128 @@ import javax.swing.JLabel;
 import com.horstmann.violet.framework.Direction;
 import com.horstmann.violet.framework.ShapeEdge;
 
-
 /**
-   A curved edge for a state transition in a state diagram.
-*/
-public class StateTransitionEdge extends ShapeEdge
-{
-   /**
-      Sets the label property value.
-      @param newValue the new value
+ * A curved edge for a state transition in a state diagram.
+ */
+public class StateTransitionEdge extends ShapeEdge {
+  /**
+   * Sets the label property value.
+   * @param newValue the new value
    */
-   public void setLabel(String newValue)
-   {
-      labelText = newValue;
-   }
+  public void setLabel(String newValue) {
+    labelText = newValue;
+  }
 
-   /**
-      Gets the label property value.
-      @return the current value
+  /**
+   * Gets the label property value.
+   * @return the current value
    */
-   public String getLabel()
-   {
-      return labelText;
-   }
+  public String getLabel() {
+    return labelText;
+  }
 
-   public void draw(Graphics2D g2)
-   {
-      g2.draw(getShape());
-      drawLabel(g2);
-      ArrowHead.V.draw(g2, getControlPoint(), getConnectionPoints().getP2());
-   }
+  @Override
+  public void draw(Graphics2D g2) {
+    g2.draw(getShape());
+    drawLabel(g2);
+    ArrowHead.V.draw(g2, getControlPoint(), getConnectionPoints().getP2());
+  }
 
-   /**
-      Draws the label.
-      @param g2 the graphics context
+  /**
+   * Draws the label.
+   * @param g2 the graphics context
    */
-   private void drawLabel(Graphics2D g2)
-   {
-      Rectangle2D labelBounds = getLabelBounds(g2);
-      double x = labelBounds.getX();
-      double y = labelBounds.getY();
-      
-      g2.translate(x, y);
-      label.paint(g2);
-      g2.translate(-x, -y);        
-   }
+  private void drawLabel(Graphics2D g2) {
+    Rectangle2D labelBounds = getLabelBounds(g2);
+    double x = labelBounds.getX();
+    double y = labelBounds.getY();
 
-   
-   /**
-      Gets the bounds of the label text 
-      @param g2 the graphics context
-      @return the bounds of the label text
+    g2.translate(x, y);
+    label.paint(g2);
+    g2.translate(-x, -y);
+  }
+
+  /**
+   * Gets the bounds of the label text
+   * @param g2 the graphics context
+   * @return the bounds of the label text
    */
-   private Rectangle2D getLabelBounds(Graphics2D g2)
-   {
-      Line2D line = getConnectionPoints();
-      Point2D control = getControlPoint();
-      double x = control.getX() / 2 + line.getX1() / 4 + line.getX2() / 4;
-      double y = control.getY() / 2 + line.getY1() / 4 + line.getY2() / 4;
+  private Rectangle2D getLabelBounds(Graphics2D g2) {
+    Line2D line = getConnectionPoints();
+    Point2D control = getControlPoint();
+    double x = control.getX() / 2 + line.getX1() / 4 + line.getX2() / 4;
+    double y = control.getY() / 2 + line.getY1() / 4 + line.getY2() / 4;
 
-      label.setText("<html>" + labelText + "</html>");
-      label.setFont(g2.getFont());
-      Dimension d = label.getPreferredSize();
-      label.setBounds(0, 0, d.width, d.height);
-   
-      final int GAP = 3;
-      if (line.getY1() == line.getY2())
-         x -= d.getWidth() / 2;
-      else if (line.getY1() <= line.getY2())
-         x += GAP;
-      else
-         x -= d.getWidth() + GAP;
-      if (line.getX1() == line.getX2())
-         y += d.getHeight() / 2;
-      else if (line.getX1() <= line.getX2())
-         y -= d.getHeight() + GAP;
-      else
-         y += GAP;
-      return new Rectangle2D.Double(x, y, d.width, d.height);
-   }   
+    label.setText("<html>" + labelText + "</html>");
+    label.setFont(g2.getFont());
+    Dimension d = label.getPreferredSize();
+    label.setBounds(0, 0, d.width, d.height);
 
-   /**
-      Gets the control point for the quadratic spline.
-      @return the control point
+    final int GAP = 3;
+    if (line.getY1() == line.getY2()) x -= d.getWidth() / 2;
+    else if (line.getY1() <= line.getY2()) x += GAP;
+    else x -= d.getWidth() + GAP;
+    if (line.getX1() == line.getX2()) y += d.getHeight() / 2;
+    else if (line.getX1() <= line.getX2()) y -= d.getHeight() + GAP;
+    else y += GAP;
+    return new Rectangle2D.Double(x, y, d.width, d.height);
+  }
+
+  /**
+   * Gets the control point for the quadratic spline.
+   * @return the control point
    */
-   private Point2D getControlPoint()
-   {
-      Line2D line = getConnectionPoints();
-      double t = Math.tan(Math.toRadians(angle));
-      double dx = (line.getX2() - line.getX1()) / 2;
-      double dy = (line.getY2() - line.getY1()) / 2;
-      return new Point2D.Double(
-         (line.getX1() + line.getX2()) / 2 + t * dy,
-         (line.getY1() + line.getY2()) / 2 - t * dx);         
-   }
-   
-   public Shape getShape()
-   {
-      Line2D line = getConnectionPoints();
-      Point2D control = getControlPoint();
-      GeneralPath p = new GeneralPath();
-      p.moveTo((float)line.getX1(), (float)line.getY1());
-      p.quadTo((float)control.getX(), (float)control.getY(), (float)line.getX2(), (float)line.getY2());      
-      return p;
-   }
+  private Point2D getControlPoint() {
+    Line2D line = getConnectionPoints();
+    double t = Math.tan(Math.toRadians(angle));
+    double dx = (line.getX2() - line.getX1()) / 2;
+    double dy = (line.getY2() - line.getY1()) / 2;
+    return new Point2D.Double((line.getX1() + line.getX2()) / 2 + t * dy, (line.getY1() + line.getY2()) / 2 - t * dx);
+  }
 
-   public Rectangle2D getBounds(Graphics2D g2)
-   {
-      Rectangle2D r = super.getBounds(g2);
-      r.add(getLabelBounds(g2));
-      return r;
-   }
-   
-   public Line2D getConnectionPoints()
-   {
-      Direction d1;
-      Direction d2;
+  @Override
+  public Shape getShape() {
+    Line2D line = getConnectionPoints();
+    Point2D control = getControlPoint();
+    GeneralPath p = new GeneralPath();
+    p.moveTo((float) line.getX1(), (float) line.getY1());
+    p.quadTo((float) control.getX(), (float) control.getY(), (float) line.getX2(), (float) line.getY2());
+    return p;
+  }
 
-      if (getStart() == getEnd())
-      {
-         angle = 60;
-         d1 = Direction.EAST.turn(-30);
-         d2 = Direction.EAST.turn(30);
-      }
-      else
-      {
-         angle = 10;
-         Rectangle2D start = getStart().getBounds();
-         Rectangle2D end = getEnd().getBounds();
-         Point2D startCenter = new Point2D.Double(
-            start.getCenterX(),
-            start.getCenterY());
-         Point2D endCenter = new Point2D.Double(
-            end.getCenterX(),
-            end.getCenterY());
-         d1 = new Direction(startCenter, endCenter).turn(-5);
-         d2 = new Direction(endCenter, startCenter).turn(5);
-      }
-      Point2D p = getStart().getConnectionPoint(d1);
-      Point2D q = getEnd().getConnectionPoint(d2);
+  @Override
+  public Rectangle2D getBounds(Graphics2D g2) {
+    Rectangle2D r = super.getBounds(g2);
+    r.add(getLabelBounds(g2));
+    return r;
+  }
 
-      return new Line2D.Double(p, q);
-   }
+  @Override
+  public Line2D getConnectionPoints() {
+    Direction d1;
+    Direction d2;
 
-   private double angle;
-   private String labelText = "";
-   
-   private static JLabel label = new JLabel();
+    if (getStart() == getEnd()) {
+      angle = 60;
+      d1 = Direction.EAST.turn(-30);
+      d2 = Direction.EAST.turn(30);
+    } else {
+      angle = 10;
+      Rectangle2D start = getStart().getBounds();
+      Rectangle2D end = getEnd().getBounds();
+      Point2D startCenter = new Point2D.Double(start.getCenterX(), start.getCenterY());
+      Point2D endCenter = new Point2D.Double(end.getCenterX(), end.getCenterY());
+      d1 = new Direction(startCenter, endCenter).turn(-5);
+      d2 = new Direction(endCenter, startCenter).turn(5);
+    }
+    Point2D p = getStart().getConnectionPoint(d1);
+    Point2D q = getEnd().getConnectionPoint(d2);
+
+    return new Line2D.Double(p, q);
+  }
+
+  private double angle;
+  private String labelText = "";
+
+  private static JLabel label = new JLabel();
 }

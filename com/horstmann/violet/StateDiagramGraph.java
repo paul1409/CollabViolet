@@ -24,40 +24,32 @@ import com.horstmann.violet.framework.Edge;
 import com.horstmann.violet.framework.Graph;
 import com.horstmann.violet.framework.Node;
 
-
 /**
-   A UML state diagram.
-*/
-public class StateDiagramGraph extends Graph
-{
-   public Node[] getNodePrototypes()
-   {
-      return NODE_PROTOTYPES;
-   }
+ * A UML state diagram.
+ */
+public class StateDiagramGraph extends Graph {
+  @Override
+  public Node[] getNodePrototypes() {
+    return NODE_PROTOTYPES;
+  }
 
-   public Edge[] getEdgePrototypes()
-   {
-      return EDGE_PROTOTYPES;
-   }
+  @Override
+  public Edge[] getEdgePrototypes() {
+    return EDGE_PROTOTYPES;
+  }
 
-   private static final Node[] NODE_PROTOTYPES = new Node[4];
+  private static final Node[] NODE_PROTOTYPES = new Node[4];
 
-   private static final Edge[] EDGE_PROTOTYPES = new Edge[2];
+  private static final Edge[] EDGE_PROTOTYPES = new Edge[2];
 
-   static
-   {
-      NODE_PROTOTYPES[0] = new StateNode();
-      NODE_PROTOTYPES[1] = new CircularStateNode();
-      CircularStateNode finalState = new CircularStateNode();
-      finalState.setFinal(true);
-      NODE_PROTOTYPES[2] = finalState;     
-      NODE_PROTOTYPES[3] = new NoteNode();
-      EDGE_PROTOTYPES[0] = new StateTransitionEdge();
-      EDGE_PROTOTYPES[1] = new NoteEdge();
-   }
+  static {
+    NODE_PROTOTYPES[0] = new StateNode();
+    NODE_PROTOTYPES[1] = new CircularStateNode();
+    CircularStateNode finalState = new CircularStateNode();
+    finalState.setFinal(true);
+    NODE_PROTOTYPES[2] = finalState;
+    NODE_PROTOTYPES[3] = new NoteNode();
+    EDGE_PROTOTYPES[0] = new StateTransitionEdge();
+    EDGE_PROTOTYPES[1] = new NoteEdge();
+  }
 }
-
-
-
-
-

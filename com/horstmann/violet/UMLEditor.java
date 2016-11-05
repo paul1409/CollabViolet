@@ -28,58 +28,57 @@ import javax.swing.JApplet;
 import com.horstmann.violet.framework.EditorFrame;
 import com.horstmann.violet.framework.VersionChecker;
 
-
 /**
  * A program for editing UML diagrams.
  */
-public class UMLEditor extends JApplet
-{
-   public static void main(String[] args)
-   {
-      VersionChecker checker = new VersionChecker();
-      checker.check(JAVA_VERSION);
-      try
-      {
-         System.setProperty("apple.laf.useScreenMenuBar", "true");
-      }
-      catch (SecurityException ex)
-      {
-         // well, we tried...
-      }
+public class UMLEditor extends JApplet {
+  /**
+   * Main Class
+   * @param args arguments
+   */
+  public static void main(String[] args) {
+    VersionChecker checker = new VersionChecker();
+    checker.check(JAVA_VERSION);
+    try {
+      System.setProperty("apple.laf.useScreenMenuBar", "true");
+    }
+    catch (SecurityException ex) {
+      // well, we tried...
+    }
 
-      EditorFrame frame = makeFrame();
-      frame.setVisible(true);
-      frame.readArgs(args);
-   }
-   
-   public void init()
-   {
-      EditorFrame frame = makeFrame();
-      setContentPane(frame.getContentPane());
-      setJMenuBar(frame.getJMenuBar());
-      
-      String url = getParameter("diagram");
-      if (url != null)
-         try
-         {
-            frame.openURL(new URL(getDocumentBase(), url));
-         }
-         catch (IOException ex)
-         {
-            ex.printStackTrace();
-         }
-   }
+    EditorFrame frame = makeFrame();
+    frame.setVisible(true);
+    frame.readArgs(args);
+  }
 
-   public static EditorFrame makeFrame()
-   {
-      EditorFrame frame = new EditorFrame(UMLEditor.class);
-      frame.addGraphType("class_diagram", ClassDiagramGraph.class);
-      frame.addGraphType("sequence_diagram", SequenceDiagramGraph.class);
-      frame.addGraphType("state_diagram", StateDiagramGraph.class);
-      frame.addGraphType("object_diagram", ObjectDiagramGraph.class);
-      frame.addGraphType("usecase_diagram", UseCaseDiagramGraph.class);
-      return frame;
-   }
-   
-   private static final String JAVA_VERSION = "1.4";
+  @Override
+  public void init() {
+    EditorFrame frame = makeFrame();
+    setContentPane(frame.getContentPane());
+    setJMenuBar(frame.getJMenuBar());
+
+    String url = getParameter("diagram");
+    if (url != null) try {
+      frame.openURL(new URL(getDocumentBase(), url));
+    }
+    catch (IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  /**
+   * Edits the frame
+   * @return new frame
+   */
+  public static EditorFrame makeFrame() {
+    EditorFrame frame = new EditorFrame(UMLEditor.class);
+    frame.addGraphType("class_diagram", ClassDiagramGraph.class);
+    frame.addGraphType("sequence_diagram", SequenceDiagramGraph.class);
+    frame.addGraphType("state_diagram", StateDiagramGraph.class);
+    frame.addGraphType("object_diagram", ObjectDiagramGraph.class);
+    frame.addGraphType("usecase_diagram", UseCaseDiagramGraph.class);
+    return frame;
+  }
+
+  private static final String JAVA_VERSION = "1.4";
 }

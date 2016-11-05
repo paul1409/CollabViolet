@@ -32,7 +32,7 @@ import java.awt.geom.Rectangle2D;
 abstract class AbstractEdge implements Edge {
   /**
    * Clones the object
-   * @returns a clone of the object, null of nonexistent
+   * @return a clone of the object, null of nonexistent
    */
   public Object clone() {
     try {
@@ -43,28 +43,18 @@ abstract class AbstractEdge implements Edge {
     }
   }
 
-  /**
-   * Connects 2 nodes
-   * @param s node
-   * @param e node
-   */
+  @Override
   public void connect(Node s, Node e) {
     start = s;
     end = e;
   }
 
-  /**
-   * Gets the start
-   * @returns start
-   */
+  @Override
   public Node getStart() {
     return start;
   }
 
-  /**
-   * Gets the end
-   * @return end
-   */
+  @Override
   public Node getEnd() {
     return end;
   }
@@ -83,7 +73,7 @@ abstract class AbstractEdge implements Edge {
 
   /**
    * Gets the points of connection
-   * @returns a new line connecting 2 points
+   * @return a new line connecting 2 points
    */
   public Line2D getConnectionPoints() {
     Rectangle2D startBounds = start.getBounds();

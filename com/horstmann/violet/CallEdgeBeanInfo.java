@@ -25,24 +25,17 @@ import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
 /**
-   The bean info for the CallEdge type.
-*/
-public class CallEdgeBeanInfo extends SimpleBeanInfo
-{
-   public PropertyDescriptor[] getPropertyDescriptors()
-   {
-      try
-      {
-         return new PropertyDescriptor[]
-            {
-               new PropertyDescriptor("middleLabel", CallEdge.class),
-               new PropertyDescriptor("signal", CallEdge.class)
-            };
-      }
-      catch (IntrospectionException exception)
-      {
-         return null;
-      }
-   }
+ * The bean info for the CallEdge type.
+ */
+public class CallEdgeBeanInfo extends SimpleBeanInfo {
+  @Override
+  public PropertyDescriptor[] getPropertyDescriptors() {
+    try {
+      return new PropertyDescriptor[] { new PropertyDescriptor("middleLabel", CallEdge.class),
+          new PropertyDescriptor("signal", CallEdge.class) };
+    }
+    catch (IntrospectionException exception) {
+      return null;
+    }
+  }
 }
-
