@@ -86,8 +86,8 @@ import com.horstmann.violet.LineStyle;
 public class EditorFrame extends JFrame {
   /**
    * Constructs a blank frame with a desktop pane but no graph windows.
-   * @param appClass Name the fully qualified app class name. It is expected that
-   *          the resources are appClassName + "Strings" and appClassName +
+   * @param appClass Name the fully qualified app class name. It is expected
+   *          that the resources are appClassName + "Strings" and appClassName +
    *          "Version" (the latter for version-specific resources)
    */
   public EditorFrame(Class appClass) {
