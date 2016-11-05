@@ -113,6 +113,10 @@ public class MultiLineString implements Cloneable, Serializable {
     return size;
   }
 
+  /**
+   * Creates a new string replacing spaces with lines
+   * @return the new string
+   */
   public String toString() {
     return text.replace('\n', '|');
   }
@@ -194,6 +198,10 @@ public class MultiLineString implements Cloneable, Serializable {
     g2.translate(-r.getX(), -r.getY());
   }
 
+  /**
+   * Clones the object
+   * @return the clone
+   */
   public Object clone() {
     try {
       MultiLineString cloned = (MultiLineString) super.clone();
