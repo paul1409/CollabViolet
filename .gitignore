@@ -3,3 +3,6 @@
 **/*.project
 **/*.war
 /bin/
+.gitignore
+.DS_Store
+.metadata/
