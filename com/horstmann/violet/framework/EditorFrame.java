@@ -180,6 +180,7 @@ public class EditorFrame extends JFrame {
       fileSaveItem.setEnabled(false);
     }
 
+
     JMenu editMenu = factory.createMenu("edit");
     menuBar.add(editMenu);
 
@@ -398,6 +399,27 @@ public class EditorFrame extends JFrame {
         catch (PropertyVetoException exception) {}
       }
     }));
+    
+    //Add Menuhere credit by Ruiyang 
+    JMenu shareMenu = factory.createMenu("collaborate");
+    menuBar.add(shareMenu);
+    
+    shareMenu.add(factory.createMenuItem("collaborate.collaborate", new ActionListener() {
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		
+    	}
+    }));
+    
+    shareMenu.add(factory.createMenuItem("collaborate.join", new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+    	
+    }));
+    
 
     JMenu helpMenu = factory.createMenu("help");
     menuBar.add(helpMenu);
