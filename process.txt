@@ -1,0 +1,2 @@
+Ruiyang Wang:
+Edit Menu bar in EditorFrame after line 403
