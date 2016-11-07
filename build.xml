@@ -20,8 +20,12 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		<javac srcdir="src"  includeantruntime="false"/>
-			<javadoc sourcepath="." destdir="bin"/>
+		<javac memoryMaximumSize="1024m" srcdir="src" includeantruntime="false">
+			<classpath>
+				<pathelement path="lib/javaws.jar" />
+			</classpath>
+		</javac>
+		<javadoc sourcepath="." destdir="bin" />
 	</target>
 	<target name="clean">
 		<delete dir="bin" />
@@ -31,13 +35,13 @@
 	<target name="build-subprojects" />
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}" />
-		<javac srcdir="src" includeantruntime="false"/>
+		<javac srcdir="src" includeantruntime="false" />
 		<javac debug="true" verbose="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
 			<src path="." />
 			<classpath refid="CollabViolet.classpath" />
 		</javac>
 	</target>
-	
+
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
 	<target name="war" description="Bundles the application as a WAR file" depends="clean, build, init">
 		<mkdir dir="WebContent/WEB-INF/classes" />
@@ -51,4 +55,18 @@
 		<war destfile="UploadServlet30.war" basedir="WebContent" needxmlfile="false">
 		</war>
 	</target>
+
+	<target name="jar">
+		<mkdir dir="jar" />
+		<jar destfile="jar/Violet.jar" basedir="bin">
+			<manifest>
+				<attribute name="Main-Class" value="com/horstmann/violet/UMLEditor" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run">
+		<java jar="jar/Violet.jar" fork="true" />
+	</target>
+
 </project>
