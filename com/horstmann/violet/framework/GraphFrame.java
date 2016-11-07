@@ -22,6 +22,7 @@ package com.horstmann.violet.framework;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
@@ -30,6 +31,8 @@ import java.util.ResourceBundle;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+
+import com.horstmann.violet.StateNode;
 
 /**
  * A frame for showing a graphical editor
@@ -65,7 +68,9 @@ public class GraphFrame extends JInternalFrame {
         }
       }
     });
-
+    //
+    
+    graph.add(new StateNode(), new Point2D.Double(100,100));
     panel.setGraph(graph);
   }
 

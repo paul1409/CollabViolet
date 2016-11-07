@@ -7,7 +7,7 @@ import com.horstmann.violet.framework.Node;
 
 // Create by Bing Liang
 
-public class CommonData {
+public class CommandData implements serilaziable {
 	private int UserId;
 	private Node node;
 	private Edge edge;
@@ -15,12 +15,13 @@ public class CommonData {
 	private String command;
 	
 	// constructor for addNode
-	public CommonData(int id, Node node, Point2D point) {
+	public CommandData(int id, Node node, Point2D point) {
 		this.UserId = id;
 		this.node = node;
 		this.point = point;
 		this.command = "addNode";
 	}
+	
 	
 	
 	
