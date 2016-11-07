@@ -1,9 +1,0 @@
-**/*.class
-**/*.classpath
-**/*.project
-**/*.jar
-**/*.war
-/bin/
-.gitignore
-.DS_Store
-.metadata/
