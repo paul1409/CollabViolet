@@ -20,24 +20,26 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		<javac memoryMaximumSize="1024m" srcdir="src" includeantruntime="false">
+		<javac memoryMaximumSize="1024m" srcdir="cloud:local" includeantruntime="false">
 			<classpath>
 				<pathelement path="lib/javaws.jar" />
 			</classpath>
 		</javac>
 		<javadoc sourcepath="." destdir="bin" />
 	</target>
+	
 	<target name="clean">
 		<delete dir="bin" />
 	</target>
+	
 	<target depends="clean" name="cleanall" />
 	<target depends="build-subprojects,build-project" name="build" />
 	<target name="build-subprojects" />
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}" />
-		<javac srcdir="src" includeantruntime="false" />
+		<javac srcdir="cloud:local" includeantruntime="false" />
 		<javac debug="true" verbose="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-			<src path="." />
+			<src path="cloud:local" />
 			<classpath refid="CollabViolet.classpath" />
 		</javac>
 	</target>
@@ -45,15 +47,12 @@
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
 	<target name="war" description="Bundles the application as a WAR file" depends="clean, build, init">
 		<mkdir dir="WebContent/WEB-INF/classes" />
-
 		<copy includeemptydirs="false" todir="WebContent/WEB-INF/classes">
 			<fileset dir="com/horstmann/violet">
 				<include name="**/*.class" />
 			</fileset>
 		</copy>
-
-		<war destfile="UploadServlet30.war" basedir="WebContent" needxmlfile="false">
-		</war>
+		<war destfile="UploadServlet30.war" basedir="WebContent" needxmlfile="false"/>
 	</target>
 
 	<target name="jar">
