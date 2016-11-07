@@ -1,6 +1,7 @@
 **/*.class
 **/*.classpath
 **/*.project
+**/*.jar
 **/*.war
 /bin/
 .gitignore
