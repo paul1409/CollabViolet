@@ -20,25 +20,31 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		<javac memoryMaximumSize="1024m" srcdir="cloud:local" includeantruntime="false">
+		<javac memoryMaximumSize="1024m" srcdir="cloud" destdir="cloud" includeantruntime="false">
+			<classpath>
+				<pathelement path="lib/javafx-swt.jar" />
+			</classpath>
+		</javac>
+		<javac memoryMaximumSize="1024m" srcdir="local" destdir="local" includeantruntime="false">
 			<classpath>
 				<pathelement path="lib/javaws.jar" />
 			</classpath>
 		</javac>
+
 		<javadoc sourcepath="." destdir="bin" />
 	</target>
-	
+
 	<target name="clean">
 		<delete dir="bin" />
 	</target>
-	
+
 	<target depends="clean" name="cleanall" />
 	<target depends="build-subprojects,build-project" name="build" />
 	<target name="build-subprojects" />
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}" />
 		<javac srcdir="cloud:local" includeantruntime="false" />
-		<javac debug="true" verbose="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+		<javac debug="true" srcdir="cloud:local" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
 			<src path="cloud:local" />
 			<classpath refid="CollabViolet.classpath" />
 		</javac>
