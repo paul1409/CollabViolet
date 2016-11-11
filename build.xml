@@ -20,17 +20,11 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		<javac memoryMaximumSize="1024m" srcdir="cloud" destdir="cloud" includeantruntime="false">
+		<javac memoryMaximumSize="1024m" srcdir="cloud:local" includeantruntime="false">
 			<classpath>
 				<pathelement path="lib/javafx-swt.jar" />
 			</classpath>
 		</javac>
-		<javac memoryMaximumSize="1024m" srcdir="local" destdir="local" includeantruntime="false">
-			<classpath>
-				<pathelement path="lib/javaws.jar" />
-			</classpath>
-		</javac>
-
 		<javadoc sourcepath="." destdir="bin" />
 	</target>
 
