@@ -12,7 +12,7 @@
 	<path id="CollabViolet.classpath">
 		<pathelement location="bin" />
 	</path>
-	<target name="init">
+	<target name="init" depends="clean">
 		<mkdir dir="bin" />
 		<copy includeemptydirs="false" todir="bin">
 			<fileset dir=".">
@@ -20,7 +20,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		<javac memoryMaximumSize="1024m" srcdir="cloud:local" includeantruntime="false">
+		<javac memoryMaximumSize="1024m" srcdir="cloud:local:com/horstmann/violet:com/horstmann/violet/framework" includeantruntime="false">
 			<classpath>
 				<pathelement path="lib/javafx-swt.jar" />
 			</classpath>
@@ -59,7 +59,7 @@
 		<mkdir dir="jar" />
 		<jar destfile="jar/Violet.jar" basedir="bin">
 			<manifest>
-				<attribute name="Main-Class" value="com/horstmann/violet/UMLEditor" />
+				<attribute name="Main-Class" value="com.horstmann.violet.UMLEditor" />
 			</manifest>
 		</jar>
 	</target>
