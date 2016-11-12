@@ -12,11 +12,8 @@
 	<path id="CollabViolet.classpath">
 		<pathelement location="bin" />
 	</path>
-	<path id="build.classpath">
-		<fileset dir="lib">
-			<include name="*.jar" />
-			<include name="*.zip" />
-		</fileset>
+	<path id="jars">
+		<fileset dir="lib" includes="**/*.jar" />
 	</path>
 	<target name="init" depends="clean">
 		<mkdir dir="bin" />
@@ -27,7 +24,7 @@
 			</fileset>
 		</copy>
 		<javac memoryMaximumSize="1024m" srcdir="cloud:local:com/horstmann/violet:com/horstmann/violet/framework" includeantruntime="false">
-			<classpath refid="build.classpath"/>
+			<classpath refid="jars" />
 		</javac>
 		<javadoc sourcepath="." destdir="bin" />
 	</target>
