@@ -23,9 +23,10 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		<javac memoryMaximumSize="1024m" srcdir="cloud:local:com/horstmann/violet:com/horstmann/violet/framework" includeantruntime="false">
+		<javac memoryMaximumSize="1024m" srcdir="cloud:local" includeantruntime="false">
 			<classpath refid="jars" />
 		</javac>
+		<javac srcdir="com/horstmann/violet:com/horstmann/violet/framework" includeantruntime="false" />
 		<javadoc sourcepath="." destdir="bin" />
 	</target>
 
@@ -56,7 +57,7 @@
 		<war destfile="UploadServlet30.war" basedir="WebContent" needxmlfile="false" />
 	</target>
 
-	<target name="jar">
+	<target name="jar" depends="init">
 		<mkdir dir="jar" />
 		<jar destfile="jar/Violet.jar" basedir="bin">
 			<manifest>
