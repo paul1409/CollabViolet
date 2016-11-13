@@ -22,14 +22,22 @@ package com.horstmann.violet.framework;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+
+import com.horstmann.violet.StateNode;
 
 /**
  * A frame for showing a graphical editor
@@ -65,7 +73,6 @@ public class GraphFrame extends JInternalFrame {
         }
       }
     });
-
     panel.setGraph(graph);
   }
 
@@ -102,6 +109,7 @@ public class GraphFrame extends JInternalFrame {
     setTitle(newValue);
   }
 
+  private int ID;
   private Graph graph;
   private GraphPanel panel;
   private ToolBar toolBar;
