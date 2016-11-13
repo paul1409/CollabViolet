@@ -22,11 +22,20 @@ package com.horstmann.violet.framework;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+<<<<<<< HEAD
 import java.awt.geom.Point2D;
+=======
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+>>>>>>> 185a87960abc80002758599ea24d240ff3c01b45
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -68,9 +77,12 @@ public class GraphFrame extends JInternalFrame {
         }
       }
     });
+<<<<<<< HEAD
     //
     
     graph.add(new StateNode(), new Point2D.Double(100,100));
+=======
+>>>>>>> 185a87960abc80002758599ea24d240ff3c01b45
     panel.setGraph(graph);
   }
 
@@ -107,6 +119,7 @@ public class GraphFrame extends JInternalFrame {
     setTitle(newValue);
   }
 
+  private int ID;
   private Graph graph;
   private GraphPanel panel;
   private ToolBar toolBar;

@@ -45,10 +45,9 @@ public class UMLEditor extends JApplet {
     catch (SecurityException ex) {
       // well, we tried...
     }
-
     EditorFrame frame = makeFrame();
     frame.setVisible(true);
-    frame.readArgs(args);
+    frame.readArgs(args); 
   }
 
   @Override
