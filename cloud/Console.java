@@ -11,6 +11,9 @@ import com.sun.javafx.collections.MappingChange.Map;
 public class Console {
 
   private ArrayList<Room> rooms;
+  public Console(){
+    rooms = new ArrayList<>();
+  }
 
   /**
    * Adds a new room to console
