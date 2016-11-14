@@ -16,7 +16,6 @@ public class CommandData implements Serializable {
   private Node node;
   private Edge edge;
   private Point2D point;
-  private String command;
 
  
   /**
@@ -29,7 +28,5 @@ public class CommandData implements Serializable {
     this.UserId = id;
     this.node = node;
     this.point = point;
-    this.command = "addNode";
-  }
-
+  }  
 }
