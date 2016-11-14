@@ -29,6 +29,11 @@ import java.beans.Statement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Queue;
+
+
+import local.CommandData;
 
 /**
  * A graph consisting of selectable nodes and edges.
@@ -40,6 +45,7 @@ public abstract class Graph implements Serializable {
   public Graph() {
     nodes = new ArrayList();
     edges = new ArrayList();
+    list = new LinkedList();
     nodesToBeRemoved = new ArrayList();
     edgesToBeRemoved = new ArrayList();
     needsLayout = true;
@@ -90,6 +96,9 @@ public abstract class Graph implements Serializable {
     }
     if (insideANode && !accepted) return false;
     nodes.add(n);
+    CommandData cache = new CommandData(id, n, p);
+    list.add(cache);
+    local.Console.main(new String[100]);
     needsLayout = true;
     return true;
   }
@@ -312,9 +321,11 @@ public abstract class Graph implements Serializable {
     e.connect(start, end);
     edges.add(e);
   }
-
+  
+  private int id;
   private ArrayList nodes;
   private ArrayList edges;
+  private transient Queue<local.CommandData> list;
   private transient ArrayList nodesToBeRemoved;
   private transient ArrayList edgesToBeRemoved;
   private transient boolean needsLayout;

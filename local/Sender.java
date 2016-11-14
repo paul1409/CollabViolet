@@ -1,12 +1,16 @@
 package local;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.net.URL;
+
 
 /**
  * The sender class send data to server with ID
@@ -27,7 +31,6 @@ public class Sender {
   public Sender(File cache, int id) {
     this.cache = cache;
     this.id = id;
-
   }
 
   /**
@@ -36,7 +39,7 @@ public class Sender {
    * @throws Exception too many exceptions
    */
   public void send() throws Exception {
-    Socket sock = new Socket("104.198.158.232", 8080);
+    Socket sock = new Socket("104.198.158.232", 9000);
     OutputStream os = sock.getOutputStream();
     OutputStreamWriter osw = new OutputStreamWriter(os);
     BufferedWriter bw = new BufferedWriter(osw);
@@ -50,5 +53,19 @@ public class Sender {
     bos.write(mybytearray, 0, bytesRead);
     bos.close();
     sock.close();
+  }
+  
+  public static void main(String args[]) throws IOException {
+	  Socket sock = new Socket("104.198.158.232", 9000);
+	  System.out.println(sock.isConnected());
+	  sock.close();
+	  System.out.println(sock.isConnected());
+	  URL url = new URL("http://localhost:9000/test");
+	  BufferedInputStream bis = new BufferedInputStream(url.openStream());
+	  byte[] test = new byte[4];
+	  for(int i = 0; i < 4 ; i++)
+		  test[i] = 1;
+	  bis.read(test,0, 4);
+	  System.out.println(test);
   }
 }
