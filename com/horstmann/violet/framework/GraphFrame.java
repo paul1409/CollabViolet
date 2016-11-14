@@ -1,43 +1,40 @@
 /*
-Violet - A program for editing UML diagrams.
-
-Copyright (C) 2002 Cay S. Horstmann (http://horstmann.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-
+ * Violet - A program for editing UML diagrams. Copyright (C) 2002 Cay S.
+ * Horstmann (http://horstmann.com) This program is free software; you can
+ * redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version. This program is distributed
+ * in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details. You should have received
+ * a copy of the GNU General Public License along with this program; if not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ * Boston, MA 02111-1307 USA
+ */
 package com.horstmann.violet.framework;
-
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.geom.Point2D;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
+import java.util.List;
 import java.util.ResourceBundle;
-
+import java.util.Stack;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-
 import com.horstmann.violet.StateNode;
 
 /**
  * A frame for showing a graphical editor
  */
 public class GraphFrame extends JInternalFrame {
+
   /**
    * Constructs a graph frame with an empty tool bar
    * @param aGraph the initial graph
@@ -76,6 +73,7 @@ public class GraphFrame extends JInternalFrame {
 
   /**
    * Gets the graph that is being edited in this frame.
+   * 
    * @return the graph
    */
   public Graph getGraph() {
@@ -84,6 +82,7 @@ public class GraphFrame extends JInternalFrame {
 
   /**
    * Gets the graph panel that is contained in this frame.
+   * 
    * @return the graph panel
    */
   public GraphPanel getGraphPanel() {
@@ -92,6 +91,7 @@ public class GraphFrame extends JInternalFrame {
 
   /**
    * Gets the fileName property.
+   * 
    * @return the file name
    */
   public String getFileName() {
@@ -100,13 +100,14 @@ public class GraphFrame extends JInternalFrame {
 
   /**
    * Sets the fileName property.
+   * 
    * @param newValue the file name
    */
   public void setFileName(String newValue) {
     fileName = newValue;
     setTitle(newValue);
   }
-
+  private int ID;
   private Graph graph;
   private GraphPanel panel;
   private ToolBar toolBar;
