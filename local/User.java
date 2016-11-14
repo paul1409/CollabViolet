@@ -2,7 +2,6 @@ package local;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import cloud.Room;
 
 /**
  * @author Paul Nguyen A user that creates/edits a UML file
