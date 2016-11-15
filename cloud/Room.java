@@ -1,5 +1,6 @@
 package cloud;
 import java.util.ArrayList;
+
 import local.User;
 
 /**
@@ -93,7 +94,7 @@ public class Room {
   }
 
   /**
-   * Checks the user's hashcode to update
+   * Checks the user's hashcode for updates
    * @param hash User's hashcode
    * @return if hash equals room's current hash
    */

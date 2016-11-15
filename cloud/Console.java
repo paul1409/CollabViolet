@@ -1,7 +1,9 @@
 package cloud;
+
 import java.util.ArrayList;
-import java.util.HashMap;
-import com.sun.javafx.collections.MappingChange.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * Console that controls room management
@@ -11,7 +13,8 @@ import com.sun.javafx.collections.MappingChange.Map;
 public class Console {
 
   private ArrayList<Room> rooms;
-  public Console(){
+
+  public Console() {
     rooms = new ArrayList<>();
   }
 
@@ -37,11 +40,44 @@ public class Console {
 
   // There is a potential but when multiple users add new room at same time
   /**
-   * Sets room password to the last added room
+   * Sets a password to the last added room
    * 
    * @param aPassword password
    */
   public void setPassword(String aPassword) {
     rooms.get(rooms.size() - 1).setPassword(aPassword);
+  }
+
+  /**
+   * Sets or changes password of a specific room
+   * @param i room number
+   * @param aPassword password
+   */
+  public void setPassword(int i, String aPassword) {
+    try {
+      rooms.get(i).setPassword(aPassword);
+    }
+    catch (IndexOutOfBoundsException e) {
+      final JFrame parent = new JFrame();
+      JOptionPane.showMessageDialog(parent, "Room does not exist!");
+    }
+  }
+
+  /**
+   * Attempts to log in the user to a room
+   * @param i room number
+   * @param pass password
+   */
+  public void login(int i, String pass) {
+    try {
+      if (!rooms.get(i).checkPassword(pass)) {
+        final JFrame parent = new JFrame();
+        JOptionPane.showMessageDialog(parent, "Incorrect password");
+      }
+    }
+    catch (IndexOutOfBoundsException e) {
+      final JFrame parent = new JFrame();
+      JOptionPane.showMessageDialog(parent, "Room does not exist!");
+    }
   }
 }

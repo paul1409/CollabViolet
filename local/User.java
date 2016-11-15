@@ -1,10 +1,13 @@
 package local;
+
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * @author Paul Nguyen A user that creates/edits a UML file
+ * A user that creates/edits a UML file
+ * @author Paul Nguyen
  */
 public class User {
 
