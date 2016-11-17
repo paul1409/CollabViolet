@@ -1,7 +1,6 @@
 package cloud;
 import java.util.ArrayList;
 
-import local.User;
 
 /**
  * A room in which users use to collaborate
@@ -13,7 +12,6 @@ public class Room {
   private int roomNumber;
   private String password;
   private ArrayList<String> info;
-  private ArrayList<User> users;
   int hash = info.hashCode();
 
   /**
@@ -63,35 +61,6 @@ public class Room {
     this.password = aPassword;
   }
 
-  /**
-   * Checks if username is taken
-   * 
-   * @param name username
-   * @return User is in room
-   */
-  public boolean checkName(String name) {
-    if (users.isEmpty()) return false;
-    for (User u : users)
-      if (u.getName() == name) return true;
-    return false;
-  }
-
-  /**
-   * Adds a user to the room
-   * 
-   * @param u User
-   */
-  public void addUser(User u) {
-    users.add(u);
-  }
-
-  /**
-   * Pings user
-   */
-  public void ping() {
-    for (User u : users)
-      u.alert();
-  }
 
   /**
    * Checks the user's hashcode for updates
@@ -102,13 +71,5 @@ public class Room {
     return this.hash == hash;
   }
 
-  /**
-   * Updates the User's information
-   */
-  public void setInfo() {
-    for (User u : users) {
-      u.setInfo(info);
-      u.setHash(hash);
-    }
-  }
+
 }
