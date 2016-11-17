@@ -414,7 +414,8 @@ public class EditorFrame extends JFrame {
     shareMenu.add(factory.createMenuItem("collaborate.join", new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			String input = JOptionPane.showInputDialog("Please input key");
+			String url = "localhost:9000/join/" + Integer.parseInt(input);
 			
 		}
     	

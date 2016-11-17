@@ -1,5 +1,7 @@
 package local;
 
+import java.awt.geom.Point2D;
+
 import com.horstmann.violet.framework.Graph;
 import com.horstmann.violet.framework.Node;
 
@@ -8,17 +10,19 @@ import com.horstmann.violet.framework.Node;
  * @author Bing Liang
  *
  */
-public class removeNodeCommand implements Command {
+public class AddNodeCommand implements Command{
 	Graph graph;
 	Node n;
+	Point2D p;
 	
-	public removeNodeCommand(Graph graph, Node n) {
+	public AddNodeCommand(Graph graph, Node n, Point2D p) {
 		this.graph = graph;
 		this.n = n;
+		this.p = p;
 	}
 	@Override
 	public void execute() {
-		graph.removeNode(n);
+		graph.add(n, p);
 	}
 
 }

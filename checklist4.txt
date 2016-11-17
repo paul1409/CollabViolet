@@ -1,0 +1,31 @@
+Design documentation lists all planned classes: Maybe
+
+You need:
+UML class diagram
+Sequence diagram of what happens when something is sent to the server
+Sequence diagram of what happens when client asks server for update
+Text description of what exactly is sent to the server, and what the server sends back
+
+There are sufficient issues to keep each team member busy: Ok
+
+You should close #1, #6 as not useful and get "maraudershields" to get a move on #8
+
+The project builds and does something significant: No
+
+Typing 
+
+ant
+
+yields compilation failure. 
+
+Need build directions for the server. Where is the code for it???
+No status page, no test instructions
+
+
+Every team member has multiple commits throughout the week: Yes
+
+Very nice, keep it up!
+
+Individual reports: Ok
+
+

@@ -1,20 +1,21 @@
 package cloud;
-import java.util.ArrayList;
 
-import local.User;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.io.*;
+
 
 /**
  * A room in which users use to collaborate
  * 
- * @author Paul & Bing
+ * @author Paul & Bing & Ruiyang
  */
 public class Room {
 
   private int roomNumber;
   private String password;
-  private ArrayList<String> info;
-  private ArrayList<User> users;
-  int hash = info.hashCode();
+  private ArrayList<String> commands;
+  private HashSet<String> ipPool;
 
   /**
    * Sets a room number to use for a class
@@ -23,6 +24,39 @@ public class Room {
    */
   public Room(int roomNumber) {
     this.roomNumber = roomNumber;
+    ipPool = new HashSet<String>();
+  }
+  
+  /**
+   * Add an ip to ipPool
+   * @param ip the ip to add
+   */
+  public void addIP(String ip) {
+      ipPool.add(ip);
+  }
+  
+  /**
+   * Disconnect a spcific ip;
+   * @param ip to be delete
+   */
+  public void disconnect(String ip) {
+      ipPool.remove(ip);
+  }
+  /**
+   * Get the ipPool
+   * @return the ipPool of this room
+   */
+  public HashSet<String> getIpPool() {
+      return this.ipPool;
+  }
+  
+  /**
+   * This ip is successfl connect
+   * @param ip the users ip
+   * @return whether connect
+   */
+  public boolean isIn(String ip) {
+      return ipPool.contains(ip);
   }
 
   /**
@@ -46,12 +80,29 @@ public class Room {
   }
 
   /**
-   * Adds info to the room
+   * Adds command to the room
    * 
    * @param newChange a change in info
    */
-  public void addInfo(String newChange) {
-    info.add(newChange);
+  public void addCommand(String newChange) {
+    commands.add(newChange);
+  }
+  
+  /**
+   * Check client isNewest?
+   * @return true when is newest or false when not.
+   */
+  public boolean isNewest(int i) {
+      return commands.size() == i;
+  }
+  
+  public String sync(int i) {
+      StringBuilder sb = new StringBuilder();
+      while(i < commands.size()) {
+          sb.append(commands.get(i) + "\n");
+          i++;
+      }
+      return sb.toString();
   }
 
   /**
@@ -63,52 +114,4 @@ public class Room {
     this.password = aPassword;
   }
 
-  /**
-   * Checks if username is taken
-   * 
-   * @param name username
-   * @return User is in room
-   */
-  public boolean checkName(String name) {
-    if (users.isEmpty()) return false;
-    for (User u : users)
-      if (u.getName() == name) return true;
-    return false;
-  }
-
-  /**
-   * Adds a user to the room
-   * 
-   * @param u User
-   */
-  public void addUser(User u) {
-    users.add(u);
-  }
-
-  /**
-   * Pings user
-   */
-  public void ping() {
-    for (User u : users)
-      u.alert();
-  }
-
-  /**
-   * Checks the user's hashcode for updates
-   * @param hash User's hashcode
-   * @return if hash equals room's current hash
-   */
-  public boolean checkHash(int hash) {
-    return this.hash == hash;
-  }
-
-  /**
-   * Updates the User's information
-   */
-  public void setInfo() {
-    for (User u : users) {
-      u.setInfo(info);
-      u.setHash(hash);
-    }
-  }
 }
