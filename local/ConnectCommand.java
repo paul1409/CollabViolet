@@ -10,13 +10,13 @@ import com.horstmann.violet.framework.Graph;
  * @author Bing Liang
  *
  */
-public class connectCommand implements Command{
+public class ConnectCommand implements Command{
 	Graph graph;
 	Edge e;
 	Point2D p1;
 	Point2D p2;
 	
-	public connectCommand(Graph graph, Edge e, Point2D p1, Point2D p2) {
+	public ConnectCommand(Graph graph, Edge e, Point2D p1, Point2D p2) {
 		this.graph = graph;
 		this.e = e;
 		this.p1 = p1;

@@ -8,11 +8,11 @@ import com.horstmann.violet.framework.Graph;
  * @author Bing Liang
  *
  */
-public class removeEdgeCommand implements Command {
+public class RemoveEdgeCommand implements Command {
 	Graph graph;
 	Edge e;
 	
-	public removeEdgeCommand(Graph graph, Edge e) {
+	public RemoveEdgeCommand(Graph graph, Edge e) {
 		this.graph = graph;
 		this.e = e;
 	}
