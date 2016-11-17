@@ -2,6 +2,7 @@ package cloud;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.io.*;
 
 
 /**
@@ -13,9 +14,8 @@ public class Room {
 
   private int roomNumber;
   private String password;
-  private ArrayList<String> info;
+  private ArrayList<String> commands;
   private HashSet<String> ipPool;
-  int hash = info.hashCode();
 
   /**
    * Sets a room number to use for a class
@@ -80,12 +80,29 @@ public class Room {
   }
 
   /**
-   * Adds info to the room
+   * Adds command to the room
    * 
    * @param newChange a change in info
    */
-  public void addInfo(String newChange) {
-    info.add(newChange);
+  public void addCommand(String newChange) {
+    commands.add(newChange);
+  }
+  
+  /**
+   * Check client isNewest?
+   * @return true when is newest or false when not.
+   */
+  public boolean isNewest(int i) {
+      return commands.size() == i;
+  }
+  
+  public String sync(int i) {
+      StringBuilder sb = new StringBuilder();
+      while(i < commands.size()) {
+          sb.append(commands.get(i) + "\n");
+          i++;
+      }
+      return sb.toString();
   }
 
   /**
@@ -96,16 +113,5 @@ public class Room {
   public void setPassword(String aPassword) {
     this.password = aPassword;
   }
-
-
-  /**
-   * Checks the user's hashcode for updates
-   * @param hash User's hashcode
-   * @return if hash equals room's current hash
-   */
-  public boolean checkHash(int hash) {
-    return this.hash == hash;
-  }
-
 
 }
