@@ -1,4 +1,5 @@
 package local;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -8,9 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.URL;
-
 
 /**
  * The sender class send data to server with ID
@@ -54,18 +55,23 @@ public class Sender {
     bos.close();
     sock.close();
   }
-  
+
   public static void main(String args[]) throws IOException {
-	  Socket sock = new Socket("104.198.158.232", 9000);
-	  System.out.println(sock.isConnected());
-	  sock.close();
-	  System.out.println(sock.isConnected());
-	  URL url = new URL("http://localhost:9000/test");
-	  BufferedInputStream bis = new BufferedInputStream(url.openStream());
-	  byte[] test = new byte[4];
-	  for(int i = 0; i < 4 ; i++)
-		  test[i] = 1;
-	  bis.read(test,0, 4);
-	  System.out.println(test);
+    try {
+      Socket sock = new Socket("104.198.158.232", 9000);
+      System.out.println(sock.isConnected());
+      sock.close();
+      System.out.println(sock.isConnected());
+      URL url = new URL("http://localhost:9000/test");
+      BufferedInputStream bis = new BufferedInputStream(url.openStream());
+      byte[] test = new byte[4];
+      for (int i = 0; i < 4; i++)
+        test[i] = 1;
+      bis.read(test, 0, 4);
+      System.out.println(test);
+    }
+    catch (ConnectException e) {
+      System.out.println("Failed to connect");
+    }
   }
 }
