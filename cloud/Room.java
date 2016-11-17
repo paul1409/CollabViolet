@@ -1,17 +1,20 @@
 package cloud;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 /**
  * A room in which users use to collaborate
  * 
- * @author Paul & Bing
+ * @author Paul & Bing & Ruiyang
  */
 public class Room {
 
   private int roomNumber;
   private String password;
   private ArrayList<String> info;
+  private HashSet<String> ipPool;
   int hash = info.hashCode();
 
   /**
@@ -21,6 +24,39 @@ public class Room {
    */
   public Room(int roomNumber) {
     this.roomNumber = roomNumber;
+    ipPool = new HashSet<String>();
+  }
+  
+  /**
+   * Add an ip to ipPool
+   * @param ip the ip to add
+   */
+  public void addIP(String ip) {
+      ipPool.add(ip);
+  }
+  
+  /**
+   * Disconnect a spcific ip;
+   * @param ip to be delete
+   */
+  public void disconnect(String ip) {
+      ipPool.remove(ip);
+  }
+  /**
+   * Get the ipPool
+   * @return the ipPool of this room
+   */
+  public HashSet<String> getIpPool() {
+      return this.ipPool;
+  }
+  
+  /**
+   * This ip is successfl connect
+   * @param ip the users ip
+   * @return whether connect
+   */
+  public boolean isIn(String ip) {
+      return ipPool.contains(ip);
   }
 
   /**
