@@ -8,11 +8,11 @@ import com.horstmann.violet.framework.Node;
  * @author Bing Liang
  *
  */
-public class removeNodeCommand implements Command {
+public class RemoveNodeCommand implements Command {
 	Graph graph;
 	Node n;
 	
-	public removeNodeCommand(Graph graph, Node n) {
+	public RemoveNodeCommand(Graph graph, Node n) {
 		this.graph = graph;
 		this.n = n;
 	}
