@@ -463,7 +463,7 @@ public class EditorFrame extends JFrame {
   }
 
   /**
-   * Adds a graph type to the File->New menu.
+   * Adds a graph type to the File in New menu.
    * @param resourceName the name of the menu item resource
    * @param graphClass the class object for the graph
    */
@@ -636,6 +636,7 @@ public class EditorFrame extends JFrame {
   /**
    * Open a file from an URL--used by applet
    * @param url the URL
+   * @throws IOException exception
    */
   public void openURL(URL url) throws IOException {
     InputStream in = url.openStream();
@@ -752,6 +753,7 @@ public class EditorFrame extends JFrame {
    * Reads a graph file
    * @param in the input stream to read
    * @return the graph that is read in
+   * @throws IOException exception
    */
   public static Graph read(InputStream in) throws IOException {
     XMLDecoder reader = new XMLDecoder(in);
@@ -806,6 +808,7 @@ public class EditorFrame extends JFrame {
    * @param graph the graph
    * @param out the output stream
    * @param format the image file format
+   * @throws IOException exception
    */
   public static void saveImage(Graph graph, OutputStream out, String format) throws IOException {
     BufferedImage dummy = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);

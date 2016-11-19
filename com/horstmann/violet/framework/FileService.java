@@ -57,7 +57,7 @@ public abstract class FileService {
    * @param defaultFile the default file for the file chooser
    * @param extensions the extension filter
    * @return the Open object for the selected file
-   * @throws IOException
+   * @throws IOException Exception
    */
   public abstract Open open(String defaultDirectory, String defaultFile, ExtensionFilter extensions) throws IOException;
 
@@ -70,7 +70,7 @@ public abstract class FileService {
    * @param removeExtension the extension to remove from the default file name
    * @param addExtension the extension to add to the file name
    * @return the Save object for the selected file
-   * @throws IOException
+   * @throws IOException Exception
    */
   public abstract Save save(String defaultDirectory, String defaultFile, ExtensionFilter extensions,
       String removeExtension, String addExtension) throws IOException;
@@ -86,12 +86,14 @@ public abstract class FileService {
     /**
      * Gets the input stream corresponding to the user selection.
      * @return the input stream
+     * @throws IOException exception
      */
     InputStream getInputStream() throws IOException;
 
     /**
      * Gets the name of the file that the user selected.
      * @return the file name
+     * @throws IOException exception
      */
     String getName() throws IOException;
   }
@@ -104,6 +106,7 @@ public abstract class FileService {
     /**
      * Gets the output stream corresponding to the user selection.
      * @return the output stream
+     * @throws IOException exception
      */
     OutputStream getOutputStream() throws IOException;
 
@@ -111,6 +114,7 @@ public abstract class FileService {
      * Gets the name of the file that the user selected.
      * @return the file name, or null if the file dialog is only displayed when
      *         the output stream is closed.
+     * @throws IOException exception
      */
     String getName() throws IOException;
   }

@@ -2,13 +2,11 @@ package cloud;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.io.*;
-
 
 /**
  * A room in which users use to collaborate
  * 
- * @author Paul & Bing & Ruiyang
+ * @author Paul and Bing and Ruiyang
  */
 public class Room {
 
@@ -26,37 +24,38 @@ public class Room {
     this.roomNumber = roomNumber;
     ipPool = new HashSet<String>();
   }
-  
+
   /**
    * Add an ip to ipPool
    * @param ip the ip to add
    */
   public void addIP(String ip) {
-      ipPool.add(ip);
+    ipPool.add(ip);
   }
-  
+
   /**
    * Disconnect a spcific ip;
    * @param ip to be delete
    */
   public void disconnect(String ip) {
-      ipPool.remove(ip);
+    ipPool.remove(ip);
   }
+
   /**
    * Get the ipPool
    * @return the ipPool of this room
    */
   public HashSet<String> getIpPool() {
-      return this.ipPool;
+    return this.ipPool;
   }
-  
+
   /**
    * This ip is successfl connect
    * @param ip the users ip
    * @return whether connect
    */
   public boolean isIn(String ip) {
-      return ipPool.contains(ip);
+    return ipPool.contains(ip);
   }
 
   /**
@@ -87,22 +86,28 @@ public class Room {
   public void addCommand(String newChange) {
     commands.add(newChange);
   }
-  
+
   /**
-   * Check client isNewest?
+   * Checks if room is newest room
+   * @param i room number
    * @return true when is newest or false when not.
    */
   public boolean isNewest(int i) {
-      return commands.size() == i;
+    return commands.size() == i;
   }
-  
+
+  /**
+   * Syncs room commands and returns list of commands
+   * @param i command number
+   * @return Command string
+   */
   public String sync(int i) {
-      StringBuilder sb = new StringBuilder();
-      while(i < commands.size()) {
-          sb.append(commands.get(i) + "\n");
-          i++;
-      }
-      return sb.toString();
+    StringBuilder sb = new StringBuilder();
+    while (i < commands.size()) {
+      sb.append(commands.get(i) + "\n");
+      i++;
+    }
+    return sb.toString();
   }
 
   /**

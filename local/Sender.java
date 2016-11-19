@@ -56,6 +56,11 @@ public class Sender {
     sock.close();
   }
 
+  /**
+   * Test run
+   * @param args arguments
+   * @throws IOException Exception
+   */
   public static void main(String args[]) throws IOException {
     try {
       Socket sock = new Socket("104.198.158.232", 9000);

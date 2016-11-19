@@ -35,7 +35,7 @@ import com.horstmann.violet.framework.RectangularNode;
  */
 public class InterfaceNode extends RectangularNode {
   /**
-   * Construct an interface node with a default size and the text <<interface>>.
+   * Construct an interface node with a default size and the text interface.
    */
   public InterfaceNode() {
     name = new MultiLineString();

@@ -6,5 +6,8 @@ package local;
  *
  */
 public interface Command {
-	public void execute();
+  /**
+   * Executes a command
+   */
+  public void execute();
 }

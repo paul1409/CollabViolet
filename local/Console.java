@@ -1,10 +1,18 @@
 package local;
 
-// Create by Bing Liang
+/**
+ * Local console
+ * @author Bing Liang
+ *
+ */
 public class Console {
-	
-	public static void main(String args[]) {
-		System.out.println(2);
-	}
+
+  /**
+   * Test method
+   * @param args arguments
+   */
+  public static void main(String args[]) {
+    System.out.println(2);
+  }
 
 }

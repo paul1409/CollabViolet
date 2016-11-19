@@ -41,7 +41,7 @@ import java.lang.reflect.Field;
  * This defines instances <code>MyEnumeration.FOO</code> and
  * <code>MyEnumeration.BAR</code> that are guaranteed to be preserved through
  * serialization and deserialization. Conveniently, the toString method yields
- * the name (such as <code>&quot;FOO&quot;<code>).
+ * the name (such as "FOO").
  */
 public class SerializableEnumeration implements Serializable {
   protected Object writeReplace() throws ObjectStreamException {

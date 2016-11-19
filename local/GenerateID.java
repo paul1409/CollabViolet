@@ -21,7 +21,7 @@ public class GenerateID {
   private static ArrayList<String> info; // the content of the file
 
   /**
-   * 
+   * Reads the file
    * @param f the file that the program generate
    * @throws FileNotFoundException throws FileNotFoundException if can't find
    *           that file

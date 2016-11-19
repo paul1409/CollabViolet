@@ -1,12 +1,7 @@
 package local;
 
-import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.LinkedList;
-
-import com.horstmann.violet.framework.Edge;
-import com.horstmann.violet.framework.Node;
-
 
 /**
  * CommandData class
@@ -17,29 +12,37 @@ public class CommandData implements Serializable {
   private LinkedList<Command> commands;
   private int size;
 
- 
   /**
    * Constructor for add node
    * @param id An id number
-   * @param node A node
-   * @param point A point
    */
   public CommandData(int id) {
     this.UserId = id;
     this.size = 0;
   }
-  
+
+  /**
+   * Adds data to a command
+   * @param command to add
+   */
   public void add(Command command) {
-	  size++;
-	  commands.add(command);
+    size++;
+    commands.add(command);
   }
-  
+
+  /**
+   * Removes the first command
+   */
   public void remove() {
-	  size--;
-	  commands.poll();
+    size--;
+    commands.poll();
   }
-  
+
+  /**
+   * Gets the size
+   * @return the size
+   */
   public int size() {
-	  return size;
+    return size;
   }
 }
