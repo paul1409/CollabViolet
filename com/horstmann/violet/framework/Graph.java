@@ -83,7 +83,7 @@ public abstract class Graph implements Serializable {
    * @return true if added
    */
   public boolean add(Node n, Point2D p) {
-    commands.add(new AddNodeCommand(this, n, p)); // Edit
+    //commands.add(new AddNodeCommand(this, n, p)); // Edit
     Rectangle2D bounds = n.getBounds();
     n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
 
