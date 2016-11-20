@@ -67,7 +67,7 @@ public class GraphFrame extends JInternalFrame {
     });
     //
     
-    graph.add(new StateNode(), new Point2D.Double(100,100));
+   // graph.add(new StateNode(), new Point2D.Double(100,100));
     panel.setGraph(graph);
   }
 
@@ -107,9 +107,12 @@ public class GraphFrame extends JInternalFrame {
     fileName = newValue;
     setTitle(newValue);
   }
+  
+
   private int ID;
   private Graph graph;
   private GraphPanel panel;
   private ToolBar toolBar;
   private String fileName;
+
 }
