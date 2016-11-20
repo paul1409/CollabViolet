@@ -50,6 +50,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -407,6 +410,19 @@ public class EditorFrame extends JFrame {
     shareMenu.add(factory.createMenuItem("collaborate.collaborate", new ActionListener() {
     	@Override
     	public void actionPerformed(ActionEvent e) {
+    	    StringBuilder sb = new StringBuilder();
+    		try {
+                URL url =new URL ("http://localhost:9000/newRoom");
+                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                String ipl;
+                while((ipl = in.readLine()) != null) {
+                    sb.append(ipl);
+                }
+                JOptionPane.showMessageDialog(null, "Collaborate Success!\nShare room number with friends\nRoom Number:" + sb.toString(), "Success", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error", "Error!", JOptionPane.INFORMATION_MESSAGE);
+            }
     		
     	}
     }));
@@ -415,7 +431,21 @@ public class EditorFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String input = JOptionPane.showInputDialog("Please input key");
-			String url = "localhost:9000/join/" + Integer.parseInt(input);
+			String surl = "http://localhost:9000/join/" + Integer.parseInt(input);
+			try {
+			    URL url = new URL(surl);
+			    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			    connection.setRequestMethod("GET");
+			    connection.connect();
+			    int response = connection.getResponseCode();
+			    if(response == 200) {
+			        JOptionPane.showMessageDialog(null, "Collaborate Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+			    } else {
+			        JOptionPane.showMessageDialog(null, "Cannot find this room!\nCheck with your friend.", "Failed", JOptionPane.INFORMATION_MESSAGE);
+			    }
+			} catch (IOException e1) {
+			    
+			}
 			
 		}
     	
