@@ -26,8 +26,6 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
@@ -49,13 +47,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -77,8 +72,6 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.MenuEvent;
@@ -189,7 +182,6 @@ public class EditorFrame extends JFrame {
       recentFilesMenu.setEnabled(false);
       fileSaveItem.setEnabled(false);
     }
-
 
     JMenu editMenu = factory.createMenu("edit");
     menuBar.add(editMenu);
@@ -409,64 +401,75 @@ public class EditorFrame extends JFrame {
         catch (PropertyVetoException exception) {}
       }
     }));
-    
-    //Add Menuhere credit by Ruiyang 
+
+    // Add Menuhere credit by Ruiyang
     JMenu shareMenu = factory.createMenu("collaborate");
     menuBar.add(shareMenu);
     shareMenu.add(factory.createMenuItem("collaborate.collaborate", new ActionListener() {
-    	@Override
-    	public void actionPerformed(ActionEvent e) {
-    	    StringBuilder sb = new StringBuilder();
-    		try {
-    		    save();
-    		    GraphFrame gf = (GraphFrame)desktop.getSelectedFrame();
-    		    if(gf == null) {
-    		        JOptionPane.showMessageDialog(null, "There's no file to collaborate","Error!", JOptionPane.INFORMATION_MESSAGE);
-    		        return;
-    		    }
-                URL url =new URL ("http://localhost:9000/newRoom");
-                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                String ipl;
-                while((ipl = in.readLine()) != null) {
-                    sb.append(ipl);
-                }
-                String fileName = gf.getFileName();
-                File f = new File(fileName);
-                Sender sd = new Sender(f,sb.toString());
-                sd.send();
-                JOptionPane.showMessageDialog(null, "Collaborate Success!\nShare room number with friends\nRoom Number:" + sb.toString(), "Success", JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error" + e1.getMessage(), "Error!", JOptionPane.INFORMATION_MESSAGE);
-            }
-    		
-    	}
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        StringBuilder sb = new StringBuilder();
+        try {
+          save();
+          GraphFrame gf = (GraphFrame) desktop.getSelectedFrame();
+          if (gf == null) {
+            JOptionPane.showMessageDialog(null, "There's no file to collaborate", "Error!",
+                JOptionPane.INFORMATION_MESSAGE);
+            return;
+          }
+          URL url = new URL("http://localhost:9000/newRoom");
+          BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+          String ipl;
+          while ((ipl = in.readLine()) != null) {
+            sb.append(ipl);
+          }
+          String fileName = gf.getFileName();
+          File f = new File(fileName);
+          Sender sd = new Sender(f, Integer.parseInt(sb.toString()));
+          try {
+            sd.send();
+          }
+          catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+          }
+          JOptionPane.showMessageDialog(null,
+              "Collaborate Success!\nShare room number with friends\nRoom Number:" + sb.toString(), "Success",
+              JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (IOException e1) {
+          e1.printStackTrace();
+          JOptionPane.showMessageDialog(null, "Error" + e1.getMessage(), "Error!", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+      }
     }));
-    
+
     shareMenu.add(factory.createMenuItem("collaborate.join", new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String input = JOptionPane.showInputDialog("Please input key");
-			String surl = "http://localhost:9000/join/" + Integer.parseInt(input);
-			try {
-			    URL url = new URL(surl);
-			    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			    connection.setRequestMethod("GET");
-			    connection.connect();
-			    int response = connection.getResponseCode();
-			    if(response == 200) {
-			        JOptionPane.showMessageDialog(null, "Collaborate Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
-			    } else {
-			        JOptionPane.showMessageDialog(null, "Cannot find this room!\nCheck with your friend.", "Failed", JOptionPane.INFORMATION_MESSAGE);
-			    }
-			} catch (IOException e1) {
-			    
-			}
-			
-		}
-    	
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String input = JOptionPane.showInputDialog("Please input key");
+        String surl = "http://localhost:9000/join/" + Integer.parseInt(input);
+        try {
+          URL url = new URL(surl);
+          HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+          connection.setRequestMethod("GET");
+          connection.connect();
+          int response = connection.getResponseCode();
+          if (response == 200) {
+            JOptionPane.showMessageDialog(null, "Collaborate Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+          } else {
+            JOptionPane.showMessageDialog(null, "Cannot find this room!\nCheck with your friend.", "Failed",
+                JOptionPane.INFORMATION_MESSAGE);
+          }
+        }
+        catch (IOException e1) {
+
+        }
+
+      }
+
     }));
-    
 
     JMenu helpMenu = factory.createMenu("help");
     menuBar.add(helpMenu);
@@ -516,7 +519,7 @@ public class EditorFrame extends JFrame {
   public void addGraphType(String resourceName, final Class graphClass) {
     newMenu.add(appFactory.createMenuItem(resourceName, new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        try {          
+        try {
           GraphFrame frame = new GraphFrame((Graph) graphClass.newInstance());
           addInternalFrame(frame);
         }
