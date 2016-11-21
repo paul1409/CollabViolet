@@ -49,6 +49,7 @@ public abstract class Graph implements Serializable {
     nodesToBeRemoved = new ArrayList();
     edgesToBeRemoved = new ArrayList();
     needsLayout = true;
+    commands = new CommandData();
   }
 
   /**

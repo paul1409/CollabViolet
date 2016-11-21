@@ -16,11 +16,14 @@ public class CommandData implements Serializable {
    * Constructor for add node
    * @param id An id number
    */
-  public CommandData(int id) {
-    this.UserId = id;
+  public CommandData() {
     this.size = 0;
+    commands = new LinkedList<>();
   }
 
+  public void setID(int id) {
+	  UserId = id;
+  }
   /**
    * Adds data to a command
    * @param command to add
