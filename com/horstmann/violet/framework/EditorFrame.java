@@ -464,9 +464,7 @@ public class EditorFrame extends JFrame {
           }
         }
         catch (IOException e1) {
-
         }
-
       }
 
     }));
