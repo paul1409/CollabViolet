@@ -14,6 +14,9 @@ public class Console {
 
   private ArrayList<Room> rooms;
 
+  /**
+   * Console constructor
+   */
   public Console() {
     rooms = new ArrayList<>();
   }
