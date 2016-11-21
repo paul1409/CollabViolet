@@ -24,7 +24,7 @@ public class RemoveEdgeCommand implements Command {
 
   @Override
   public void execute() {
-    graph.removeEdge(e);
+    graph.removeEdge(e, true);
   }
 
 }

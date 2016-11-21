@@ -24,7 +24,7 @@ public class RemoveNodeCommand implements Command {
 
   @Override
   public void execute() {
-    graph.removeNode(n);
+    graph.removeNode(n, true);
   }
 
 }

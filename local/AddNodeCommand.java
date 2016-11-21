@@ -29,7 +29,7 @@ public class AddNodeCommand implements Command {
 
   @Override
   public void execute() {
-    graph.add(n, p);
+    graph.add(n, p, true);
   }
 
 }

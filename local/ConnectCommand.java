@@ -32,7 +32,7 @@ public class ConnectCommand implements Command {
 
   @Override
   public void execute() {
-    graph.connect(e, p1, p2);
+    graph.connect(e, p1, p2, true);
   }
 
 }
