@@ -15,6 +15,7 @@
 	<path id="jars">
 		<fileset dir="lib" includes="**/*.jar" />
 	</path>
+	<taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties" classpath="checkstyle-7.2-all.jar" />
 	<target name="init" depends="clean">
 		<mkdir dir="bin" />
 		<copy includeemptydirs="false" todir="bin">
@@ -36,11 +37,30 @@
 	<target name="build-subprojects" />
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}" />
-		<javac srcdir="cloud:local" includeantruntime="false" />
-		<javac debug="true" srcdir="cloud:local" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-			<src path="cloud:local" />
+		<javac srcdir="local" includeantruntime="false" />
+		<javac debug="true" srcdir="local" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+			<src path="local" />
 			<classpath refid="CollabViolet.classpath" />
 		</javac>
+	</target>
+
+	<target name="checkstyle" description="Checks for code style violations">
+		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="checkstyle_report.xml" />
+			<fileset dir="cloud" includes="**/*.java" />
+		</checkstyle>
+		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="checkstyle_report.xml" />
+			<fileset dir="local" includes="**/*.java" />
+		</checkstyle>
+		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="checkstyle_report.xml" />
+			<fileset dir="com/horstmann/violet" includes="**/*.java" />
+		</checkstyle>
+		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="checkstyle_report.xml" />
+			<fileset dir="com/horstmann/violet/framework" includes="**/*.java" />
+		</checkstyle>
 	</target>
 
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />

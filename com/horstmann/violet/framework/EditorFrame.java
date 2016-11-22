@@ -430,11 +430,10 @@ public class EditorFrame extends JFrame {
                 while((ipl = in.readLine()) != null) {
                     sb.append(ipl);
                 }
-                
                 String fileName = gf.getFileName();
                 File f = new File(fileName);
                 Sender sd = new Sender(f,sb.toString());
-                sd.send();
+                //sd.send();
                 JOptionPane.showMessageDialog(null, "Collaborate Success!\nShare room number with friends\nRoom Number:" + sb.toString(), "Success", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e1) {
                 e1.printStackTrace();

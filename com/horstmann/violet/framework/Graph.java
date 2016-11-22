@@ -26,10 +26,14 @@ import java.awt.geom.Rectangle2D;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
 import java.beans.Statement;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import java.io.File;
 import local.AddNodeCommand;
 import local.CommandData;
 import local.ConnectCommand;
@@ -49,6 +53,7 @@ public abstract class Graph implements Serializable {
     nodesToBeRemoved = new ArrayList();
     edgesToBeRemoved = new ArrayList();
     needsLayout = true;
+    commands = new CommandData();
   }
 
   /**
@@ -59,48 +64,72 @@ public abstract class Graph implements Serializable {
    * @param p2 a point in the ending node
    * @return line connecting edge
    */
+  public boolean connect(Edge e, Point2D p1, Point2D p2, boolean fromCommand)
+  {
+	  // edit
+	  if (!fromCommand) {
+		  commands.add(new ConnectCommand(this, e, p1, p2)); // Edit
+	  }
+	  
+	  
+     Node n1 = findNode(p1);
+     Node n2 = findNode(p2);
+     if (n1 != null)
+     {
+        e.connect(n1, n2);
+        if (n1.addEdge(e, p1, p2) && e.getEnd() != null)
+        {
+           edges.add(e);
+           if (!nodes.contains(e.getEnd()))
+              nodes.add(e.getEnd());
+           needsLayout = true;
+           return true;
+        }
+     }
+     return false;
+  }
+  
+  // add this overload method for let the program check where call the method, the command or the user
   public boolean connect(Edge e, Point2D p1, Point2D p2) {
-    commands.add(new ConnectCommand(this, e, p1, p2)); // Edit
-    Node n1 = findNode(p1);
-    Node n2 = findNode(p2);
-    if (n1 != null) {
-      e.connect(n1, n2);
-      if (n1.addEdge(e, p1, p2) && e.getEnd() != null) {
-        edges.add(e);
-        if (!nodes.contains(e.getEnd())) nodes.add(e.getEnd());
-        needsLayout = true;
-        return true;
-      }
-    }
-    return false;
+	   return connect(e, p1, p2, false);
   }
 
   /**
-   * Adds a node to the graph so that the top left corner of the bounding
-   * rectangle is at the given point.
-   * @param n the node to add
-   * @param p the desired location
-   * @return true if added
-   */
-  public boolean add(Node n, Point2D p) {
-    //commands.add(new AddNodeCommand(this, n, p)); // Edit
-    Rectangle2D bounds = n.getBounds();
-    n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
+  Adds a node to the graph so that the top left corner of
+  the bounding rectangle is at the given point.
+  @param n the node to add
+  @param p the desired location
+*/
+public boolean add(Node n, Point2D p, boolean fromCommand)
+{
+   if (!fromCommand) {
+		  commands.add(new AddNodeCommand(this, n, p)); // Edit
+   }
+  Rectangle2D bounds = n.getBounds();
+  n.translate(p.getX() - bounds.getX(), 
+     p.getY() - bounds.getY()); 
 
-    boolean accepted = false;
-    boolean insideANode = false;
-    for (int i = nodes.size() - 1; i >= 0 && !accepted; i--) {
-      Node parent = (Node) nodes.get(i);
-      if (parent.contains(p)) {
+  boolean accepted = false;
+  boolean insideANode = false;
+  for (int i = nodes.size() - 1; i >= 0 && !accepted; i--)
+  {
+     Node parent = (Node)nodes.get(i);
+     if (parent.contains(p)) 
+     {
         insideANode = true;
         if (parent.addNode(n, p)) accepted = true;
-      }
-    }
-    if (insideANode && !accepted) return false;
-    nodes.add(n);
-    needsLayout = true;
-    return true;
+     }
   }
+  if (insideANode && !accepted) 
+     return false;
+  nodes.add(n);
+  needsLayout = true;
+  return true;
+}
+
+public boolean add(Node n, Point2D p) {
+   return add(n, p, false);
+}
 
   /**
    * Finds a node containing the given point.
@@ -151,36 +180,56 @@ public abstract class Graph implements Serializable {
    * Removes a node and all edges that start or end with that node
    * @param n the node to remove
    */
-  public void removeNode(Node n) {
-    commands.add(new RemoveNodeCommand(this, n)); // Edit
-    if (nodesToBeRemoved.contains(n)) return;
-    nodesToBeRemoved.add(n);
-    // notify nodes of removals
-    for (int i = 0; i < nodes.size(); i++) {
-      Node n2 = (Node) nodes.get(i);
-      n2.removeNode(this, n);
-    }
-    for (int i = 0; i < edges.size(); i++) {
-      Edge e = (Edge) edges.get(i);
-      if (e.getStart() == n || e.getEnd() == n) removeEdge(e);
-    }
+  public void removeNode(Node n, boolean fromCommand)
+  {
+	   if (!fromCommand) {
+			  commands.add(new RemoveNodeCommand(this, n)); // Edit
+	   }
+     if (nodesToBeRemoved.contains(n)) return;
+     nodesToBeRemoved.add(n);
+     // notify nodes of removals
+     for (int i = 0; i < nodes.size(); i++)
+     {
+        Node n2 = (Node)nodes.get(i);
+        n2.removeNode(this, n);
+     }
+     for (int i = 0; i < edges.size(); i++)
+     {
+        Edge e = (Edge)edges.get(i);
+        if (e.getStart() == n || e.getEnd() == n)
+           removeEdge(e);
+     }
 
-    needsLayout = true;
+     needsLayout = true;
+  }
+  
+  public void removeNode(Node n) {
+	   removeNode(n, false);
   }
 
   /**
    * Removes an edge from the graph.
    * @param e the edge to remove
    */
+  public void removeEdge(Edge e, boolean fromCommand)
+  {
+	   if (!fromCommand) {
+			  commands.add(new RemoveEdgeCommand(this, e));
+	   }
+     
+	   
+	   if (edgesToBeRemoved.contains(e)) return;
+     edgesToBeRemoved.add(e);
+     for (int i = nodes.size() - 1; i >= 0; i--)
+     {
+        Node n = (Node)nodes.get(i);
+        n.removeEdge(this, e);
+     }
+     needsLayout = true;
+  }
+  
   public void removeEdge(Edge e) {
-    commands.add(new RemoveEdgeCommand(this, e));
-    if (edgesToBeRemoved.contains(e)) return;
-    edgesToBeRemoved.add(e);
-    for (int i = nodes.size() - 1; i >= 0; i--) {
-      Node n = (Node) nodes.get(i);
-      n.removeEdge(this, e);
-    }
-    needsLayout = true;
+	   removeEdge(e, false);
   }
 
   /**
@@ -307,11 +356,13 @@ public abstract class Graph implements Serializable {
    * @param n the node to add
    * @param p the desired location
    */
+  
   public void addNode(Node n, Point2D p) {
     Rectangle2D bounds = n.getBounds();
     n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
     nodes.add(n);
   }
+  
 
   /**
    * Adds an edge to this graph. This method should only be called by a decoder
@@ -323,6 +374,19 @@ public abstract class Graph implements Serializable {
   public void connect(Edge e, Node start, Node end) {
     e.connect(start, end);
     edges.add(e);
+  }
+  
+  public File serialize() {
+	  File result = null;
+	  try {
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("commands.ser"));
+		out.writeObject(commands);
+		out.close();
+		result = new File("commands.ser");
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	  return result;
   }
 
   private CommandData commands;

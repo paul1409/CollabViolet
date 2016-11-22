@@ -3,5 +3,4 @@
 /jar/
 **/*.class
 **/*.classpath
-**/*.checkstyle
 **/*.project
