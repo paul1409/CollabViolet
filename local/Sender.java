@@ -73,7 +73,6 @@ public class Sender {
         int postDataLength = postData.length;
         url = new URL(dest);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-      //  connection.setDoInput(true);
         connection.setDoOutput(true);
         connection.setInstanceFollowRedirects( false );
         connection.setRequestMethod("POST");
@@ -82,11 +81,6 @@ public class Sender {
         connection.setUseCaches(false);
         DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
         wr.write(postData);
-        //ObjectOutputStream objOut = new ObjectOutputStream(connection.getOutputStream());
-        //System.out.println(connection.getRequestMethod());
-        //objOut.writeChars(sb.toString());
-        //objOut.flush();
-        //objOut.close();
         int response = connection.getResponseCode();
         System.out.println(response);
     } catch (IOException e) {
