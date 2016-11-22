@@ -39,6 +39,7 @@ import local.CommandData;
 import local.ConnectCommand;
 import local.RemoveEdgeCommand;
 import local.RemoveNodeCommand;
+import local.Sender;
 
 /**
  * A graph consisting of selectable nodes and edges.
@@ -104,6 +105,8 @@ public boolean add(Node n, Point2D p, boolean fromCommand)
 {
    if (!fromCommand) {
 		  commands.add(new AddNodeCommand(this, n, p)); // Edit
+		  send();
+		  commands.resetQ();
    }
   Rectangle2D bounds = n.getBounds();
   n.translate(p.getX() - bounds.getX(), 
@@ -389,6 +392,11 @@ public boolean add(Node n, Point2D p) {
 	  return result;
   }
 
+  public void send() {
+	  File file = serialize();
+	  int id = 1; // need change
+	  Sender sender = new Sender(file, id);
+  }
   private CommandData commands;
   private ArrayList nodes;
   private ArrayList edges;
