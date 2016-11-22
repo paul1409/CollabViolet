@@ -48,4 +48,8 @@ public class CommandData implements Serializable {
   public int size() {
     return size;
   }
+  
+  public void resetQ() {
+	  commands = new LinkedList<>();
+  }
 }
