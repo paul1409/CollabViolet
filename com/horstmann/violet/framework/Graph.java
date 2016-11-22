@@ -26,10 +26,14 @@ import java.awt.geom.Rectangle2D;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
 import java.beans.Statement;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import java.io.File;
 import local.AddNodeCommand;
 import local.CommandData;
 import local.ConnectCommand;
@@ -352,11 +356,13 @@ public boolean add(Node n, Point2D p) {
    * @param n the node to add
    * @param p the desired location
    */
+  
   public void addNode(Node n, Point2D p) {
     Rectangle2D bounds = n.getBounds();
     n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
     nodes.add(n);
   }
+  
 
   /**
    * Adds an edge to this graph. This method should only be called by a decoder
@@ -368,6 +374,19 @@ public boolean add(Node n, Point2D p) {
   public void connect(Edge e, Node start, Node end) {
     e.connect(start, end);
     edges.add(e);
+  }
+  
+  public File serialize() {
+	  File result = null;
+	  try {
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("commands.ser"));
+		out.writeObject(commands);
+		out.close();
+		result = new File("commands.ser");
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	  return result;
   }
 
   private CommandData commands;
