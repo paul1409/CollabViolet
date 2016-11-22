@@ -402,14 +402,12 @@ public boolean add(Node n, Point2D p) {
   public void send() {
 	  File file = serialize();
 	  Sender sender = new Sender(file, id);
+	  sender.send();
   }
   
-  public void start() {
-      
-  }
+  
   public void checkUpdate() {
       String dest = "http://localhost:9000/checkUpdate/"+id+"/"+commands.size();
-      System.out.println(dest);
       URL url;
     try {
         url = new URL(dest);
@@ -417,7 +415,6 @@ public boolean add(Node n, Point2D p) {
         connection.setRequestMethod("GET");
         connection.connect();
         int response = connection.getResponseCode();
-        System.out.println(connection.getResponseCode());
     } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
