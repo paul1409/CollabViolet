@@ -75,6 +75,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
@@ -87,7 +88,9 @@ import javax.swing.event.MenuListener;
 import com.horstmann.violet.ArrowHead;
 import com.horstmann.violet.BentStyle;
 import com.horstmann.violet.LineStyle;
+//import com.sun.xml.internal.stream.buffer.sax.Properties;
 
+//import jdk.nashorn.internal.runtime.PropertyListeners;
 import local.Sender;
 
 /**
@@ -430,11 +433,12 @@ public class EditorFrame extends JFrame {
                 while((ipl = in.readLine()) != null) {
                     sb.append(ipl);
                 }
-                String fileName = gf.getFileName();
-                File f = new File(fileName);
-                Sender sd = new Sender(f,sb.toString());
-                //sd.send();
+                gf.setId(sb.toString());
                 JOptionPane.showMessageDialog(null, "Collaborate Success!\nShare room number with friends\nRoom Number:" + sb.toString(), "Success", JOptionPane.INFORMATION_MESSAGE);
+                ActionListener listener = event -> System.out.print(5); 
+                final int DELAY = 1000;
+                Timer t = new Timer(DELAY, listener);
+                t.start();
             } catch (IOException e1) {
                 e1.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error" + e1.getMessage(), "Error!", JOptionPane.INFORMATION_MESSAGE);
@@ -448,6 +452,7 @@ public class EditorFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			String input = JOptionPane.showInputDialog("Please input key");
 			String surl = "http://localhost:9000/join/" + Integer.parseInt(input);
+            GraphFrame gf = (GraphFrame)desktop.getSelectedFrame();
 			try {
 			    URL url = new URL(surl);
 			    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -456,6 +461,7 @@ public class EditorFrame extends JFrame {
 			    int response = connection.getResponseCode();
 			    if(response == 200) {
 			        JOptionPane.showMessageDialog(null, "Collaborate Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+			        gf.getGraph().start();
 			    } else {
 			        JOptionPane.showMessageDialog(null, "Cannot find this room!\nCheck with your friend.", "Failed", JOptionPane.INFORMATION_MESSAGE);
 			    }

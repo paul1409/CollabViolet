@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package com.horstmann.violet.framework;
 
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.DefaultPersistenceDelegate;
@@ -30,8 +32,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.swing.Timer;
 
 import java.io.File;
 import local.AddNodeCommand;
@@ -394,9 +401,36 @@ public boolean add(Node n, Point2D p) {
 
   public void send() {
 	  File file = serialize();
-	  int id = 1; // need change
 	  Sender sender = new Sender(file, id);
   }
+  
+  public void start() {
+      
+  }
+  public void checkUpdate() {
+      String dest = "http://localhost/9000/checkUpdate/"+id+commands.size();
+      URL url;
+    try {
+        url = new URL(dest);
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+        int response = connection.getResponseCode();
+        System.out.println(connection.getResponseCode());
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+     
+      
+  }
+  
+  public void setID(String id) {
+      this.id = id;
+  }
+  
+  
+  private String id;
   private CommandData commands;
   private ArrayList nodes;
   private ArrayList edges;
