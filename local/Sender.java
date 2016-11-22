@@ -2,16 +2,25 @@ package local;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
+import java.net.URLConnection;
+
+
 
 /**
  * The sender class send data to server with ID
@@ -20,8 +29,8 @@ import java.net.URL;
  *
  */
 public class Sender {
-  private File cache;
-  private int id;
+  private Object cache;
+  private String id;
 
   /**
    * Construct sender
@@ -29,7 +38,7 @@ public class Sender {
    * @param cache the file to send
    * @param id the id of this violet
    */
-  public Sender(File cache, int id) {
+  public Sender(Object cache, String id) {
     this.cache = cache;
     this.id = id;
   }
@@ -37,23 +46,21 @@ public class Sender {
   /**
    * The send method
    * 
-   * @throws Exception too many exceptions
+   * @throws IOException too many exceptions
    */
-  public void send() throws Exception {
-    Socket sock = new Socket("104.198.158.232", 9000);
-    OutputStream os = sock.getOutputStream();
-    OutputStreamWriter osw = new OutputStreamWriter(os);
-    BufferedWriter bw = new BufferedWriter(osw);
-    bw.write(id);
-    bw.flush();
-    byte[] mybytearray = new byte[1024];
-    InputStream is = sock.getInputStream();
-    FileOutputStream fos = new FileOutputStream(cache);
-    BufferedOutputStream bos = new BufferedOutputStream(fos);
-    int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-    bos.write(mybytearray, 0, bytesRead);
-    bos.close();
-    sock.close();
+  public void send() throws IOException {
+    String dest = "http://localhost:9000/initR/"+id;
+    URL url = new URL(dest);
+    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+    connection.setDoInput(true);
+    connection.setDoOutput(true);
+
+    ObjectOutputStream objOut = new ObjectOutputStream(connection.getOutputStream());
+    objOut.writeObject(cache);
+    objOut.flush();
+    objOut.close();
+    int response = connection.getResponseCode();
+    System.out.println(response);
   }
 
   /**
