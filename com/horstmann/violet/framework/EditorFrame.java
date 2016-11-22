@@ -430,6 +430,7 @@ public class EditorFrame extends JFrame {
                 while((ipl = in.readLine()) != null) {
                     sb.append(ipl);
                 }
+                
                 String fileName = gf.getFileName();
                 File f = new File(fileName);
                 Sender sd = new Sender(f,sb.toString());
