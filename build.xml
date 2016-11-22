@@ -44,21 +44,17 @@
 		</javac>
 	</target>
 
-	<target name="checkstyle" description="Checks for code style violations">
+	<target name="checkstyle" description="Checks for code style violations on all local files">
 		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
-			<formatter type="xml" tofile="checkstyle_report.xml" />
-			<fileset dir="cloud" includes="**/*.java" />
-		</checkstyle>
-		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
-			<formatter type="xml" tofile="checkstyle_report.xml" />
+			<formatter type="xml" tofile="checkstyle_local.xml" />
 			<fileset dir="local" includes="**/*.java" />
 		</checkstyle>
 		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
-			<formatter type="xml" tofile="checkstyle_report.xml" />
+			<formatter type="xml" tofile="checkstyle_violet.xml" />
 			<fileset dir="com/horstmann/violet" includes="**/*.java" />
 		</checkstyle>
 		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
-			<formatter type="xml" tofile="checkstyle_report.xml" />
+			<formatter type="xml" tofile="checkstyle_framework.xml" />
 			<fileset dir="com/horstmann/violet/framework" includes="**/*.java" />
 		</checkstyle>
 	</target>

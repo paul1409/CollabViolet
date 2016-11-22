@@ -56,10 +56,10 @@ public abstract class Graph implements Serializable {
    * Constructs a graph with no nodes or edges.
    */
   public Graph() {
-    nodes = new ArrayList();
-    edges = new ArrayList();
-    nodesToBeRemoved = new ArrayList();
-    edgesToBeRemoved = new ArrayList();
+    nodes = new ArrayList<Node>();
+    edges = new ArrayList<Edge>();
+    nodesToBeRemoved = new ArrayList<Node>();
+    edgesToBeRemoved = new ArrayList<Edge>();
     needsLayout = true;
     commands = new CommandData();
   }
@@ -70,76 +70,83 @@ public abstract class Graph implements Serializable {
    * @param e the edge to add
    * @param p1 a point in the starting node
    * @param p2 a point in the ending node
+   * @param fromCommand original command
    * @return line connecting edge
    */
-  public boolean connect(Edge e, Point2D p1, Point2D p2, boolean fromCommand)
-  {
-	  // edit
-	  if (!fromCommand) {
-		  commands.add(new ConnectCommand(this, e, p1, p2)); // Edit
-	  }
-	  
-	  
-     Node n1 = findNode(p1);
-     Node n2 = findNode(p2);
-     if (n1 != null)
-     {
-        e.connect(n1, n2);
-        if (n1.addEdge(e, p1, p2) && e.getEnd() != null)
-        {
-           edges.add(e);
-           if (!nodes.contains(e.getEnd()))
-              nodes.add(e.getEnd());
-           needsLayout = true;
-           return true;
-        }
-     }
-     return false;
+  public boolean connect(Edge e, Point2D p1, Point2D p2, boolean fromCommand) {
+    // edit
+    if (!fromCommand) {
+      commands.add(new ConnectCommand(this, e, p1, p2)); // Edit
+    }
+
+    Node n1 = findNode(p1);
+    Node n2 = findNode(p2);
+    if (n1 != null) {
+      e.connect(n1, n2);
+      if (n1.addEdge(e, p1, p2) && e.getEnd() != null) {
+        edges.add(e);
+        if (!nodes.contains(e.getEnd())) nodes.add(e.getEnd());
+        needsLayout = true;
+        return true;
+      }
+    }
+    return false;
   }
-  
-  // add this overload method for let the program check where call the method, the command or the user
+
+  // add this overload method for let the program check where call the method,
+  // the command or the user
+  /**
+   * Connects 2 edges
+   * @param e edge
+   * @param p1 point 1
+   * @param p2 point2
+   * @return if connected
+   */
   public boolean connect(Edge e, Point2D p1, Point2D p2) {
-	   return connect(e, p1, p2, false);
+    return connect(e, p1, p2, false);
   }
 
   /**
-  Adds a node to the graph so that the top left corner of
-  the bounding rectangle is at the given point.
-  @param n the node to add
-  @param p the desired location
-*/
-public boolean add(Node n, Point2D p, boolean fromCommand)
-{
-   if (!fromCommand) {
-		  commands.add(new AddNodeCommand(this, n, p)); // Edit
-		  send();
-		  commands.resetQ();
-   }
-  Rectangle2D bounds = n.getBounds();
-  n.translate(p.getX() - bounds.getX(), 
-     p.getY() - bounds.getY()); 
+   * Adds a node to the graph so that the top left corner of the bounding
+   * rectangle is at the given point.
+   * @param n the node to add
+   * @param p the desired location
+   * @param fromCommand original command
+   * @return true if added
+   */
+  public boolean add(Node n, Point2D p, boolean fromCommand) {
+    if (!fromCommand) {
+      commands.add(new AddNodeCommand(this, n, p)); // Edit
+      send();
+      commands.resetQ();
+    }
+    Rectangle2D bounds = n.getBounds();
+    n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
 
-  boolean accepted = false;
-  boolean insideANode = false;
-  for (int i = nodes.size() - 1; i >= 0 && !accepted; i--)
-  {
-     Node parent = (Node)nodes.get(i);
-     if (parent.contains(p)) 
-     {
+    boolean accepted = false;
+    boolean insideANode = false;
+    for (int i = nodes.size() - 1; i >= 0 && !accepted; i--) {
+      Node parent = (Node) nodes.get(i);
+      if (parent.contains(p)) {
         insideANode = true;
         if (parent.addNode(n, p)) accepted = true;
-     }
+      }
+    }
+    if (insideANode && !accepted) return false;
+    nodes.add(n);
+    needsLayout = true;
+    return true;
   }
-  if (insideANode && !accepted) 
-     return false;
-  nodes.add(n);
-  needsLayout = true;
-  return true;
-}
 
-public boolean add(Node n, Point2D p) {
-   return add(n, p, false);
-}
+  /**
+   * Adds a node
+   * @param n node
+   * @param p point
+   * @return true if added
+   */
+  public boolean add(Node n, Point2D p) {
+    return add(n, p, false);
+  }
 
   /**
    * Finds a node containing the given point.
@@ -189,57 +196,60 @@ public boolean add(Node n, Point2D p) {
   /**
    * Removes a node and all edges that start or end with that node
    * @param n the node to remove
+   * @param fromCommand original command
    */
-  public void removeNode(Node n, boolean fromCommand)
-  {
-	   if (!fromCommand) {
-			  commands.add(new RemoveNodeCommand(this, n)); // Edit
-	   }
-     if (nodesToBeRemoved.contains(n)) return;
-     nodesToBeRemoved.add(n);
-     // notify nodes of removals
-     for (int i = 0; i < nodes.size(); i++)
-     {
-        Node n2 = (Node)nodes.get(i);
-        n2.removeNode(this, n);
-     }
-     for (int i = 0; i < edges.size(); i++)
-     {
-        Edge e = (Edge)edges.get(i);
-        if (e.getStart() == n || e.getEnd() == n)
-           removeEdge(e);
-     }
+  public void removeNode(Node n, boolean fromCommand) {
+    if (!fromCommand) {
+      commands.add(new RemoveNodeCommand(this, n)); // Edit
+    }
+    if (nodesToBeRemoved.contains(n)) return;
+    nodesToBeRemoved.add(n);
+    // notify nodes of removals
+    for (int i = 0; i < nodes.size(); i++) {
+      Node n2 = (Node) nodes.get(i);
+      n2.removeNode(this, n);
+    }
+    for (int i = 0; i < edges.size(); i++) {
+      Edge e = (Edge) edges.get(i);
+      if (e.getStart() == n || e.getEnd() == n) removeEdge(e);
+    }
 
-     needsLayout = true;
+    needsLayout = true;
   }
-  
+
+  /**
+   * Removes a node
+   * @param n node
+   */
   public void removeNode(Node n) {
-	   removeNode(n, false);
+    removeNode(n, false);
   }
 
   /**
    * Removes an edge from the graph.
    * @param e the edge to remove
+   * @param fromCommand original command
    */
-  public void removeEdge(Edge e, boolean fromCommand)
-  {
-	   if (!fromCommand) {
-			  commands.add(new RemoveEdgeCommand(this, e));
-	   }
-     
-	   
-	   if (edgesToBeRemoved.contains(e)) return;
-     edgesToBeRemoved.add(e);
-     for (int i = nodes.size() - 1; i >= 0; i--)
-     {
-        Node n = (Node)nodes.get(i);
-        n.removeEdge(this, e);
-     }
-     needsLayout = true;
+  public void removeEdge(Edge e, boolean fromCommand) {
+    if (!fromCommand) {
+      commands.add(new RemoveEdgeCommand(this, e));
+    }
+
+    if (edgesToBeRemoved.contains(e)) return;
+    edgesToBeRemoved.add(e);
+    for (int i = nodes.size() - 1; i >= 0; i--) {
+      Node n = (Node) nodes.get(i);
+      n.removeEdge(this, e);
+    }
+    needsLayout = true;
   }
-  
+
+  /**
+   * Removes an edge
+   * @param e edge
+   */
   public void removeEdge(Edge e) {
-	   removeEdge(e, false);
+    removeEdge(e, false);
   }
 
   /**
@@ -326,7 +336,7 @@ public boolean add(Node n, Point2D p) {
    */
   public static void setPersistenceDelegate(Encoder encoder) {
     encoder.setPersistenceDelegate(Graph.class, new DefaultPersistenceDelegate() {
-      protected void initialize(Class type, Object oldInstance, Object newInstance, Encoder out) {
+      protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
         super.initialize(type, oldInstance, newInstance, out);
         Graph g = (Graph) oldInstance;
 
@@ -348,7 +358,7 @@ public boolean add(Node n, Point2D p) {
    * Gets the nodes of this graph.
    * @return an unmodifiable collection of the nodes
    */
-  public Collection getNodes() {
+  public Collection<Node> getNodes() {
     return nodes;
   }
 
@@ -356,7 +366,7 @@ public boolean add(Node n, Point2D p) {
    * Gets the edges of this graph.
    * @return an unmodifiable collection of the edges
    */
-  public Collection getEdges() {
+  public Collection<Edge> getEdges() {
     return edges;
   }
 
@@ -366,13 +376,12 @@ public boolean add(Node n, Point2D p) {
    * @param n the node to add
    * @param p the desired location
    */
-  
+
   public void addNode(Node n, Point2D p) {
     Rectangle2D bounds = n.getBounds();
     n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
     nodes.add(n);
   }
-  
 
   /**
    * Adds an edge to this graph. This method should only be called by a decoder
@@ -385,55 +394,68 @@ public boolean add(Node n, Point2D p) {
     e.connect(start, end);
     edges.add(e);
   }
-  
+
+  /**
+   * Serializes the file
+   * @return a serialized file
+   */
   public File serialize() {
-	  File result = null;
-	  try {
-		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("commands.ser"));
-		out.writeObject(commands);
-		out.close();
-		result = new File("commands.ser");
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	  return result;
+    File result = null;
+    try {
+      ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("commands.ser"));
+      out.writeObject(commands);
+      out.close();
+      result = new File("commands.ser");
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    return result;
   }
 
+  /**
+   * Sends the file to other clients
+   */
   public void send() {
-	  File file = serialize();
-	  Sender sender = new Sender(file, id);
-	  sender.send();
+    File file = serialize();
+    Sender sender = new Sender(file, id);
+    sender.send();
   }
-  
-  
+
+  /**
+   * Checks for updates to the file
+   */
   public void checkUpdate() {
-      String dest = "http://localhost:9000/checkUpdate/"+id+"/"+commands.size();
-      URL url;
+    String dest = "http://localhost:9000/checkUpdate/" + id + "/" + commands.size();
+    URL url;
     try {
-        url = new URL(dest);
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.connect();
-        int response = connection.getResponseCode();
-    } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+      url = new URL(dest);
+      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("GET");
+      connection.connect();
+      int response = connection.getResponseCode();
     }
-     
-      
+    catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
   }
-  
+
+  /**
+   * Sets an ID
+   * @param id id
+   */
   public void setID(String id) {
-      this.id = id;
+    this.id = id;
   }
-  
-  
+
   private String id;
   private CommandData commands;
-  private ArrayList nodes;
-  private ArrayList edges;
-  private transient ArrayList nodesToBeRemoved;
-  private transient ArrayList edgesToBeRemoved;
+  private ArrayList<Node> nodes;
+  private ArrayList<Edge> edges;
+  private transient ArrayList<Node> nodesToBeRemoved;
+  private transient ArrayList<Edge> edgesToBeRemoved;
   private transient boolean needsLayout;
   private transient Rectangle2D minBounds;
 }

@@ -108,11 +108,19 @@ public class GraphFrame extends JInternalFrame {
     setTitle(newValue);
   }
   
+  /**
+   * Sets an ID
+   * @param id ID
+   */
   public void setId(String id) {
       this.ID = id;
       this.graph.setID(id);
   }
   
+  /**
+   * Gets the ID
+   * @return ID
+   */
   public String getId() {
       return this.ID;
   }
