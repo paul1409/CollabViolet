@@ -1,0 +1,115 @@
+New log file opened at Tue Nov 22 05:15:38 PST 2016 by 1645@ReyoungdeMacBook-Pro.local
+Taking next connection to: 50240
+New client attempting to connect on port: 50241-50240
+  Address = /192.168.1.100:50240
+This client on port 50241 has uuid 8df9063f-7a43-4738-bfe7-1d24190de487 configName activator humanReadableName Activator protocolVersion 3 featureTags Vector()
+Connected Clients: activator-8df9063f-7a43-4738-bfe7-1d24190de487
+Taking next connection to: 50240
+New client attempting to connect on port: 50242-50240
+  Address = /192.168.1.100:50240
+Handshake exception on socket: 50242
+sbt.impl.ipc.HandshakeException: Unable to perform handshake
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:46)
+	at sbt.impl.ipc.MultiClientServer.<init>(IPC.scala:150)
+	at sbt.server.SbtServerSocketHandler$$anon$1.run(SbtServerSocketHandler.scala:43)
+Caused by: java.io.EOFException
+	at java.io.DataInputStream.readInt(DataInputStream.java:392)
+	at sbt.impl.ipc.Peer.receive(IPC.scala:95)
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:49)
+	... 2 more
+Taking next connection to: 50240
+New client attempting to connect on port: 50243-50240
+  Address = /192.168.1.100:50240
+This client on port 50243 has uuid fee18429-262b-44eb-a6be-de206363d944 configName activator humanReadableName Activator protocolVersion 3 featureTags Vector()
+Connected Clients: activator-8df9063f-7a43-4738-bfe7-1d24190de487, activator-fee18429-262b-44eb-a6be-de206363d944
+Taking next connection to: 50240
+New client attempting to connect on port: 50246-50240
+  Address = /192.168.1.100:50240
+Handshake exception on socket: 50246
+sbt.impl.ipc.HandshakeException: Unable to perform handshake
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:46)
+	at sbt.impl.ipc.MultiClientServer.<init>(IPC.scala:150)
+	at sbt.server.SbtServerSocketHandler$$anon$1.run(SbtServerSocketHandler.scala:43)
+Caused by: java.io.EOFException
+	at java.io.DataInputStream.readInt(DataInputStream.java:392)
+	at sbt.impl.ipc.Peer.receive(IPC.scala:95)
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:49)
+	... 2 more
+Taking next connection to: 50240
+New client attempting to connect on port: 50247-50240
+  Address = /192.168.1.100:50240
+This client on port 50247 has uuid 7cc57a29-2aa2-4500-9a39-26b1df50d9fc configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: activator-8df9063f-7a43-4738-bfe7-1d24190de487, play-fork-run-7cc57a29-2aa2-4500-9a39-26b1df50d9fc
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50240
+New client attempting to connect on port: 51015-50240
+  Address = /192.168.1.100:50240
+Handshake exception on socket: 51015
+sbt.impl.ipc.HandshakeException: Unable to perform handshake
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:46)
+	at sbt.impl.ipc.MultiClientServer.<init>(IPC.scala:150)
+	at sbt.server.SbtServerSocketHandler$$anon$1.run(SbtServerSocketHandler.scala:43)
+Caused by: java.io.EOFException
+	at java.io.DataInputStream.readInt(DataInputStream.java:392)
+	at sbt.impl.ipc.Peer.receive(IPC.scala:95)
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:49)
+	... 2 more
+Taking next connection to: 50240
+New client attempting to connect on port: 51016-50240
+  Address = /192.168.1.100:50240
+This client on port 51016 has uuid a08b7d88-1512-4c70-b2a4-8d2fd5bdaa06 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: activator-8df9063f-7a43-4738-bfe7-1d24190de487, play-fork-run-7cc57a29-2aa2-4500-9a39-26b1df50d9fc, play-fork-run-a08b7d88-1512-4c70-b2a4-8d2fd5bdaa06
+Taking next connection to: 50240
