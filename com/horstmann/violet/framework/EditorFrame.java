@@ -435,7 +435,7 @@ public class EditorFrame extends JFrame {
                 }
                 gf.setId(sb.toString());
                 JOptionPane.showMessageDialog(null, "Collaborate Success!\nShare room number with friends\nRoom Number:" + sb.toString(), "Success", JOptionPane.INFORMATION_MESSAGE);
-                ActionListener listener = event -> System.out.print(5); 
+                ActionListener listener = event -> gf.getGraph().checkUpdate(); 
                 final int DELAY = 1000;
                 Timer t = new Timer(DELAY, listener);
                 t.start();
@@ -461,7 +461,10 @@ public class EditorFrame extends JFrame {
 			    int response = connection.getResponseCode();
 			    if(response == 200) {
 			        JOptionPane.showMessageDialog(null, "Collaborate Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
-			        gf.getGraph().start();
+			        ActionListener listener = event -> gf.getGraph().checkUpdate(); 
+	                final int DELAY = 1000;
+	                Timer t = new Timer(DELAY, listener);
+	                t.start();
 			    } else {
 			        JOptionPane.showMessageDialog(null, "Cannot find this room!\nCheck with your friend.", "Failed", JOptionPane.INFORMATION_MESSAGE);
 			    }

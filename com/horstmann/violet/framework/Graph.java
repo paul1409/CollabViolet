@@ -408,7 +408,8 @@ public boolean add(Node n, Point2D p) {
       
   }
   public void checkUpdate() {
-      String dest = "http://localhost/9000/checkUpdate/"+id+commands.size();
+      String dest = "http://localhost:9000/checkUpdate/"+id+"/"+commands.size();
+      System.out.println(dest);
       URL url;
     try {
         url = new URL(dest);
