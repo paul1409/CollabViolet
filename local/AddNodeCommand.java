@@ -11,7 +11,6 @@ import com.horstmann.violet.framework.Node;
  *
  */
 public class AddNodeCommand implements Command {
-  Graph graph;
   Node n;
   Point2D p;
 
@@ -21,14 +20,13 @@ public class AddNodeCommand implements Command {
    * @param n node
    * @param p point
    */
-  public AddNodeCommand(Graph graph, Node n, Point2D p) {
-    this.graph = graph;
+  public AddNodeCommand(Node n, Point2D p) {
     this.n = n;
     this.p = p;
   }
 
   @Override
-  public void execute() {
+  public void execute(Graph graph) {
     graph.add(n, p, true);
   }
 

@@ -9,7 +9,6 @@ import com.horstmann.violet.framework.Node;
  *
  */
 public class RemoveNodeCommand implements Command {
-  Graph graph;
   Node n;
 
   /**
@@ -17,13 +16,12 @@ public class RemoveNodeCommand implements Command {
    * @param graph graph
    * @param n node
    */
-  public RemoveNodeCommand(Graph graph, Node n) {
-    this.graph = graph;
+  public RemoveNodeCommand(Node n) {
     this.n = n;
   }
 
   @Override
-  public void execute() {
+  public void execute(Graph graph) {
     graph.removeNode(n, true);
   }
 

@@ -9,7 +9,6 @@ import com.horstmann.violet.framework.Graph;
  *
  */
 public class RemoveEdgeCommand implements Command {
-  Graph graph;
   Edge e;
 
   /**
@@ -17,13 +16,12 @@ public class RemoveEdgeCommand implements Command {
    * @param graph graph
    * @param e edge
    */
-  public RemoveEdgeCommand(Graph graph, Edge e) {
-    this.graph = graph;
+  public RemoveEdgeCommand(Edge e) {
     this.e = e;
   }
 
   @Override
-  public void execute() {
+  public void execute(Graph graph) {
     graph.removeEdge(e, true);
   }
 
