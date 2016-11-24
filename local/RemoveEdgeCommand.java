@@ -13,7 +13,6 @@ public class RemoveEdgeCommand implements Command {
 
   /**
    * Constructor
-   * @param graph graph
    * @param e edge
    */
   public RemoveEdgeCommand(Edge e) {

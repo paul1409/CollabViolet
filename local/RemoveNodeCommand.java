@@ -13,7 +13,6 @@ public class RemoveNodeCommand implements Command {
 
   /**
    * Constructor
-   * @param graph graph
    * @param n node
    */
   public RemoveNodeCommand(Node n) {

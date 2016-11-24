@@ -12,6 +12,7 @@ import com.horstmann.violet.framework.Graph;
 public interface Command extends Serializable  {
   /**
    * Executes a command
+   * @param graph to execute
    */
   public void execute(Graph graph);
 }

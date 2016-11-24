@@ -17,7 +17,6 @@ public class ConnectCommand implements Command {
 
   /**
    * Constructor
-   * @param graph graph
    * @param e edge
    * @param p1 first point
    * @param p2 second point

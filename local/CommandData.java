@@ -28,5 +28,42 @@ public class CommandData implements Serializable {
     this.id = id;
   }
 
+<<<<<<< HEAD
+=======
+  /**
+   * Adds data to a command
+   * @param command to add
+   */
+  public void add(Command command) {
+    size++;
+    commands.add(command);
+  }
+
+  /**
+   * @param i the pointer of command
+   * Removes the first command
+   */
+  public void remove(int i) {
+    commands.remove(i);
+    size--;
+  }
+
+  /**
+   * Gets the size
+   * @return the size
+   */
+  public int size() {
+    return size;
+  }
+
+  /**
+   * Resets commands
+   * @param i the number of new start 
+   */
+  public void resetPointer(int i) {
+    pointer = i;
+  }
+  
+>>>>>>> fcb53b14326cf835284597251c5d608c37ea2e5a
   
 }
