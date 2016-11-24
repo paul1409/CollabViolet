@@ -539,6 +539,7 @@ public abstract class Graph implements Serializable {
                   // Bing's code
                   ObjectInputStream ois = new ObjectInputStream(new FileInputStream(input));
                   CommandData theCD = (CommandData) ois.readObject();
+                  System.out.println(theCD.getID());
                 }
             }
         } catch (IOException e) {
