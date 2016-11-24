@@ -118,7 +118,7 @@ public abstract class Graph implements Serializable {
     if (!fromCommand) {
       commands.add(new AddNodeCommand(n, p)); // Edit
       send();
-      commands.resetQ();
+      commands.resetPointer(commands.size() - 1);
     }
     Rectangle2D bounds = n.getBounds();
     n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
