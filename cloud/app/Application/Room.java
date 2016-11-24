@@ -14,7 +14,7 @@ public class Room {
 
   private int roomNumber;
   private String password;
-  private ArrayList<String> commands;
+  private ArrayList<String> commands = new ArrayList<String>();
   private HashSet<String> ipPool;
 
   /**
@@ -90,12 +90,18 @@ public class Room {
   
   /**
    * Check client isNewest?
+   * @param i the position of clients
    * @return true when is newest or false when not.
    */
   public boolean isNewest(int i) {
       return commands.size() == i;
   }
   
+  /**
+   * Put all new changes to a single array, divide by \n
+   * @param i the client command's position
+   * @return all changes
+   */
   public String sync(int i) {
       StringBuilder sb = new StringBuilder();
       while(i < commands.size()) {
@@ -113,5 +119,12 @@ public class Room {
   public void setPassword(String aPassword) {
     this.password = aPassword;
   }
-
+  
+  /**
+   * Gets all commands in this room
+   * @return the commands list 
+   */
+  public ArrayList<String> getCommandList() {
+      return this.commands;
+  }
 }

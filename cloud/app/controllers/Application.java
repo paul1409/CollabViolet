@@ -3,9 +3,9 @@ package controllers;
 import play.mvc.*;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
+
+
 import Application.Room;
 /**
  * Class to handler everything
@@ -23,15 +23,16 @@ public class Application extends Controller {
      */
     public Result newRoom() {
         Room e = new Room(count);
-        if(!roomList.add(e))
-            return badRequest();
+        roomList.add(e);
         count++;
+        e.addIP(request().remoteAddress());
         return ok(""+(count -1) );
     }
     
     /**
      * Enter room with number
-     * @ return success or failed 
+     * @param id the room id
+     * @return success or failed 
      */
     public Result join(int id) {
         if(id < count) {
@@ -62,13 +63,14 @@ public class Application extends Controller {
      * @param roomID the room to add
      * @return success or failed
      */
+    @BodyParser.Of(BodyParser.AnyContent.class)
     public Result addAction(int roomID) {
         String command = request().body().asText();
         Room r = roomList.get(roomID);
         String ip = request().remoteAddress();
         if(r.isIn(ip)) {
             r.addCommand(command);
-            return ok();
+            return ok("Success");
         } else {
             return badRequest("Opps!");
         }
@@ -85,6 +87,11 @@ public class Application extends Controller {
         return ok("success");
     }
     
+    /**
+     * Doesn't work now. This method for initializing syncing 
+     * @param id the roomID
+     * @return result
+     */
     public Result initR(int id) {
         File file = request().body().asRaw().asFile();
         if(file == null)
@@ -92,9 +99,19 @@ public class Application extends Controller {
         initialStatus[id] = file;
         return ok();
     }
-    
-    public Result getFileName(int id) {
-        return ok(initialStatus[id]);
+    /**
+     * Demo what command we have
+     * @param id the room id
+     * @return what's in the commandlist 
+     */
+    public Result demo(int id) {
+        StringBuilder sb = new StringBuilder();
+        Room r = roomList.get(id);
+        ArrayList<String> list = r.getCommandList();
+        for(int i = 0; i < list.size(); i ++) {
+            sb.append(i + ": "+ list.get(i) + "\n");
+        }
+        return ok(sb.toString());
     }
     
     //public Result initG(int id) {
