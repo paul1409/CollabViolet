@@ -30,17 +30,22 @@ import java.beans.Encoder;
 import java.beans.Statement;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.Timer;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+
 import local.AddNodeCommand;
 import local.Command;
 import local.CommandData;
@@ -54,7 +59,6 @@ import local.Sender;
  */
 public abstract class Graph implements Serializable {
 
-    private ArrayList<CommandData> commandList;
     private int pointer; // point to the position that position that hes been
                          // send to the server;
 
@@ -523,11 +527,33 @@ public abstract class Graph implements Serializable {
             connection.setRequestMethod("GET");
             connection.connect();
             int response = connection.getResponseCode();
+            if(response == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                String ipl;
+                while ((ipl = in.readLine()) != null) {
+                  File input = stringToFile(URLDecoder.decode(ipl,"UTF-8"));
+                  // handler this ser file here 
+                }
+            }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+    }
+    
+    /**
+     * Output the string to file
+     * @param input the sting to be wriiten
+     * @return a .ser filer
+     * @throws IOException
+     */
+    private File stringToFile(String input) throws IOException {
+        File result = null;
+        FileOutputStream fos = new FileOutputStream("Sync.ser");
+        fos.write(input.getBytes());
+        fos.flush();
+        fos.close();
+        result = new File("Sync.ser");
+        return result;
     }
 
     /**
@@ -541,6 +567,7 @@ public abstract class Graph implements Serializable {
     }
 
     private String roomID;
+    private ArrayList<CommandData> commandList;
     private CommandData commands;
     private ArrayList<Node> nodes;
     private ArrayList<Edge> edges;

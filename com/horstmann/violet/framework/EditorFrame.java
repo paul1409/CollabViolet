@@ -463,6 +463,7 @@ public class EditorFrame extends JFrame {
           connection.connect();
           int response = connection.getResponseCode();
           if (response == 200) {
+              gf.setId(input);
             JOptionPane.showMessageDialog(null, "Collaborate Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
             ActionListener listener = event -> gf.getGraph().checkUpdate();
             final int DELAY = 1000;
