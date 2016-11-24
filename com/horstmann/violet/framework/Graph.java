@@ -418,7 +418,7 @@ public abstract class Graph implements Serializable {
    */
   public void send() {
     File file = serialize();
-    Sender sender = new Sender(file, id);
+    Sender sender = new Sender(file, roomID);
     sender.send();
   }
 
@@ -426,7 +426,7 @@ public abstract class Graph implements Serializable {
    * Checks for updates to the file
    */
   public void checkUpdate() {
-    String dest = "http://localhost:9000/checkUpdate/" + id + "/" + commands.size();
+    String dest = "http://localhost:9000/checkUpdate/" + roomID + "/" + commands.size();
     URL url;
     try {
       url = new URL(dest);
@@ -447,10 +447,10 @@ public abstract class Graph implements Serializable {
    * @param id id
    */
   public void setID(String id) {
-    this.id = id;
+    this.roomID = id;
   }
 
-  private String id;
+  private String roomID;
   private CommandData commands;
   private ArrayList<Node> nodes;
   private ArrayList<Edge> edges;
