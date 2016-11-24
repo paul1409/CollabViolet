@@ -8,18 +8,16 @@ import java.util.ArrayList;
  * @author Bing Liang
  */
 public class CommandData implements Serializable {
-  private int UserId;
-  private ArrayList<Command> commands;
-  private int size;
-  private int pointer;
+  private int id;
+  private Command command;
 
   /**
    * Constructor for add node
    * 
    */
-  public CommandData() {
-    this.size = 0;
-    commands = new ArrayList<>();
+  public CommandData(Command command, int id) {
+	  this.command = command;
+	  this.id = id;
   }
 
   /**
@@ -27,40 +25,8 @@ public class CommandData implements Serializable {
    * @param id an ID
    */
   public void setID(int id) {
-    UserId = id;
+    this.id = id;
   }
 
-  /**
-   * Adds data to a command
-   * @param command to add
-   */
-  public void add(Command command) {
-    size++;
-    commands.add(command);
-  }
-
-  /**
-   * Removes the first command
-   */
-  public void remove(int i) {
-    commands.remove(i);
-    size--;
-  }
-
-  /**
-   * Gets the size
-   * @return the size
-   */
-  public int size() {
-    return size;
-  }
-
-  /**
-   * Resets commands
-   */
-  public void resetPointer(int i) {
-    pointer = i;
-  }
-  
   
 }
