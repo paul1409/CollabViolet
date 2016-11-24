@@ -76,7 +76,7 @@ public abstract class Graph implements Serializable {
   public boolean connect(Edge e, Point2D p1, Point2D p2, boolean fromCommand) {
     // edit
     if (!fromCommand) {
-      commands.add(new ConnectCommand(this, e, p1, p2)); // Edit
+      commands.add(new ConnectCommand(e, p1, p2)); // Edit
     }
 
     Node n1 = findNode(p1);
@@ -116,7 +116,7 @@ public abstract class Graph implements Serializable {
    */
   public boolean add(Node n, Point2D p, boolean fromCommand) {
     if (!fromCommand) {
-      commands.add(new AddNodeCommand(this, n, p)); // Edit
+      commands.add(new AddNodeCommand(n, p)); // Edit
       send();
       commands.resetQ();
     }
@@ -200,7 +200,7 @@ public abstract class Graph implements Serializable {
    */
   public void removeNode(Node n, boolean fromCommand) {
     if (!fromCommand) {
-      commands.add(new RemoveNodeCommand(this, n)); // Edit
+      commands.add(new RemoveNodeCommand(n)); // Edit
     }
     if (nodesToBeRemoved.contains(n)) return;
     nodesToBeRemoved.add(n);
@@ -232,7 +232,7 @@ public abstract class Graph implements Serializable {
    */
   public void removeEdge(Edge e, boolean fromCommand) {
     if (!fromCommand) {
-      commands.add(new RemoveEdgeCommand(this, e));
+      commands.add(new RemoveEdgeCommand(e));
     }
 
     if (edgesToBeRemoved.contains(e)) return;
