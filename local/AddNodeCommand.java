@@ -16,7 +16,6 @@ public class AddNodeCommand implements Command {
 
   /**
    * Adds a node
-   * @param graph graph
    * @param n node
    * @param p point
    */

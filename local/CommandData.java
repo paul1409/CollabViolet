@@ -40,6 +40,7 @@ public class CommandData implements Serializable {
   }
 
   /**
+   * @param i the pointer of command
    * Removes the first command
    */
   public void remove(int i) {
@@ -57,6 +58,7 @@ public class CommandData implements Serializable {
 
   /**
    * Resets commands
+   * @param i the number of new start 
    */
   public void resetPointer(int i) {
     pointer = i;
