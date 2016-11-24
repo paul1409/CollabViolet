@@ -37,159 +37,198 @@ import com.horstmann.violet.framework.RectangularNode;
  * An object node in an object diagram.
  */
 public class ObjectNode extends RectangularNode {
-  /**
-   * Construct an object node with a default size
-   */
-  public ObjectNode() {
-    name = new MultiLineString();
-    name.setUnderlined(true);
-    name.setSize(MultiLineString.LARGE);
-    setBounds(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
-  }
+	/**
+	 * Construct an object node with a default size
+	 */
+	public ObjectNode() {
+		name = new MultiLineString();
+		name.setUnderlined(true);
+		name.setSize(MultiLineString.LARGE);
+		setBounds(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
+		this.id = -1;
+	}
 
-  @Override
-  public void draw(Graphics2D g2) {
-    super.draw(g2);
-    Rectangle2D top = getTopRectangle();
-    g2.draw(top);
-    g2.draw(getBounds());
-    name.draw(g2, top);
-  }
+	@Override
+	public void draw(Graphics2D g2) {
+		super.draw(g2);
+		Rectangle2D top = getTopRectangle();
+		g2.draw(top);
+		g2.draw(getBounds());
+		name.draw(g2, top);
+	}
 
-  /**
-   * Returns the rectangle at the top of the object node.
-   * @return the top rectangle
-   */
-  public Rectangle2D getTopRectangle() {
-    return new Rectangle2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(), topHeight);
-  }
+	/**
+	 * Returns the rectangle at the top of the object node.
+	 * 
+	 * @return the top rectangle
+	 */
+	public Rectangle2D getTopRectangle() {
+		return new Rectangle2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(), topHeight);
+	}
 
-  /**
-   * Creates a new edge
-   * @param e edge
-   * @param p1 point 1
-   * @param p2 point 2
-   * @return the new edge is an edge
-   */
-  public boolean addEdge(Edge e, Point2D p1, Point2D p2) {
-    return e instanceof ClassRelationshipEdge && e.getEnd() != null;
-  }
+	/**
+	 * Creates a new edge
+	 * 
+	 * @param e
+	 *            edge
+	 * @param p1
+	 *            point 1
+	 * @param p2
+	 *            point 2
+	 * @return the new edge is an edge
+	 */
+	public boolean addEdge(Edge e, Point2D p1, Point2D p2) {
+		return e instanceof ClassRelationshipEdge && e.getEnd() != null;
+	}
 
-  /**
-   * Gets a point connection
-   * @param d direction
-   * @return new point
-   */
-  public Point2D getConnectionPoint(Direction d) {
-    if (d.getX() > 0) return new Point2D.Double(getBounds().getMaxX(), getBounds().getMinY() + topHeight / 2);
-    else return new Point2D.Double(getBounds().getX(), getBounds().getMinY() + topHeight / 2);
-  }
-  /**
-   * Creates a new layout
-   * @param g graph
-   * @param g2 graphics
-   * @param grid grid
-   */
-  public void layout(Graph g, Graphics2D g2, Grid grid) {
-    Rectangle2D b = name.getBounds(g2);
-    b.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT - YGAP));
-    double leftWidth = 0;
-    double rightWidth = 0;
-    List fields = getChildren();
-    double height = fields.size() == 0 ? 0 : YGAP;
-    for (int i = 0; i < fields.size(); i++) {
-      FieldNode f = (FieldNode) fields.get(i);
-      f.layout(g, g2, grid);
-      Rectangle2D b2 = f.getBounds();
-      height += b2.getBounds().getHeight() + YGAP;
-      double axis = f.getAxisX();
-      leftWidth = Math.max(leftWidth, axis);
-      rightWidth = Math.max(rightWidth, b2.getWidth() - axis);
-    }
-    double width = 2 * Math.max(leftWidth, rightWidth) + 2 * XGAP;
-    width = Math.max(width, b.getWidth());
-    width = Math.max(width, DEFAULT_WIDTH);
-    b = new Rectangle2D.Double(getBounds().getX(), getBounds().getY(), width, b.getHeight() + height);
-    grid.snap(b);
-    setBounds(b);
-    topHeight = b.getHeight() - height;
-    double ytop = b.getY() + topHeight + YGAP;
-    double xmid = b.getCenterX();
-    for (int i = 0; i < fields.size(); i++) {
-      FieldNode f = (FieldNode) fields.get(i);
-      Rectangle2D b2 = f.getBounds();
-      f.setBounds(new Rectangle2D.Double(xmid - f.getAxisX(), ytop, f.getAxisX() + rightWidth, b2.getHeight()));
-      f.setBoxWidth(rightWidth);
-      ytop += f.getBounds().getHeight() + YGAP;
-    }
-  }
+	/**
+	 * Gets a point connection
+	 * 
+	 * @param d
+	 *            direction
+	 * @return new point
+	 */
+	public Point2D getConnectionPoint(Direction d) {
+		if (d.getX() > 0)
+			return new Point2D.Double(getBounds().getMaxX(), getBounds().getMinY() + topHeight / 2);
+		else
+			return new Point2D.Double(getBounds().getX(), getBounds().getMinY() + topHeight / 2);
+	}
 
-  /**
-   * Sets the name property value.
-   * @param n the new object name
-   */
-  public void setName(MultiLineString n) {
-    name = n;
-  }
+	/**
+	 * Creates a new layout
+	 * 
+	 * @param g
+	 *            graph
+	 * @param g2
+	 *            graphics
+	 * @param grid
+	 *            grid
+	 */
+	public void layout(Graph g, Graphics2D g2, Grid grid) {
+		Rectangle2D b = name.getBounds(g2);
+		b.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT - YGAP));
+		double leftWidth = 0;
+		double rightWidth = 0;
+		List fields = getChildren();
+		double height = fields.size() == 0 ? 0 : YGAP;
+		for (int i = 0; i < fields.size(); i++) {
+			FieldNode f = (FieldNode) fields.get(i);
+			f.layout(g, g2, grid);
+			Rectangle2D b2 = f.getBounds();
+			height += b2.getBounds().getHeight() + YGAP;
+			double axis = f.getAxisX();
+			leftWidth = Math.max(leftWidth, axis);
+			rightWidth = Math.max(rightWidth, b2.getWidth() - axis);
+		}
+		double width = 2 * Math.max(leftWidth, rightWidth) + 2 * XGAP;
+		width = Math.max(width, b.getWidth());
+		width = Math.max(width, DEFAULT_WIDTH);
+		b = new Rectangle2D.Double(getBounds().getX(), getBounds().getY(), width, b.getHeight() + height);
+		grid.snap(b);
+		setBounds(b);
+		topHeight = b.getHeight() - height;
+		double ytop = b.getY() + topHeight + YGAP;
+		double xmid = b.getCenterX();
+		for (int i = 0; i < fields.size(); i++) {
+			FieldNode f = (FieldNode) fields.get(i);
+			Rectangle2D b2 = f.getBounds();
+			f.setBounds(new Rectangle2D.Double(xmid - f.getAxisX(), ytop, f.getAxisX() + rightWidth, b2.getHeight()));
+			f.setBoxWidth(rightWidth);
+			ytop += f.getBounds().getHeight() + YGAP;
+		}
+	}
 
-  /**
-   * Gets the name property value.
-   * @return new name
-   */
-  public MultiLineString getName() {
-    return name;
-  }
+	/**
+	 * Sets the name property value.
+	 * 
+	 * @param n
+	 *            the new object name
+	 */
+	public void setName(MultiLineString n) {
+		name = n;
+	}
 
-  /**
-   * Creates a clone
-   * @return the clone
-   */
-  public Object clone() {
-    ObjectNode cloned = (ObjectNode) super.clone();
-    cloned.name = (MultiLineString) name.clone();
-    return cloned;
-  }
-  /**
-   * Adds a new node at a point
-   * @param n node
-   * @param p point
-   * @return point is added
-   */
-  public boolean addNode(Node n, Point2D p) {
-    List fields = getChildren();
-    if (n instanceof PointNode) return true;
-    if (!(n instanceof FieldNode)) return false;
-    if (fields.contains(n)) return true;
-    int i = 0;
-    while (i < fields.size() && ((Node) fields.get(i)).getBounds().getY() < p.getY())
-      i++;
-    addChild(i, n);
-    return true;
-  }
+	/**
+	 * Gets the name property value.
+	 * 
+	 * @return new name
+	 */
+	public MultiLineString getName() {
+		return name;
+	}
 
-  /*
-   * public void removeNode(Graph g, Node n) { List fields = getChildren(); if
-   * (n == this) { for (int i = fields.size() - 1; i >= 0; i--) {
-   * g.removeNode((Node)fields.get(i)); } } }
-   */
-  /**
-   * This is a patch to ensure that object diagrams can be read back in
-   * correctly.
-   * @param n Node
-   */
-  public void addChild(Node n) {
-    super.addChild(n);
-    Rectangle2D b = getBounds();
-    b.add(
-        new Rectangle2D.Double(b.getX(), b.getY() + b.getHeight(), FieldNode.DEFAULT_WIDTH, FieldNode.DEFAULT_HEIGHT));
-    setBounds(b);
-  }
+	/**
+	 * Creates a clone
+	 * 
+	 * @return the clone
+	 */
+	public Object clone() {
+		ObjectNode cloned = (ObjectNode) super.clone();
+		cloned.name = (MultiLineString) name.clone();
+		return cloned;
+	}
 
-  private double topHeight;
-  private MultiLineString name;
+	/**
+	 * Adds a new node at a point
+	 * 
+	 * @param n
+	 *            node
+	 * @param p
+	 *            point
+	 * @return point is added
+	 */
+	public boolean addNode(Node n, Point2D p) {
+		List fields = getChildren();
+		if (n instanceof PointNode)
+			return true;
+		if (!(n instanceof FieldNode))
+			return false;
+		if (fields.contains(n))
+			return true;
+		int i = 0;
+		while (i < fields.size() && ((Node) fields.get(i)).getBounds().getY() < p.getY())
+			i++;
+		addChild(i, n);
+		return true;
+	}
 
-  private static int DEFAULT_WIDTH = 80;
-  private static int DEFAULT_HEIGHT = 60;
-  private static int XGAP = 5;
-  private static int YGAP = 5;
+	/*
+	 * public void removeNode(Graph g, Node n) { List fields = getChildren(); if
+	 * (n == this) { for (int i = fields.size() - 1; i >= 0; i--) {
+	 * g.removeNode((Node)fields.get(i)); } } }
+	 */
+	/**
+	 * This is a patch to ensure that object diagrams can be read back in
+	 * correctly.
+	 * 
+	 * @param n
+	 *            Node
+	 */
+	public void addChild(Node n) {
+		super.addChild(n);
+		Rectangle2D b = getBounds();
+		b.add(new Rectangle2D.Double(b.getX(), b.getY() + b.getHeight(), FieldNode.DEFAULT_WIDTH,
+				FieldNode.DEFAULT_HEIGHT));
+		setBounds(b);
+	}
+
+	private double topHeight;
+	private MultiLineString name;
+
+	private static int DEFAULT_WIDTH = 80;
+	private static int DEFAULT_HEIGHT = 60;
+	private static int XGAP = 5;
+	private static int YGAP = 5;
+	private int id;
+
+	@Override
+	public void setID(int i) {
+		this.id = i;
+	}
+
+	@Override
+	public int getID() {
+		return this.id;
+	}
 }

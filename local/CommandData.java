@@ -1,7 +1,7 @@
 package local;
 
 import java.io.Serializable;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * CommandData class
@@ -9,8 +9,9 @@ import java.util.LinkedList;
  */
 public class CommandData implements Serializable {
   private int UserId;
-  private LinkedList<Command> commands;
+  private ArrayList<Command> commands;
   private int size;
+  private int pointer;
 
   /**
    * Constructor for add node
@@ -18,7 +19,7 @@ public class CommandData implements Serializable {
    */
   public CommandData() {
     this.size = 0;
-    commands = new LinkedList<>();
+    commands = new ArrayList<>();
   }
 
   /**
@@ -41,9 +42,9 @@ public class CommandData implements Serializable {
   /**
    * Removes the first command
    */
-  public void remove() {
+  public void remove(int i) {
+    commands.remove(i);
     size--;
-    commands.poll();
   }
 
   /**
@@ -57,7 +58,9 @@ public class CommandData implements Serializable {
   /**
    * Resets commands
    */
-  public void resetQ() {
-    commands = new LinkedList<>();
+  public void resetPointer(int i) {
+    pointer = i;
   }
+  
+  
 }

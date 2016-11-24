@@ -32,57 +32,76 @@ import com.horstmann.violet.framework.RectangularNode;
  * A use case node in a use case diagram.
  */
 public class UseCaseNode extends RectangularNode {
-  /**
-   * Construct a use case node with a default size
-   */
-  public UseCaseNode() {
-    name = new MultiLineString();
-    setBounds(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
-  }
+	private int id;
 
-  @Override
-  public void draw(Graphics2D g2) {
-    super.draw(g2);
-    g2.draw(getShape());
-    name.draw(g2, getBounds());
-  }
-  /**
-   * Creates a new shape
-   * @return a new circle
-   */
-  public Shape getShape() {
-    return new Ellipse2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(),
-        getBounds().getHeight());
-  }
+	/**
+	 * Construct a use case node with a default size
+	 */
+	public UseCaseNode() {
+		name = new MultiLineString();
+		setBounds(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
+		this.id = -1;
+	}
 
-  /**
-   * Sets the name property value.
-   * @param newValue the new use case name
-   */
-  public void setName(MultiLineString newValue) {
-    name = newValue;
-  }
+	@Override
+	public void draw(Graphics2D g2) {
+		super.draw(g2);
+		g2.draw(getShape());
+		name.draw(g2, getBounds());
+	}
 
-  /**
-   * Gets the name property value.
-   * @return new name
-   */
-  public MultiLineString getName() {
-    return name;
-  }
+	/**
+	 * Creates a new shape
+	 * 
+	 * @return a new circle
+	 */
+	public Shape getShape() {
+		return new Ellipse2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(),
+				getBounds().getHeight());
+	}
 
-  /**
-   * Creates a clone of the object
-   * @return the clone
-   */
-  public Object clone() {
-    UseCaseNode cloned = (UseCaseNode) super.clone();
-    cloned.name = (MultiLineString) name.clone();
-    return cloned;
-  }
-  
-  private MultiLineString name;
+	/**
+	 * Sets the name property value.
+	 * 
+	 * @param newValue
+	 *            the new use case name
+	 */
+	public void setName(MultiLineString newValue) {
+		name = newValue;
+	}
 
-  private static int DEFAULT_WIDTH = 110;
-  private static int DEFAULT_HEIGHT = 40;
+	/**
+	 * Gets the name property value.
+	 * 
+	 * @return new name
+	 */
+	public MultiLineString getName() {
+		return name;
+	}
+
+	/**
+	 * Creates a clone of the object
+	 * 
+	 * @return the clone
+	 */
+	public Object clone() {
+		UseCaseNode cloned = (UseCaseNode) super.clone();
+		cloned.name = (MultiLineString) name.clone();
+		return cloned;
+	}
+
+	private MultiLineString name;
+
+	private static int DEFAULT_WIDTH = 110;
+	private static int DEFAULT_HEIGHT = 40;
+
+	@Override
+	public void setID(int i) {
+		this.id = i;
+	}
+
+	@Override
+	public int getID() {
+		return this.id;
+	}
 }

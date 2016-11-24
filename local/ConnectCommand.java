@@ -11,7 +11,6 @@ import com.horstmann.violet.framework.Graph;
  *
  */
 public class ConnectCommand implements Command {
-  Graph graph;
   Edge e;
   Point2D p1;
   Point2D p2;
@@ -23,15 +22,14 @@ public class ConnectCommand implements Command {
    * @param p1 first point
    * @param p2 second point
    */
-  public ConnectCommand(Graph graph, Edge e, Point2D p1, Point2D p2) {
-    this.graph = graph;
+  public ConnectCommand(Edge e, Point2D p1, Point2D p2) {
     this.e = e;
     this.p1 = p1;
     this.p2 = p2;
   }
 
   @Override
-  public void execute() {
+  public void execute(Graph graph) {
     graph.connect(e, p1, p2, true);
   }
 
