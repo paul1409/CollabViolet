@@ -7,7 +7,11 @@ import static play.test.Helpers.*;
 import static org.junit.Assert.*;
 
 import static org.fluentlenium.core.filter.FilterConstructor.*;
-
+/**
+ * Framwork's class
+ * @author reyoungwang
+ *
+ */
 public class IntegrationTest {
 
     /**

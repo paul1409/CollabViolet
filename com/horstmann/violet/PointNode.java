@@ -32,50 +32,50 @@ import com.horstmann.violet.framework.Direction;
  * to serve as an end point of the node connector.
  */
 public class PointNode extends AbstractNode {
-	private int id;
+    private int id;
 
-	/**
-	 * Constructs a point node with coordinates (0, 0)
-	 */
-	public PointNode() {
-		point = new Point2D.Double();
-		this.id = -1;
-	}
+    /**
+     * Constructs a point node with coordinates (0, 0)
+     */
+    public PointNode() {
+        point = new Point2D.Double();
+        this.id = -1;
+    }
 
-	@Override
-	public void draw(Graphics2D g2) {
-	}
+    @Override
+    public void draw(Graphics2D g2) {
+    }
 
-	@Override
-	public void translate(double dx, double dy) {
-		point.setLocation(point.getX() + dx, point.getY() + dy);
-	}
+    @Override
+    public void translate(double dx, double dy) {
+        point.setLocation(point.getX() + dx, point.getY() + dy);
+    }
 
-	@Override
-	public boolean contains(Point2D p) {
-		final double THRESHOLD = 5;
-		return point.distance(p) < THRESHOLD;
-	}
+    @Override
+    public boolean contains(Point2D p) {
+        final double THRESHOLD = 5;
+        return point.distance(p) < THRESHOLD;
+    }
 
-	@Override
-	public Rectangle2D getBounds() {
-		return new Rectangle2D.Double(point.getX(), point.getY(), 0, 0);
-	}
+    @Override
+    public Rectangle2D getBounds() {
+        return new Rectangle2D.Double(point.getX(), point.getY(), 0, 0);
+    }
 
-	@Override
-	public Point2D getConnectionPoint(Direction d) {
-		return point;
-	}
+    @Override
+    public Point2D getConnectionPoint(Direction d) {
+        return point;
+    }
 
-	private Point2D point;
+    private Point2D point;
 
-	@Override
-	public void setID(int i) {
-		this.id = i;
-	}
+    @Override
+    public void setID(int i) {
+        this.id = i;
+    }
 
-	@Override
-	public int getID() {
-		return this.id;
-	}
+    @Override
+    public int getID() {
+        return this.id;
+    }
 }

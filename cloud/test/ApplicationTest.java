@@ -27,13 +27,18 @@ import static org.junit.Assert.*;
  *
  */
 public class ApplicationTest {
-
+    /**
+     * Framework's method
+     */
     @Test
     public void simpleCheck() {
         int a = 1 + 1;
         assertEquals(2, a);
     }
 
+    /**
+     * Framework's method
+     */
     @Test
     public void renderTemplate() {
         Content html = views.html.index.render("Your new application is ready.");

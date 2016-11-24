@@ -32,76 +32,76 @@ import com.horstmann.violet.framework.RectangularNode;
  * A use case node in a use case diagram.
  */
 public class UseCaseNode extends RectangularNode {
-	private int id;
+    private int id;
 
-	/**
-	 * Construct a use case node with a default size
-	 */
-	public UseCaseNode() {
-		name = new MultiLineString();
-		setBounds(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
-		this.id = -1;
-	}
+    /**
+     * Construct a use case node with a default size
+     */
+    public UseCaseNode() {
+        name = new MultiLineString();
+        setBounds(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        this.id = -1;
+    }
 
-	@Override
-	public void draw(Graphics2D g2) {
-		super.draw(g2);
-		g2.draw(getShape());
-		name.draw(g2, getBounds());
-	}
+    @Override
+    public void draw(Graphics2D g2) {
+        super.draw(g2);
+        g2.draw(getShape());
+        name.draw(g2, getBounds());
+    }
 
-	/**
-	 * Creates a new shape
-	 * 
-	 * @return a new circle
-	 */
-	public Shape getShape() {
-		return new Ellipse2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(),
-				getBounds().getHeight());
-	}
+    /**
+     * Creates a new shape
+     * 
+     * @return a new circle
+     */
+    public Shape getShape() {
+        return new Ellipse2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(),
+                getBounds().getHeight());
+    }
 
-	/**
-	 * Sets the name property value.
-	 * 
-	 * @param newValue
-	 *            the new use case name
-	 */
-	public void setName(MultiLineString newValue) {
-		name = newValue;
-	}
+    /**
+     * Sets the name property value.
+     * 
+     * @param newValue
+     *            the new use case name
+     */
+    public void setName(MultiLineString newValue) {
+        name = newValue;
+    }
 
-	/**
-	 * Gets the name property value.
-	 * 
-	 * @return new name
-	 */
-	public MultiLineString getName() {
-		return name;
-	}
+    /**
+     * Gets the name property value.
+     * 
+     * @return new name
+     */
+    public MultiLineString getName() {
+        return name;
+    }
 
-	/**
-	 * Creates a clone of the object
-	 * 
-	 * @return the clone
-	 */
-	public Object clone() {
-		UseCaseNode cloned = (UseCaseNode) super.clone();
-		cloned.name = (MultiLineString) name.clone();
-		return cloned;
-	}
+    /**
+     * Creates a clone of the object
+     * 
+     * @return the clone
+     */
+    public Object clone() {
+        UseCaseNode cloned = (UseCaseNode) super.clone();
+        cloned.name = (MultiLineString) name.clone();
+        return cloned;
+    }
 
-	private MultiLineString name;
+    private MultiLineString name;
 
-	private static int DEFAULT_WIDTH = 110;
-	private static int DEFAULT_HEIGHT = 40;
+    private static int DEFAULT_WIDTH = 110;
+    private static int DEFAULT_HEIGHT = 40;
 
-	@Override
-	public void setID(int i) {
-		this.id = i;
-	}
+    @Override
+    public void setID(int i) {
+        this.id = i;
+    }
 
-	@Override
-	public int getID() {
-		return this.id;
-	}
+    @Override
+    public int getID() {
+        return this.id;
+    }
 }

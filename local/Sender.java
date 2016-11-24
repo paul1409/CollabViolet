@@ -106,9 +106,9 @@ public class Sender {
 
     /**
      * 
-     * @param is
-     * @return
-     * @throws IOException
+     * @param is the input stream
+     * @return the string result 
+     * @throws IOException 
      */
     public static String inputStreamToString(InputStream is) throws IOException {
         BufferedReader br = null;
