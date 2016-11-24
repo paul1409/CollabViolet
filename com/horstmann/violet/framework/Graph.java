@@ -31,6 +31,7 @@ import java.beans.Statement;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -44,6 +45,7 @@ import javax.swing.Timer;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import local.AddNodeCommand;
@@ -533,11 +535,18 @@ public abstract class Graph implements Serializable {
                 while ((ipl = in.readLine()) != null) {
                   File input = stringToFile(URLDecoder.decode(ipl,"UTF-8"));
                   // handler this ser file here 
+                  
+                  // Bing's code
+                  ObjectInputStream ois = new ObjectInputStream(new FileInputStream(input));
+                  CommandData theCD = (CommandData) ois.readObject();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     /**
