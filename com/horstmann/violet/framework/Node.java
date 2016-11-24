@@ -34,14 +34,14 @@ public interface Node extends Serializable, Cloneable {
     /**
      * Set an id to this Node
      * 
-     * @param i
+     * @param i the id 
      */
     void setID(int i);
 
     /**
      * Gets the ID
      * 
-     * @return
+     * @return the id 
      */
     int getID();
 
