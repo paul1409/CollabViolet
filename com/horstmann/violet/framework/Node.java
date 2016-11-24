@@ -30,6 +30,18 @@ import java.util.List;
  * A node in a graph.
  */
 public interface Node extends Serializable, Cloneable {
+	
+	/**
+	 * Set an id to this Node
+	 * @param i
+	 */
+	void setID(int i);
+	
+	/**
+	 * Gets the ID
+	 * @return
+	 */
+	int getID();
   /**
    * Draw the node.
    * @param g2 the graphics context
