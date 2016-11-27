@@ -1,0 +1,226 @@
+Issues list: No
+
+It doesn't seem that there are sufficient issues to keep each team member busy for the remainder of the project.
+
+The project builds and works: No
+
+$ ant init jar run
+Buildfile: /tmp/projects/CollabViolet2/build.xml
+
+clean:
+   [delete] Deleting directory /tmp/projects/CollabViolet2/bin
+
+init:
+    [mkdir] Created dir: /tmp/projects/CollabViolet2/bin
+     [copy] Copying 214 files to /tmp/projects/CollabViolet2/bin
+    [javac] Compiling 104 source files
+    [javac] /tmp/projects/CollabViolet2/local/CommandData.java:5: error: package com.fasterxml.jackson.annotation does not exist
+    [javac] import com.fasterxml.jackson.annotation.JsonCreator;
+    [javac]                                        ^
+    [javac] /tmp/projects/CollabViolet2/local/CommandData.java:6: error: package com.fasterxml.jackson.annotation does not exist
+    [javac] import com.fasterxml.jackson.annotation.JsonProperty;
+    [javac]                                        ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:10: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.FileContents;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:11: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.FileOpenService;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:12: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.FileSaveService;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:13: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.ServiceManager;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:14: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.UnavailableServiceException;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:107: error: cannot find symbol
+    [javac]   private FileOpenService openService;
+    [javac]           ^
+    [javac]   symbol:   class FileOpenService
+    [javac]   location: class JNLPFileService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:108: error: cannot find symbol
+    [javac]   private FileSaveService saveService;
+    [javac]           ^
+    [javac]   symbol:   class FileSaveService
+    [javac]   location: class JNLPFileService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:11: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.BasicService;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:12: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.FileContents;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:13: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.PersistenceService;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:14: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.ServiceManager;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:15: error: package javax.jnlp does not exist
+    [javac] import javax.jnlp.UnavailableServiceException;
+    [javac]                  ^
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:100: error: cannot find symbol
+    [javac]   private PersistenceService service;
+    [javac]           ^
+    [javac]   symbol:   class PersistenceService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/local/CommandData.java:22: error: cannot find symbol
+    [javac]   public CommandData(@JsonProperty("Command") Command command, @JsonProperty("id") int id) {
+    [javac]                       ^
+    [javac]   symbol:   class JsonProperty
+    [javac]   location: class CommandData
+    [javac] /tmp/projects/CollabViolet2/local/CommandData.java:22: error: cannot find symbol
+    [javac]   public CommandData(@JsonProperty("Command") Command command, @JsonProperty("id") int id) {
+    [javac]                                                                 ^
+    [javac]   symbol:   class JsonProperty
+    [javac]   location: class CommandData
+    [javac] /tmp/projects/CollabViolet2/local/CommandData.java:21: error: cannot find symbol
+    [javac]   @JsonCreator
+    [javac]    ^
+    [javac]   symbol:   class JsonCreator
+    [javac]   location: class CommandData
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:29: error: cannot find symbol
+    [javac]       openService = (FileOpenService) ServiceManager.lookup("javax.jnlp.FileOpenService");
+    [javac]                      ^
+    [javac]   symbol:   class FileOpenService
+    [javac]   location: class JNLPFileService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:29: error: cannot find symbol
+    [javac]       openService = (FileOpenService) ServiceManager.lookup("javax.jnlp.FileOpenService");
+    [javac]                                       ^
+    [javac]   symbol:   variable ServiceManager
+    [javac]   location: class JNLPFileService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:30: error: cannot find symbol
+    [javac]       saveService = (FileSaveService) ServiceManager.lookup("javax.jnlp.FileSaveService");
+    [javac]                      ^
+    [javac]   symbol:   class FileSaveService
+    [javac]   location: class JNLPFileService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:30: error: cannot find symbol
+    [javac]       saveService = (FileSaveService) ServiceManager.lookup("javax.jnlp.FileSaveService");
+    [javac]                                       ^
+    [javac]   symbol:   variable ServiceManager
+    [javac]   location: class JNLPFileService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:32: error: cannot find symbol
+    [javac]     catch (UnavailableServiceException ex) {
+    [javac]            ^
+    [javac]   symbol:   class UnavailableServiceException
+    [javac]   location: class JNLPFileService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:46: error: cannot find symbol
+    [javac]     final FileContents contents = openService.openFileDialog(defaultDirectory, filter.getExtensions());
+    [javac]           ^
+    [javac]   symbol:   class FileContents
+    [javac]   location: class JNLPFileService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPFileService.java:95: error: cannot find symbol
+    [javac]       private FileContents contents;
+    [javac]               ^
+    [javac]   symbol: class FileContents
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:27: error: cannot find symbol
+    [javac]       service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+    [javac]                  ^
+    [javac]   symbol:   class PersistenceService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:27: error: cannot find symbol
+    [javac]       service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+    [javac]                                      ^
+    [javac]   symbol:   variable ServiceManager
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:29: error: cannot find symbol
+    [javac]     catch (UnavailableServiceException ex) {
+    [javac]            ^
+    [javac]   symbol:   class UnavailableServiceException
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:42: error: cannot find symbol
+    [javac]       BasicService basic = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+    [javac]       ^
+    [javac]   symbol:   class BasicService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:42: error: cannot find symbol
+    [javac]       BasicService basic = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+    [javac]                             ^
+    [javac]   symbol:   class BasicService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:42: error: cannot find symbol
+    [javac]       BasicService basic = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+    [javac]                                           ^
+    [javac]   symbol:   variable ServiceManager
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:45: error: cannot find symbol
+    [javac]       PersistenceService service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+    [javac]       ^
+    [javac]   symbol:   class PersistenceService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:45: error: cannot find symbol
+    [javac]       PersistenceService service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+    [javac]                                     ^
+    [javac]   symbol:   class PersistenceService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:45: error: cannot find symbol
+    [javac]       PersistenceService service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+    [javac]                                                         ^
+    [javac]   symbol:   variable ServiceManager
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:48: error: cannot find symbol
+    [javac]       FileContents contents = service.get(keyURL);
+    [javac]       ^
+    [javac]   symbol:   class FileContents
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:54: error: cannot find symbol
+    [javac]     catch (UnavailableServiceException e) {
+    [javac]            ^
+    [javac]   symbol:   class UnavailableServiceException
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:73: error: cannot find symbol
+    [javac]       BasicService basic = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+    [javac]       ^
+    [javac]   symbol:   class BasicService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:73: error: cannot find symbol
+    [javac]       BasicService basic = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+    [javac]                             ^
+    [javac]   symbol:   class BasicService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:73: error: cannot find symbol
+    [javac]       BasicService basic = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+    [javac]                                           ^
+    [javac]   symbol:   variable ServiceManager
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:76: error: cannot find symbol
+    [javac]       PersistenceService service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+    [javac]       ^
+    [javac]   symbol:   class PersistenceService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:76: error: cannot find symbol
+    [javac]       PersistenceService service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+    [javac]                                     ^
+    [javac]   symbol:   class PersistenceService
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:76: error: cannot find symbol
+    [javac]       PersistenceService service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+    [javac]                                                         ^
+    [javac]   symbol:   variable ServiceManager
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:84: error: cannot find symbol
+    [javac]       FileContents contents = service.get(keyURL);
+    [javac]       ^
+    [javac]   symbol:   class FileContents
+    [javac]   location: class JNLPPreferencesService
+    [javac] /tmp/projects/CollabViolet2/com/horstmann/violet/framework/JNLPPreferencesService.java:89: error: cannot find symbol
+    [javac]     catch (UnavailableServiceException e) {
+    [javac]            ^
+    [javac]   symbol:   class UnavailableServiceException
+    [javac]   location: class JNLPPreferencesService
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+    [javac] 44 errors
+
+BUILD FAILED
+/tmp/projects/CollabViolet2/build.xml:27: Compile failed; see the compiler error output for details.
+
+Total time: 1 second
+
+
+Status page: Ok
+
+Commits: Ok
+
+
