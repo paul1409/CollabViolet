@@ -31,16 +31,25 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.io.StringBufferInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+
+import local.Sender;
 import local.AddNodeCommand;
 import local.CommandData;
 import local.ConnectCommand;
@@ -442,13 +451,14 @@ public abstract class Graph implements Serializable {
    * @param aCommand a command to send
    * @return a serialized file
    */
-  public File serialize(CommandData aCommand) {
-    File result = null;
+  public byte[] serialize(CommandData aCommand) {
+      byte[] result = null;
     try {
-      ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("command.ser"));
+      ByteOutputStream bos = new ByteOutputStream();
+      ObjectOutputStream out = new ObjectOutputStream(bos);
       out.writeObject(aCommand);
       out.close();
-      result = new File("command.ser");
+      result = bos.getBytes();
     }
     catch (IOException e) {
       e.printStackTrace();
@@ -461,9 +471,9 @@ public abstract class Graph implements Serializable {
    * @param aCommand to send
    */
   public void send(CommandData aCommand) {
-    File file = serialize(aCommand);
-    Sender sender = new Sender(file, roomID);
-    sender.send();
+      byte[] content = serialize(aCommand);
+      Base64.Encoder ec = Base64.getEncoder();
+      sender.sendString(ec.encodeToString(content));
   }
 
   /**
@@ -482,13 +492,14 @@ public abstract class Graph implements Serializable {
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         String ipl;
         while ((ipl = in.readLine()) != null) {
-          File input = stringToFile(URLDecoder.decode(ipl, "UTF-8"));
-          // handler this ser file here
+          //String content = URLDecoder.decode(ipl, "UTF-8");
+          Base64.Decoder dc = Base64.getDecoder();
+          InputStream ips = new ByteInputStream(dc.decode(ipl),dc.decode(ipl).length);
 
           // Bing's code
-          ObjectInputStream ois = new ObjectInputStream(new FileInputStream(input));
+          ObjectInputStream ois = new ObjectInputStream(ips);
           CommandData theCD = (CommandData) ois.readObject();
-          System.out.println(theCD.getID());
+          //Ruiyang edit something, successfuly sync command object Bing continue below
         }
       }
     }
@@ -524,6 +535,7 @@ public abstract class Graph implements Serializable {
    */
   public void setID(String id) {
     this.roomID = id;
+    sender = new Sender(this.roomID);
   }
 
   private String roomID;
@@ -531,6 +543,7 @@ public abstract class Graph implements Serializable {
   private CommandData commands;
   private ArrayList<Node> nodes;
   private ArrayList<Edge> edges;
+  private Sender sender;
   private transient ArrayList<Node> nodesToBeRemoved;
   private transient ArrayList<Edge> edgesToBeRemoved;
   private transient boolean needsLayout;

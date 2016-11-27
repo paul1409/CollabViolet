@@ -6,10 +6,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Base64;
+
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+
+import local.CommandData;
 
 
 /**
@@ -19,19 +27,15 @@ import java.net.URLEncoder;
  *
  */
 public class Sender {
-    private Object cache;
     private String id;
 
     /**
      * Construct sender
      * 
-     * @param cache
-     *            the file to send
      * @param id
      *            the id of this violet
      */
-    public Sender(Object cache, String id) {
-        this.cache = cache;
+    public Sender(String id) {
         this.id = id;
     }
 
@@ -76,19 +80,18 @@ public class Sender {
      * @throws IOException
      *             too many exceptions
      */
-    public void send() {
+    public void sendString(String content) {
         try {
             String dest = "http://localhost:9000/addAction/" + id + "/";
             URL url = new URL(dest);
             //FileReader fr = new FileReader((File) cache);
-            FileInputStream fi = new FileInputStream((File)cache);
-            String content = inputStreamToString(fi);
             //BufferedReader br = new BufferedReader(fr);
             //StringBuilder sb = new StringBuilder();
             //while (br.readLine() != null) {
               //  sb.append(br.readLine());
             //}
-            String parame = URLEncoder.encode(content,"UTF-8");
+            //String parame = URLEncoder.encode(content,"UTF-8");
+            String parame = content;
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
@@ -100,8 +103,9 @@ public class Sender {
             int response = connection.getResponseCode();
             System.out.println(response);
         } catch(IOException e) {
+            e.printStackTrace();
             
-        }
+        } 
     }
 
     /**
