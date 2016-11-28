@@ -214,9 +214,6 @@ public class MultiLineString implements Cloneable, Serializable {
     }
   }
   
-  public void setLabel() {
-      label= new JLabel();
-  }
 
   public static final int LEFT = 0;
   public static final int CENTER = 1;
@@ -232,5 +229,5 @@ public class MultiLineString implements Cloneable, Serializable {
   private int size;
   private boolean underlined;
 
-  private transient JLabel label = new JLabel();
+  private JLabel label = new JLabel();
 }

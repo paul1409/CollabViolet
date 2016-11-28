@@ -273,11 +273,7 @@ public class CallNode extends RectangularNode {
     public void setOpenBottom(boolean newValue) {
         openBottom = newValue;
     }
-    
-    @Override
-    public void setMSLabel() {
-        return;
-    }
+
 
     private ImplicitParameterNode implicitParameter;
     private boolean signaled;

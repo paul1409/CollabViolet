@@ -129,12 +129,7 @@ public class InterfaceNode extends RectangularNode {
         return methods;
     }
     
-    @Override
-    public void setMSLabel() {
-        name.setLabel();
-        methods.setLabel();
-        
-    }
+
 
     @Override
     public Object clone() {

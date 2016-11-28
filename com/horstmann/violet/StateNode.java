@@ -96,10 +96,7 @@ public class StateNode extends RectangularNode {
         return name;
     }
     
-    @Override
-    public void setMSLabel() {
-        name.setLabel();
-    }
+
 
     @Override
     public Object clone() {

@@ -194,5 +194,4 @@ public interface Node extends Serializable, Cloneable {
      */
     Object clone();
     
-    void setMSLabel();
 }

@@ -79,9 +79,5 @@ public class PointNode extends AbstractNode {
         return this.id;
     }
 
-    @Override
-    public void setMSLabel() {
-        // TODO Auto-generated method stub
-        
-    }
+
 }

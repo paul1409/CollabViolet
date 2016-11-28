@@ -79,10 +79,6 @@ public class UseCaseNode extends RectangularNode {
         return name;
     }
     
-    @Override
-    public void setMSLabel() {
-        name.setLabel();
-    }
     /**
      * Creates a clone of the object
      * 

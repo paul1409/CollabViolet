@@ -149,10 +149,7 @@ public class NoteNode extends RectangularNode {
         return path;
     }
     
-    @Override
-    public void setMSLabel() {
-        text.setLabel();
-    }
+
 
     @Override
     public Object clone() {

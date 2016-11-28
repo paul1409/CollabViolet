@@ -160,10 +160,7 @@ public class PackageNode extends RectangularNode {
         return contents;
     }
     
-    @Override
-    public void setMSLabel() {
-        contents.setLabel();
-    }
+
 
     @Override
     public Object clone() {
