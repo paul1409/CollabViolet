@@ -152,6 +152,13 @@ public class ClassNode extends RectangularNode {
     public MultiLineString getMethods() {
         return methods;
     }
+    
+    @Override
+    public void setMSLabel() {
+        name.setLabel();
+        attributes.setLabel();
+        methods.setLabel();
+    }
 
     @Override
     public Object clone() {

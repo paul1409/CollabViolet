@@ -78,7 +78,11 @@ public class UseCaseNode extends RectangularNode {
     public MultiLineString getName() {
         return name;
     }
-
+    
+    @Override
+    public void setMSLabel() {
+        name.setLabel();
+    }
     /**
      * Creates a clone of the object
      * 

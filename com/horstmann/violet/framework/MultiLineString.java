@@ -190,7 +190,7 @@ public class MultiLineString implements Cloneable, Serializable {
    * @param r the rectangle into which to place this multiline string
    */
   public void draw(Graphics2D g2, Rectangle2D r) {
-    // setLabelText();
+     //setLabelText();
     label.setFont(g2.getFont());
     label.setBounds(0, 0, (int) r.getWidth(), (int) r.getHeight());
     g2.translate(r.getX(), r.getY());
@@ -212,6 +212,10 @@ public class MultiLineString implements Cloneable, Serializable {
     catch (CloneNotSupportedException exception) {
       return null;
     }
+  }
+  
+  public void setLabel() {
+      label= new JLabel();
   }
 
   public static final int LEFT = 0;

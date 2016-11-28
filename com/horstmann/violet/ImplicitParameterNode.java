@@ -127,6 +127,12 @@ public class ImplicitParameterNode extends RectangularNode {
     public MultiLineString getName() {
         return name;
     }
+    
+    @Override
+    public void setMSLabel() {
+       name.setLabel();
+        
+    }
 
     @Override
     public Object clone() {

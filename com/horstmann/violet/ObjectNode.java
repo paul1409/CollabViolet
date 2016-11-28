@@ -212,6 +212,11 @@ public class ObjectNode extends RectangularNode {
                 FieldNode.DEFAULT_HEIGHT));
         setBounds(b);
     }
+    
+    @Override
+    public void setMSLabel() {
+        name.setLabel();
+    }
 
     private double topHeight;
     private MultiLineString name;

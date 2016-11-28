@@ -102,6 +102,11 @@ public class CircularStateNode extends RectangularNode {
         } else
             g2.fill(circle);
     }
+    
+    @Override
+    public void setMSLabel() {
+        return;
+    }
 
     @Override
     public Shape getShape() {

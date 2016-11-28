@@ -159,6 +159,11 @@ public class PackageNode extends RectangularNode {
     public MultiLineString getContents() {
         return contents;
     }
+    
+    @Override
+    public void setMSLabel() {
+        contents.setLabel();
+    }
 
     @Override
     public Object clone() {

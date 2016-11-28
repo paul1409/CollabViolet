@@ -128,6 +128,13 @@ public class InterfaceNode extends RectangularNode {
     public MultiLineString getMethods() {
         return methods;
     }
+    
+    @Override
+    public void setMSLabel() {
+        name.setLabel();
+        methods.setLabel();
+        
+    }
 
     @Override
     public Object clone() {

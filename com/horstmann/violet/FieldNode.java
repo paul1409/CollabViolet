@@ -203,7 +203,13 @@ public class FieldNode extends RectangularNode {
     public double getAxisX() {
         return axisX;
     }
-
+    
+    @Override
+    public void setMSLabel() {
+        name.setLabel();
+        value.setLabel();
+    }
+    
     @Override
     public Shape getShape() {
         if (boxedValue)

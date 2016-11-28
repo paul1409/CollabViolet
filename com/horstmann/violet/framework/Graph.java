@@ -500,6 +500,7 @@ public abstract class Graph implements Serializable {
           ObjectInputStream ois = new ObjectInputStream(ips);
           CommandData theCD = (CommandData) ois.readObject();
           //Ruiyang edit something, successfuly sync command object Bing continue below
+          theCD.getCommand().execute(this);
         }
       }
     }
@@ -512,21 +513,6 @@ public abstract class Graph implements Serializable {
     }
   }
 
-  /**
-   * Output the string to file
-   * @param input the sting to be wriiten
-   * @return a .ser filer
-   * @throws IOException
-   */
-  private File stringToFile(String input) throws IOException {
-    File result = null;
-    FileOutputStream fos = new FileOutputStream("Sync.ser");
-    fos.write(input.getBytes());
-    fos.flush();
-    fos.close();
-    result = new File("Sync.ser");
-    return result;
-  }
 
   /**
    * Sets an ID
