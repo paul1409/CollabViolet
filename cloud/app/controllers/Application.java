@@ -4,7 +4,8 @@ import play.mvc.*;
 
 import java.io.File;
 import java.util.ArrayList;
-
+import akka.util.ByteString;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import Application.Room;
 /**
@@ -53,7 +54,10 @@ public class Application extends Controller {
     public Result checkUpdate(int id,int number) {
         Room r = roomList.get(id);
         if(r.isIn(request().remoteAddress())) {
-            return ok("ok" + r.sync(number));
+            if(r.isNewest(number))
+                return status(888,"No Update");
+            else
+                return ok(r.sync(number));
         } else
             return badRequest("Error");
     }
@@ -65,6 +69,7 @@ public class Application extends Controller {
      */
     @BodyParser.Of(BodyParser.AnyContent.class)
     public Result addAction(int roomID) {
+        
         String command = request().body().asText();
         Room r = roomList.get(roomID);
         String ip = request().remoteAddress();

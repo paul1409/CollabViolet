@@ -1,5 +1,5 @@
-New log file opened at Wed Nov 23 23:20:31 PST 2016 by 5902@ReyoungdeMacBook-Pro.local
-jvm 5902@ReyoungdeMacBook-Pro.local
+New log file opened at Sun Nov 27 20:41:09 PST 2016 by 47898@ReyoungdeMacBook-Pro.local
+jvm 47898@ReyoungdeMacBook-Pro.local
 jvm vmName=Java HotSpot(TM) 64-Bit Server VM vmVendor=Oracle Corporation vmVersion=25.51-b03
 jvm specName=Java Virtual Machine Specification specVendor=Oracle Corporation specVersion=1.8
 jvm arguments: [-Xms256m, -Xmx1024m, -XX:MetaspaceSize=64m, -XX:MaxMetaspaceSize=256m]
@@ -27,7 +27,7 @@ sorting: ns: List(sbt.plugins.CorePlugin, sbt.plugins.IvyPlugin, sbt.plugins.Jvm
   :: sorted deduced result: List(sbt.plugins.CorePlugin, sbt.plugins.IvyPlugin, sbt.plugins.JvmPlugin, sbt.plugins.JUnitXmlReportPlugin)
 [Loading] Done in /Users/reyoungwang/Documents/cloud/project, returning: (cloud-build)
 Loading project definition from /Users/reyoungwang/Documents/cloud/project
-Running task... Cancel: sbt.TaskCancellationStrategy$Null$@5ffb69ea, check cycles: false
+Running task... Cancel: sbt.TaskCancellationStrategy$Null$@7364c862, check cycles: false
 
 Initial source changes: 
 	removed:Set()
@@ -73,4 +73,4 @@ Waiting for socket thread
 Waiting for request processor thread
 Waiting for command engine result
 Returning control to sbt launcher with result Exit(0)
-Closing the 5902@ReyoungdeMacBook-Pro.local logs at Wed Nov 23 23:20:36 PST 2016, goodbye.
+Closing the 47898@ReyoungdeMacBook-Pro.local logs at Sun Nov 27 20:41:14 PST 2016, goodbye.
