@@ -492,7 +492,7 @@ public abstract class Graph implements Serializable {
    */
   public void checkUpdate() {
 	  // mark
-      System.out.println("local size" + commandList.size());
+      System.out.println("local size" + this.getTotalSize());
       System.out.println("node size : " + nodes.size());
     String dest = "http://localhost:9000/checkUpdate/" + roomID + "/" + this.getTotalSize();
     URL url;
@@ -516,6 +516,7 @@ public abstract class Graph implements Serializable {
           //Ruiyang edit something, successfuly sync command object Bing continue below
           System.out.println("update"); // mark
           cloudList.add(theCD);
+          System.out.println(theCD.getCommand().getClass());  // Mark
           theCD.getCommand().execute(this);
         }
         System.out.println("jump out");
