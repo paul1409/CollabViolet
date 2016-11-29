@@ -118,7 +118,7 @@ public class GraphFrame extends JInternalFrame {
   public void setId(String id) {
       this.ID = id;
       this.graph.setID(id);
-      this.graph.send();
+      this.graph.send(); // send the commands before the client 1 click the collaborate button
   }
   
   /**

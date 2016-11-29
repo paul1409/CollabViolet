@@ -158,6 +158,8 @@ public abstract class Graph implements Serializable {
     }
     if (insideANode && !accepted) return false;
     nodes.add(n);
+    int nodeID = nodes.size() - 1;
+    n.setID(nodeID);
     needsLayout = true;
     return true;
   }
