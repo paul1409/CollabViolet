@@ -17,6 +17,7 @@ import java.awt.Container;
 import java.awt.geom.Point2D;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -28,6 +29,8 @@ import java.util.Stack;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.Timer;
+
 import com.horstmann.violet.StateNode;
 
 /**
@@ -125,11 +128,23 @@ public class GraphFrame extends JInternalFrame {
       return this.ID;
   }
   
+  public void startCollab() {
+      ActionListener listener = event -> this.getGraph().checkUpdate();
+      final int DELAY = 1000;
+      t = new Timer(DELAY, listener);
+      t.start();
+  }
+  
+  public void stopCollab() {
+      t.stop();
+  }
+  
 
   private String ID;
   private Graph graph;
   private GraphPanel panel;
   private ToolBar toolBar;
   private String fileName;
+  private Timer t;
 
 }

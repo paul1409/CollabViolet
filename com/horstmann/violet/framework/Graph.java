@@ -480,6 +480,7 @@ public abstract class Graph implements Serializable {
    * Checks for updates to the file
    */
   public void checkUpdate() {
+      System.out.println(1);
     String dest = "http://localhost:9000/checkUpdate/" + roomID + "/" + commandList.size();
     URL url;
     try {
