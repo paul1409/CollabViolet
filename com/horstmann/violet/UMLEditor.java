@@ -27,7 +27,6 @@ import javax.swing.JApplet;
 
 import com.horstmann.violet.framework.EditorFrame;
 import com.horstmann.violet.framework.VersionChecker;
-import local.User;
 
 /**
  * A program for editing UML diagrams.
@@ -40,7 +39,6 @@ public class UMLEditor extends JApplet {
   public static void main(String[] args) {
     VersionChecker checker = new VersionChecker();
     checker.check(JAVA_VERSION);
-    User u = new User();
     try {
       System.setProperty("apple.laf.useScreenMenuBar", "true");
     }
