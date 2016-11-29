@@ -138,12 +138,14 @@ public abstract class Graph implements Serializable {
    */
   public boolean add(Node n, Point2D p, boolean fromCommand) {
     if (!fromCommand) {
+    	System.out.println("from if ");
       int id = commandList.size();
       CommandData aCommand = new CommandData(new AddNodeCommand(n, p), id);
       commandList.add(aCommand); // Edit
       send();
       //pointer = id;  // don't need update the pointer yet because it is not sure this command sent to the server.
     }
+    System.out.println("node size : " + nodes.size());
     Rectangle2D bounds = n.getBounds();
     n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
 
@@ -482,14 +484,14 @@ public abstract class Graph implements Serializable {
 	      Base64.Encoder ec = Base64.getEncoder();
 	      sender.sendString(ec.encodeToString(content));
 	  }
-      
+	  pointer = commandList.size() - 1;
   }
 
   /**
    * Checks for updates to the file
    */
   public void checkUpdate() {
-      System.out.println(1);
+      System.out.println("local size" + commandList.size());
     String dest = "http://localhost:9000/checkUpdate/" + roomID + "/" + commandList.size();
     URL url;
     try {
@@ -510,8 +512,10 @@ public abstract class Graph implements Serializable {
           ObjectInputStream ois = new ObjectInputStream(ips);
           CommandData theCD = (CommandData) ois.readObject();
           //Ruiyang edit something, successfuly sync command object Bing continue below
+          System.out.println("update"); // mark
           theCD.getCommand().execute(this);
         }
+        System.out.println("jump out");
       }
     }
     catch (IOException e) {
@@ -540,6 +544,7 @@ public abstract class Graph implements Serializable {
     this.roomID = id;
     sender = new Sender(this.roomID);
   }
+
 
   private String roomID;
   private ArrayList<CommandData> commandList;
