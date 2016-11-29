@@ -97,958 +97,901 @@ import local.Sender;
  * This desktop frame contains panes that show graphs.
  */
 public class EditorFrame extends JFrame {
-    /**
-     * Constructs a blank frame with a desktop pane but no graph windows.
-     * 
-     * @param appClass
-     *            Name the fully qualified app class name. It is expected that
-     *            the resources are appClassName + "Strings" and appClassName +
-     *            "Version" (the latter for version-specific resources)
-     */
-    public EditorFrame(Class appClass) {
-        String appClassName = appClass.getName();
-        appResources = ResourceBundle.getBundle(appClassName + "Strings");
-        appFactory = new ResourceFactory(appResources);
-        versionResources = ResourceBundle.getBundle(appClassName + "Version");
-        editorResources = ResourceBundle.getBundle("com.horstmann.violet.framework.EditorStrings");
-        factory = new ResourceFactory(editorResources);
+  /**
+   * Constructs a blank frame with a desktop pane but no graph windows.
+   * @param appClass Name the fully qualified app class name. It is expected
+   *          that the resources are appClassName + "Strings" and appClassName +
+   *          "Version" (the latter for version-specific resources)
+   */
+  public EditorFrame(Class appClass) {
+    String appClassName = appClass.getName();
+    appResources = ResourceBundle.getBundle(appClassName + "Strings");
+    appFactory = new ResourceFactory(appResources);
+    versionResources = ResourceBundle.getBundle(appClassName + "Version");
+    editorResources = ResourceBundle.getBundle("com.horstmann.violet.framework.EditorStrings");
+    factory = new ResourceFactory(editorResources);
 
-        preferences = PreferencesService.getInstance(appClass);
+    preferences = PreferencesService.getInstance(appClass);
 
-        String laf = preferences.get("laf", null);
-        if (laf != null)
-            changeLookAndFeel(laf);
+    String laf = preferences.get("laf", null);
+    if (laf != null) changeLookAndFeel(laf);
 
-        recentFiles = new ArrayList();
-        File lastDir = new File(".");
-        String recent = preferences.get("recent", "").trim();
-        if (recent.length() > 0) {
-            recentFiles.addAll(Arrays.asList(recent.split("[|]")));
-            lastDir = new File((String) recentFiles.get(0)).getParentFile();
-        }
-        fileService = FileService.getInstance(lastDir);
+    recentFiles = new ArrayList();
+    File lastDir = new File(".");
+    String recent = preferences.get("recent", "").trim();
+    if (recent.length() > 0) {
+      recentFiles.addAll(Arrays.asList(recent.split("[|]")));
+      lastDir = new File((String) recentFiles.get(0)).getParentFile();
+    }
+    fileService = FileService.getInstance(lastDir);
 
-        setTitle(appResources.getString("app.name"));
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    setTitle(appResources.getString("app.name"));
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
+    int screenWidth = (int) screenSize.getWidth();
+    int screenHeight = (int) screenSize.getHeight();
 
-        setBounds(screenWidth / 16, screenHeight / 16, screenWidth * 7 / 8, screenHeight * 7 / 8);
+    setBounds(screenWidth / 16, screenHeight / 16, screenWidth * 7 / 8, screenHeight * 7 / 8);
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent event) {
-                exit();
-            }
-        });
+    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+    addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent event) {
+        exit();
+      }
+    });
 
-        desktop = new JDesktopPane();
-        setContentPane(desktop);
+    desktop = new JDesktopPane();
+    setContentPane(desktop);
 
-        defaultExtension = appResources.getString("files.extension");
+    defaultExtension = appResources.getString("files.extension");
 
-        violetFilter = new ExtensionFilter(appResources.getString("files.name"), new String[] { defaultExtension });
-        exportFilter = new ExtensionFilter(editorResources.getString("files.image.name"),
-                editorResources.getString("files.image.extension"));
+    violetFilter = new ExtensionFilter(appResources.getString("files.name"), new String[] { defaultExtension });
+    exportFilter = new ExtensionFilter(editorResources.getString("files.image.name"),
+        editorResources.getString("files.image.extension"));
 
-        // set up menus
+    // set up menus
 
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-        JMenu fileMenu = factory.createMenu("file");
-        menuBar.add(fileMenu);
+    JMenuBar menuBar = new JMenuBar();
+    setJMenuBar(menuBar);
+    JMenu fileMenu = factory.createMenu("file");
+    menuBar.add(fileMenu);
 
-        newMenu = factory.createMenu("file.new");
-        fileMenu.add(newMenu);
+    newMenu = factory.createMenu("file.new");
+    fileMenu.add(newMenu);
 
-        JMenuItem fileOpenItem = factory.createMenuItem("file.open", this, "openFile");
-        fileMenu.add(fileOpenItem);
+    JMenuItem fileOpenItem = factory.createMenuItem("file.open", this, "openFile");
+    fileMenu.add(fileOpenItem);
 
-        recentFilesMenu = factory.createMenu("file.recent");
-        buildRecentFilesMenu();
-        fileMenu.add(recentFilesMenu);
+    recentFilesMenu = factory.createMenu("file.recent");
+    buildRecentFilesMenu();
+    fileMenu.add(recentFilesMenu);
 
-        JMenuItem fileSaveItem = factory.createMenuItem("file.save", this, "save");
-        fileMenu.add(fileSaveItem);
-        JMenuItem fileSaveAsItem = factory.createMenuItem("file.save_as", this, "saveAs");
-        fileMenu.add(fileSaveAsItem);
+    JMenuItem fileSaveItem = factory.createMenuItem("file.save", this, "save");
+    fileMenu.add(fileSaveItem);
+    JMenuItem fileSaveAsItem = factory.createMenuItem("file.save_as", this, "saveAs");
+    fileMenu.add(fileSaveAsItem);
 
-        JMenuItem fileExportItem = factory.createMenuItem("file.export_image", this, "exportImage");
-        fileMenu.add(fileExportItem);
+    JMenuItem fileExportItem = factory.createMenuItem("file.export_image", this, "exportImage");
+    fileMenu.add(fileExportItem);
 
-        JMenuItem filePrintItem = factory.createMenuItem("file.print", this, "print");
-        fileMenu.add(filePrintItem);
+    JMenuItem filePrintItem = factory.createMenuItem("file.print", this, "print");
+    fileMenu.add(filePrintItem);
 
-        JMenuItem fileExitItem = factory.createMenuItem("file.exit", this, "exit");
-        fileMenu.add(fileExitItem);
+    JMenuItem fileExitItem = factory.createMenuItem("file.exit", this, "exit");
+    fileMenu.add(fileExitItem);
 
-        if (fileService == null) {
-            fileOpenItem.setEnabled(false);
-            fileSaveAsItem.setEnabled(false);
-            fileExportItem.setEnabled(false);
-            filePrintItem.setEnabled(false);
-            fileExitItem.setEnabled(false);
-        }
-
-        if (fileService == null || fileService.isWebStart()) {
-            recentFilesMenu.setEnabled(false);
-            fileSaveItem.setEnabled(false);
-        }
-
-        JMenu editMenu = factory.createMenu("edit");
-        menuBar.add(editMenu);
-
-        editMenu.add(factory.createMenuItem("edit.properties", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                final GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                GraphPanel panel = frame.getGraphPanel();
-                panel.editSelected();
-            }
-        }));
-
-        editMenu.add(factory.createMenuItem("edit.delete", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                GraphPanel panel = frame.getGraphPanel();
-                panel.removeSelected();
-            }
-        }));
-
-        editMenu.add(factory.createMenuItem("edit.select_next", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                GraphPanel panel = frame.getGraphPanel();
-                panel.selectNext(1);
-            }
-        }));
-
-        editMenu.add(factory.createMenuItem("edit.select_previous", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                Graph graph = frame.getGraph();
-                GraphPanel panel = frame.getGraphPanel();
-                panel.selectNext(-1);
-            }
-        }));
-
-        JMenu viewMenu = factory.createMenu("view");
-        menuBar.add(viewMenu);
-
-        viewMenu.add(factory.createMenuItem("view.zoom_out", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                GraphPanel panel = frame.getGraphPanel();
-                panel.changeZoom(-1);
-            }
-        }));
-
-        viewMenu.add(factory.createMenuItem("view.zoom_in", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                GraphPanel panel = frame.getGraphPanel();
-                panel.changeZoom(1);
-            }
-        }));
-
-        viewMenu.add(factory.createMenuItem("view.grow_drawing_area", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                Graph g = frame.getGraph();
-                Rectangle2D bounds = g.getBounds((Graphics2D) frame.getGraphics());
-                bounds.add(frame.getGraphPanel().getBounds());
-                g.setMinBounds(new Rectangle2D.Double(0, 0, GROW_SCALE_FACTOR * bounds.getWidth(),
-                        GROW_SCALE_FACTOR * bounds.getHeight()));
-                frame.getGraphPanel().revalidate();
-                frame.repaint();
-            }
-        }));
-
-        viewMenu.add(factory.createMenuItem("view.clip_drawing_area", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                Graph g = frame.getGraph();
-                Rectangle2D bounds = g.getBounds((Graphics2D) frame.getGraphics());
-                g.setMinBounds(null);
-                frame.getGraphPanel().revalidate();
-                frame.repaint();
-            }
-        }));
-
-        viewMenu.add(factory.createMenuItem("view.smaller_grid", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                GraphPanel panel = frame.getGraphPanel();
-                panel.changeGridSize(-1);
-            }
-        }));
-
-        viewMenu.add(factory.createMenuItem("view.larger_grid", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                GraphPanel panel = frame.getGraphPanel();
-                panel.changeGridSize(1);
-            }
-        }));
-
-        final JCheckBoxMenuItem hideGridItem;
-        viewMenu.add(hideGridItem = (JCheckBoxMenuItem) factory.createCheckBoxMenuItem("view.hide_grid",
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent event) {
-                        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                        if (frame == null)
-                            return;
-                        GraphPanel panel = frame.getGraphPanel();
-                        JCheckBoxMenuItem menuItem = (JCheckBoxMenuItem) event.getSource();
-                        panel.setHideGrid(menuItem.isSelected());
-                    }
-                }));
-
-        viewMenu.addMenuListener(new MenuListener() {
-            public void menuSelected(MenuEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                GraphPanel panel = frame.getGraphPanel();
-                hideGridItem.setSelected(panel.getHideGrid());
-            }
-
-            public void menuDeselected(MenuEvent event) {
-            }
-
-            public void menuCanceled(MenuEvent event) {
-            }
-        });
-
-        JMenu lafMenu = factory.createMenu("view.change_laf");
-        viewMenu.add(lafMenu);
-
-        UIManager.LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
-        for (int i = 0; i < infos.length; i++) {
-            final UIManager.LookAndFeelInfo info = infos[i];
-            JMenuItem item = new JMenuItem(info.getName());
-            lafMenu.add(item);
-            item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    String laf = info.getClassName();
-                    changeLookAndFeel(laf);
-                    preferences.put("laf", laf);
-                }
-            });
-        }
-
-        JMenu windowMenu = factory.createMenu("window");
-        menuBar.add(windowMenu);
-
-        windowMenu.add(factory.createMenuItem("window.next", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                JInternalFrame[] frames = desktop.getAllFrames();
-                for (int i = 0; i < frames.length; i++) {
-                    if (frames[i] == desktop.getSelectedFrame()) {
-                        i++;
-                        if (i == frames.length)
-                            i = 0;
-                        try {
-                            frames[i].toFront();
-                            frames[i].setSelected(true);
-                        } catch (PropertyVetoException exception) {
-                        }
-                        return;
-                    }
-                }
-            }
-        }));
-
-        windowMenu.add(factory.createMenuItem("window.previous", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                JInternalFrame[] frames = desktop.getAllFrames();
-                for (int i = 0; i < frames.length; i++) {
-                    if (frames[i] == desktop.getSelectedFrame()) {
-                        if (i == 0)
-                            i = frames.length;
-                        i--;
-                        try {
-                            frames[i].toFront();
-                            frames[i].setSelected(true);
-                        } catch (PropertyVetoException exception) {
-                        }
-                        return;
-                    }
-                }
-            }
-        }));
-
-        windowMenu.add(factory.createMenuItem("window.maximize", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                try {
-                    frame.setMaximum(true);
-                } catch (PropertyVetoException exception) {
-                }
-            }
-        }));
-
-        windowMenu.add(factory.createMenuItem("window.restore", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                try {
-                    frame.setMaximum(false);
-                } catch (PropertyVetoException exception) {
-                }
-            }
-        }));
-
-        windowMenu.add(factory.createMenuItem("window.close", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-                if (frame == null)
-                    return;
-                try {
-                    frame.setClosed(true);
-                } catch (PropertyVetoException exception) {
-                }
-            }
-        }));
-
-        // Add Menuhere credit by Ruiyang
-        JMenu shareMenu = factory.createMenu("collaborate");
-        menuBar.add(shareMenu);
-        shareMenu.add(factory.createMenuItem("collaborate.collaborate", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                StringBuilder sb = new StringBuilder();
-                try {
-                    save();
-                    GraphFrame gf = (GraphFrame) desktop.getSelectedFrame();
-                    if (gf == null) {
-                        JOptionPane.showMessageDialog(null, "There's no file to collaborate", "Error!",
-                                JOptionPane.INFORMATION_MESSAGE);
-                        return;
-                    }
-                    URL url = new URL("http://localhost:9000/newRoom");
-                    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                    String ipl;
-                    while ((ipl = in.readLine()) != null) {
-                        sb.append(ipl);
-                    }
-                    gf.setId(sb.toString());
-                    JOptionPane.showMessageDialog(null,
-                            "Collaborate Success!\nShare room number with friends\nRoom Number:" + sb.toString(),
-                            "Success", JOptionPane.INFORMATION_MESSAGE);
-                    gf.startCollab();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error" + e1.getMessage(), "Error!",
-                            JOptionPane.INFORMATION_MESSAGE);
-                }
-
-            }
-        }));
-
-        shareMenu.add(factory.createMenuItem("collaborate.join", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = JOptionPane.showInputDialog("Please input key");
-                try {
-                    String surl = "http://localhost:9000/join/" + Integer.parseInt(input);
-                    GraphFrame gf = (GraphFrame) desktop.getSelectedFrame();
-                    URL url = new URL(surl);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-                    int response = connection.getResponseCode();
-                    if (response == 200) {
-                        gf.setId(input);
-                        JOptionPane.showMessageDialog(null, "Collaborate Success!", "Success",
-                                JOptionPane.INFORMATION_MESSAGE);
-                       gf.startCollab();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Cannot find this room!\nCheck with your friend.", "Failed",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (NumberFormatException e2) {
-                    JOptionPane.showMessageDialog(null, "Invild room number", "Failed",
-                            JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException e1) {
-
-                }
-
-            }
-
-        }));
-
-        JMenu helpMenu = factory.createMenu("help");
-        menuBar.add(helpMenu);
-
-        helpMenu.add(factory.createMenuItem("help.about", this, "showAboutDialog"));
-
-        helpMenu.add(factory.createMenuItem("help.license", new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                try {
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(getClass().getResourceAsStream("license.txt")));
-                    JTextArea text = new JTextArea(10, 50);
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        text.append(line);
-                        text.append("\n");
-                    }
-                    text.setCaretPosition(0);
-                    text.setEditable(false);
-                    JOptionPane.showInternalMessageDialog(desktop, new JScrollPane(text), null,
-                            JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException exception) {
-                }
-            }
-        }));
+    if (fileService == null) {
+      fileOpenItem.setEnabled(false);
+      fileSaveAsItem.setEnabled(false);
+      fileExportItem.setEnabled(false);
+      filePrintItem.setEnabled(false);
+      fileExitItem.setEnabled(false);
     }
 
-    /**
-     * Changes the look and feel
-     * 
-     * @param lafName
-     *            the name of the new look and feel
-     */
-    private void changeLookAndFeel(String lafName) {
-        try {
-            UIManager.setLookAndFeel(lafName);
-            SwingUtilities.updateComponentTreeUI(EditorFrame.this);
-        } catch (ClassNotFoundException ex) {
-        } catch (InstantiationException ex) {
-        } catch (IllegalAccessException ex) {
-        } catch (UnsupportedLookAndFeelException ex) {
-        }
+    if (fileService == null || fileService.isWebStart()) {
+      recentFilesMenu.setEnabled(false);
+      fileSaveItem.setEnabled(false);
     }
 
-    /**
-     * Adds a graph type to the File in New menu.
-     * 
-     * @param resourceName
-     *            the name of the menu item resource
-     * @param graphClass
-     *            the class object for the graph
-     */
-    public void addGraphType(String resourceName, final Class graphClass) {
-        newMenu.add(appFactory.createMenuItem(resourceName, new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                try {
-                    GraphFrame frame = new GraphFrame((Graph) graphClass.newInstance());
-                    addInternalFrame(frame);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
+    JMenu editMenu = factory.createMenu("edit");
+    menuBar.add(editMenu);
+
+    editMenu.add(factory.createMenuItem("edit.properties", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        final GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        GraphPanel panel = frame.getGraphPanel();
+        panel.editSelected();
+      }
+    }));
+
+    editMenu.add(factory.createMenuItem("edit.delete", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        GraphPanel panel = frame.getGraphPanel();
+        panel.removeSelected();
+      }
+    }));
+
+    editMenu.add(factory.createMenuItem("edit.select_next", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        GraphPanel panel = frame.getGraphPanel();
+        panel.selectNext(1);
+      }
+    }));
+
+    editMenu.add(factory.createMenuItem("edit.select_previous", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        Graph graph = frame.getGraph();
+        GraphPanel panel = frame.getGraphPanel();
+        panel.selectNext(-1);
+      }
+    }));
+
+    JMenu viewMenu = factory.createMenu("view");
+    menuBar.add(viewMenu);
+
+    viewMenu.add(factory.createMenuItem("view.zoom_out", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        GraphPanel panel = frame.getGraphPanel();
+        panel.changeZoom(-1);
+      }
+    }));
+
+    viewMenu.add(factory.createMenuItem("view.zoom_in", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        GraphPanel panel = frame.getGraphPanel();
+        panel.changeZoom(1);
+      }
+    }));
+
+    viewMenu.add(factory.createMenuItem("view.grow_drawing_area", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        Graph g = frame.getGraph();
+        Rectangle2D bounds = g.getBounds((Graphics2D) frame.getGraphics());
+        bounds.add(frame.getGraphPanel().getBounds());
+        g.setMinBounds(new Rectangle2D.Double(0, 0, GROW_SCALE_FACTOR * bounds.getWidth(),
+            GROW_SCALE_FACTOR * bounds.getHeight()));
+        frame.getGraphPanel().revalidate();
+        frame.repaint();
+      }
+    }));
+
+    viewMenu.add(factory.createMenuItem("view.clip_drawing_area", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        Graph g = frame.getGraph();
+        Rectangle2D bounds = g.getBounds((Graphics2D) frame.getGraphics());
+        g.setMinBounds(null);
+        frame.getGraphPanel().revalidate();
+        frame.repaint();
+      }
+    }));
+
+    viewMenu.add(factory.createMenuItem("view.smaller_grid", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        GraphPanel panel = frame.getGraphPanel();
+        panel.changeGridSize(-1);
+      }
+    }));
+
+    viewMenu.add(factory.createMenuItem("view.larger_grid", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        GraphPanel panel = frame.getGraphPanel();
+        panel.changeGridSize(1);
+      }
+    }));
+
+    final JCheckBoxMenuItem hideGridItem;
+    viewMenu
+        .add(hideGridItem = (JCheckBoxMenuItem) factory.createCheckBoxMenuItem("view.hide_grid", new ActionListener() {
+          public void actionPerformed(ActionEvent event) {
+            GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+            if (frame == null) return;
+            GraphPanel panel = frame.getGraphPanel();
+            JCheckBoxMenuItem menuItem = (JCheckBoxMenuItem) event.getSource();
+            panel.setHideGrid(menuItem.isSelected());
+          }
         }));
-    }
 
-    /**
-     * Reads the command line arguments.
-     * 
-     * @param args
-     *            the command line arguments
-     */
-    public void readArgs(String[] args) {
-        if (args.length == 0)
-            showAboutDialog();
-        else {
-            for (int i = 0; i < args.length; i++) {
-                open(args[i]);
-            }
+    viewMenu.addMenuListener(new MenuListener() {
+      public void menuSelected(MenuEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        GraphPanel panel = frame.getGraphPanel();
+        hideGridItem.setSelected(panel.getHideGrid());
+      }
+
+      public void menuDeselected(MenuEvent event) {}
+
+      public void menuCanceled(MenuEvent event) {}
+    });
+
+    JMenu lafMenu = factory.createMenu("view.change_laf");
+    viewMenu.add(lafMenu);
+
+    UIManager.LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
+    for (int i = 0; i < infos.length; i++) {
+      final UIManager.LookAndFeelInfo info = infos[i];
+      JMenuItem item = new JMenuItem(info.getName());
+      lafMenu.add(item);
+      item.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent event) {
+          String laf = info.getClassName();
+          changeLookAndFeel(laf);
+          preferences.put("laf", laf);
         }
-        setTitle();
+      });
     }
 
-    /**
-     * Opens a file with the given name, or switches to the frame if it is
-     * already open.
-     * 
-     * @param name
-     *            the file name
-     */
-    private void open(String name) {
+    JMenu windowMenu = factory.createMenu("window");
+    menuBar.add(windowMenu);
+
+    windowMenu.add(factory.createMenuItem("window.next", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
         JInternalFrame[] frames = desktop.getAllFrames();
         for (int i = 0; i < frames.length; i++) {
-            if (frames[i] instanceof GraphFrame) {
-                GraphFrame frame = (GraphFrame) frames[i];
-                if (frame.getFileName().equals(name)) {
-                    try {
-                        frame.toFront();
-                        frame.setSelected(true);
-                    } catch (PropertyVetoException exception) {
-                    }
-                    return;
-                }
-            }
-        }
-
-        try {
-            Graph graph = read(new FileInputStream(name));
-            GraphFrame frame = new GraphFrame(graph);
-            addInternalFrame(frame);
-            frame.setFileName(name);
-        } catch (IOException exception) {
-            JOptionPane.showInternalMessageDialog(desktop, exception);
-        }
-    }
-
-    /**
-     * Creates an internal frame on the desktop.
-     * 
-     * @param c
-     *            the component to display in the internal frame
-     * @param t
-     *            the title of the internal frame.
-     */
-    private void addInternalFrame(final JInternalFrame iframe) {
-        iframe.setResizable(true);
-        iframe.setClosable(true);
-        iframe.setMaximizable(true);
-        iframe.setIconifiable(true);
-        int frameCount = desktop.getAllFrames().length;
-        desktop.add(iframe);
-        // position frame
-        int emptySpace = FRAME_GAP * Math.max(ESTIMATED_FRAMES, frameCount);
-        int width = Math.max(desktop.getWidth() / 2, desktop.getWidth() - emptySpace);
-        int height = Math.max(desktop.getHeight() / 2, desktop.getHeight() - emptySpace);
-
-        iframe.reshape(frameCount * FRAME_GAP, frameCount * FRAME_GAP, width, height);
-        iframe.show();
-
-        iframe.addInternalFrameListener(new InternalFrameAdapter() {
-            public void internalFrameActivated(InternalFrameEvent event) {
-                setTitle();
-            }
-
-            public void internalFrameDeactivated(InternalFrameEvent event) {
-                setTitle();
-            }
-        });
-
-        // select the frame--might be vetoed
-        try {
-            iframe.setSelected(true);
-        } catch (PropertyVetoException e) {
-        }
-    }
-
-    /**
-     * Sets the frame title.
-     */
-    private void setTitle() {
-        String appName = appResources.getString("app.name");
-        JInternalFrame iframe = desktop.getSelectedFrame();
-        if (iframe instanceof GraphFrame) {
-            GraphFrame frame = (GraphFrame) iframe;
-            String fileName = frame.getFileName();
-            if (fileName == null)
-                setTitle(appName);
-            else
-                setTitle(appName + " - " + fileName);
-        } else
-            setTitle(appName);
-    }
-
-    /**
-     * Adds a file name to the "recent files" list and rebuilds the "recent
-     * files" menu.
-     * 
-     * @param newFile
-     *            the file name to add
-     */
-    private void addRecentFile(final String newFile) {
-        recentFiles.remove(newFile);
-        if (newFile == null || newFile.equals(""))
-            return;
-        recentFiles.add(0, newFile);
-        buildRecentFilesMenu();
-    }
-
-    /**
-     * Rebuilds the "recent files" menu.
-     */
-    private void buildRecentFilesMenu() {
-        recentFilesMenu.removeAll();
-        for (int i = 0; i < recentFiles.size(); i++) {
-            final String file = (String) recentFiles.get(i);
-            String name = new File(file).getName();
-            if (i < 10)
-                name = i + " " + name;
-            else if (i == 10)
-                name = "0 " + name;
-            JMenuItem item = new JMenuItem(name);
-            if (i < 10)
-                item.setMnemonic((char) ('0' + i));
-            else if (i == 10)
-                item.setMnemonic('0');
-            recentFilesMenu.add(item);
-            item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    open(file);
-                }
-            });
-        }
-    }
-
-    /**
-     * Asks the user to open a graph file.
-     */
-    public void openFile() {
-        try {
-            FileService.Open open = fileService.open(null, null, violetFilter);
-            InputStream in = open.getInputStream();
-            if (in != null) {
-                Graph graph = read(in);
-                GraphFrame frame = new GraphFrame(graph);
-                addInternalFrame(frame);
-                frame.setFileName(open.getName());
-                addRecentFile(open.getName());
-                setTitle();
-            }
-        } catch (IOException exception) {
-            JOptionPane.showInternalMessageDialog(desktop, exception);
-        }
-    }
-
-    /**
-     * Open a file from an URL--used by applet
-     * 
-     * @param url
-     *            the URL
-     * @throws IOException
-     *             exception
-     */
-    public void openURL(URL url) throws IOException {
-        InputStream in = url.openStream();
-        if (in != null) {
-            Graph graph = read(in);
-            GraphFrame frame = new GraphFrame(graph);
-            addInternalFrame(frame);
+          if (frames[i] == desktop.getSelectedFrame()) {
+            i++;
+            if (i == frames.length) i = 0;
             try {
-                frame.setMaximum(true);
-            } catch (PropertyVetoException ex) {
+              frames[i].toFront();
+              frames[i].setSelected(true);
             }
+            catch (PropertyVetoException exception) {}
+            return;
+          }
         }
-    }
+      }
+    }));
 
-    /**
-     * Saves the current frame
-     */
-    public void save() {
-        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-        if (frame == null)
+    windowMenu.add(factory.createMenuItem("window.previous", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        JInternalFrame[] frames = desktop.getAllFrames();
+        for (int i = 0; i < frames.length; i++) {
+          if (frames[i] == desktop.getSelectedFrame()) {
+            if (i == 0) i = frames.length;
+            i--;
+            try {
+              frames[i].toFront();
+              frames[i].setSelected(true);
+            }
+            catch (PropertyVetoException exception) {}
             return;
-        String fileName = frame.getFileName();
-        if (fileName == null) {
-            saveAs();
-            return;
+          }
         }
+      }
+    }));
+
+    windowMenu.add(factory.createMenuItem("window.maximize", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
         try {
-            saveFile(frame.getGraph(), new FileOutputStream(fileName));
-            frame.getGraphPanel().setModified(false);
-        } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(desktop, exception);
+          frame.setMaximum(true);
         }
+        catch (PropertyVetoException exception) {}
+      }
+    }));
+
+    windowMenu.add(factory.createMenuItem("window.restore", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        try {
+          frame.setMaximum(false);
+        }
+        catch (PropertyVetoException exception) {}
+      }
+    }));
+
+    windowMenu.add(factory.createMenuItem("window.close", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+        if (frame == null) return;
+        try {
+          frame.setClosed(true);
+        }
+        catch (PropertyVetoException exception) {}
+      }
+    }));
+
+    // Add Menu here credit by Ruiyang
+    JMenu shareMenu = factory.createMenu("collaborate");
+    menuBar.add(shareMenu);
+    shareMenu.add(factory.createMenuItem("collaborate.collaborate", new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        StringBuilder sb = new StringBuilder();
+        try {
+          save();
+          GraphFrame gf = (GraphFrame) desktop.getSelectedFrame();
+          if (gf == null) {
+            JOptionPane.showMessageDialog(null, "There's no file to collaborate", "Error!",
+                JOptionPane.INFORMATION_MESSAGE);
+            return;
+          }
+          URL url = new URL("http://localhost:9000/newRoom");
+          BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+          String ipl;
+          while ((ipl = in.readLine()) != null) {
+            sb.append(ipl);
+          }
+          gf.setId(sb.toString());
+          JOptionPane.showMessageDialog(null,
+              "Collaborate Success!\nShare room number with friends\nRoom Number:" + sb.toString(), "Success",
+              JOptionPane.INFORMATION_MESSAGE);
+          ActionListener listener = event -> gf.getGraph().checkUpdate();
+          final int DELAY = 1000;
+          Timer t = new Timer(DELAY, listener);
+          t.start();
+        }
+        catch (IOException e1) {
+          e1.printStackTrace();
+          JOptionPane.showMessageDialog(null, "Error" + e1.getMessage(), "Error!", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+      }
+    }));
+
+    shareMenu.add(factory.createMenuItem("collaborate.join", new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String input = JOptionPane.showInputDialog("Please input key");
+        String surl = "http://localhost:9000/join/" + Integer.parseInt(input);
+        GraphFrame gf = (GraphFrame) desktop.getSelectedFrame();
+        try {
+          URL url = new URL(surl);
+          HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+          connection.setRequestMethod("GET");
+          connection.connect();
+          int response = connection.getResponseCode();
+          if (response == 200) {
+              gf.setId(input);
+            JOptionPane.showMessageDialog(null, "Collaborate Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            ActionListener listener = event -> gf.getGraph().checkUpdate();
+            final int DELAY = 1000;
+            Timer t = new Timer(DELAY, listener);
+            t.start();
+          } else {
+            JOptionPane.showMessageDialog(null, "Cannot find this room!\nCheck with your friend.", "Failed",
+                JOptionPane.INFORMATION_MESSAGE);
+          }
+        }
+        catch (IOException e1) {
+
+        }
+
+      }
+
+    }));
+
+    JMenu helpMenu = factory.createMenu("help");
+    menuBar.add(helpMenu);
+
+    helpMenu.add(factory.createMenuItem("help.about", this, "showAboutDialog"));
+
+    helpMenu.add(factory.createMenuItem("help.license", new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        try {
+          BufferedReader reader = new BufferedReader(
+              new InputStreamReader(getClass().getResourceAsStream("license.txt")));
+          JTextArea text = new JTextArea(10, 50);
+          String line;
+          while ((line = reader.readLine()) != null) {
+            text.append(line);
+            text.append("\n");
+          }
+          text.setCaretPosition(0);
+          text.setEditable(false);
+          JOptionPane.showInternalMessageDialog(desktop, new JScrollPane(text), null, JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (IOException exception) {}
+      }
+    }));
+  }
+
+  /**
+   * Changes the look and feel
+   * @param lafName the name of the new look and feel
+   */
+  private void changeLookAndFeel(String lafName) {
+    try {
+      UIManager.setLookAndFeel(lafName);
+      SwingUtilities.updateComponentTreeUI(EditorFrame.this);
+    }
+    catch (ClassNotFoundException ex) {}
+    catch (InstantiationException ex) {}
+    catch (IllegalAccessException ex) {}
+    catch (UnsupportedLookAndFeelException ex) {}
+  }
+
+  /**
+   * Adds a graph type to the File in New menu.
+   * @param resourceName the name of the menu item resource
+   * @param graphClass the class object for the graph
+   */
+  public void addGraphType(String resourceName, final Class graphClass) {
+    newMenu.add(appFactory.createMenuItem(resourceName, new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        try {
+          GraphFrame frame = new GraphFrame((Graph) graphClass.newInstance());
+          addInternalFrame(frame);
+        }
+        catch (Exception exception) {
+          exception.printStackTrace();
+        }
+      }
+    }));
+  }
+
+  /**
+   * Reads the command line arguments.
+   * @param args the command line arguments
+   */
+  public void readArgs(String[] args) {
+    if (args.length == 0) showAboutDialog();
+    else {
+      for (int i = 0; i < args.length; i++) {
+        open(args[i]);
+      }
+    }
+    setTitle();
+  }
+
+  /**
+   * Opens a file with the given name, or switches to the frame if it is already
+   * open.
+   * @param name the file name
+   */
+  private void open(String name) {
+    JInternalFrame[] frames = desktop.getAllFrames();
+    for (int i = 0; i < frames.length; i++) {
+      if (frames[i] instanceof GraphFrame) {
+        GraphFrame frame = (GraphFrame) frames[i];
+        if (frame.getFileName().equals(name)) {
+          try {
+            frame.toFront();
+            frame.setSelected(true);
+          }
+          catch (PropertyVetoException exception) {}
+          return;
+        }
+      }
     }
 
-    /**
-     * Saves the current graph as a new file.
-     */
-    public void saveAs() {
-        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-        if (frame == null)
-            return;
+    try {
+      Graph graph = read(new FileInputStream(name));
+      GraphFrame frame = new GraphFrame(graph);
+      addInternalFrame(frame);
+      frame.setFileName(name);
+    }
+    catch (IOException exception) {
+      JOptionPane.showInternalMessageDialog(desktop, exception);
+    }
+  }
+
+  /**
+   * Creates an internal frame on the desktop.
+   * @param c the component to display in the internal frame
+   * @param t the title of the internal frame.
+   */
+  private void addInternalFrame(final JInternalFrame iframe) {
+    iframe.setResizable(true);
+    iframe.setClosable(true);
+    iframe.setMaximizable(true);
+    iframe.setIconifiable(true);
+    int frameCount = desktop.getAllFrames().length;
+    desktop.add(iframe);
+    // position frame
+    int emptySpace = FRAME_GAP * Math.max(ESTIMATED_FRAMES, frameCount);
+    int width = Math.max(desktop.getWidth() / 2, desktop.getWidth() - emptySpace);
+    int height = Math.max(desktop.getHeight() / 2, desktop.getHeight() - emptySpace);
+
+    iframe.reshape(frameCount * FRAME_GAP, frameCount * FRAME_GAP, width, height);
+    iframe.show();
+
+    iframe.addInternalFrameListener(new InternalFrameAdapter() {
+      public void internalFrameActivated(InternalFrameEvent event) {
+        setTitle();
+      }
+
+      public void internalFrameDeactivated(InternalFrameEvent event) {
+        setTitle();
+      }
+    });
+
+    // select the frame--might be vetoed
+    try {
+      iframe.setSelected(true);
+    }
+    catch (PropertyVetoException e) {}
+  }
+
+  /**
+   * Sets the frame title.
+   */
+  private void setTitle() {
+    String appName = appResources.getString("app.name");
+    JInternalFrame iframe = desktop.getSelectedFrame();
+    if (iframe instanceof GraphFrame) {
+      GraphFrame frame = (GraphFrame) iframe;
+      String fileName = frame.getFileName();
+      if (fileName == null) setTitle(appName);
+      else setTitle(appName + " - " + fileName);
+    } else setTitle(appName);
+  }
+
+  /**
+   * Adds a file name to the "recent files" list and rebuilds the "recent files"
+   * menu.
+   * @param newFile the file name to add
+   */
+  private void addRecentFile(final String newFile) {
+    recentFiles.remove(newFile);
+    if (newFile == null || newFile.equals("")) return;
+    recentFiles.add(0, newFile);
+    buildRecentFilesMenu();
+  }
+
+  /**
+   * Rebuilds the "recent files" menu.
+   */
+  private void buildRecentFilesMenu() {
+    recentFilesMenu.removeAll();
+    for (int i = 0; i < recentFiles.size(); i++) {
+      final String file = (String) recentFiles.get(i);
+      String name = new File(file).getName();
+      if (i < 10) name = i + " " + name;
+      else if (i == 10) name = "0 " + name;
+      JMenuItem item = new JMenuItem(name);
+      if (i < 10) item.setMnemonic((char) ('0' + i));
+      else if (i == 10) item.setMnemonic('0');
+      recentFilesMenu.add(item);
+      item.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent event) {
+          open(file);
+        }
+      });
+    }
+  }
+
+  /**
+   * Asks the user to open a graph file.
+   */
+  public void openFile() {
+    try {
+      FileService.Open open = fileService.open(null, null, violetFilter);
+      InputStream in = open.getInputStream();
+      if (in != null) {
+        Graph graph = read(in);
+        GraphFrame frame = new GraphFrame(graph);
+        addInternalFrame(frame);
+        frame.setFileName(open.getName());
+        addRecentFile(open.getName());
+        setTitle();
+      }
+    }
+    catch (IOException exception) {
+      JOptionPane.showInternalMessageDialog(desktop, exception);
+    }
+  }
+
+  /**
+   * Open a file from an URL--used by applet
+   * @param url the URL
+   * @throws IOException exception
+   */
+  public void openURL(URL url) throws IOException {
+    InputStream in = url.openStream();
+    if (in != null) {
+      Graph graph = read(in);
+      GraphFrame frame = new GraphFrame(graph);
+      addInternalFrame(frame);
+      try {
+        frame.setMaximum(true);
+      }
+      catch (PropertyVetoException ex) {}
+    }
+  }
+
+  /**
+   * Saves the current frame
+   */
+  public void save() {
+    GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+    if (frame == null) return;
+    String fileName = frame.getFileName();
+    if (fileName == null) {
+      saveAs();
+      return;
+    }
+    try {
+      saveFile(frame.getGraph(), new FileOutputStream(fileName));
+      frame.getGraphPanel().setModified(false);
+    }
+    catch (Exception exception) {
+      JOptionPane.showInternalMessageDialog(desktop, exception);
+    }
+  }
+
+  /**
+   * Saves the current graph as a new file.
+   */
+  public void saveAs() {
+    GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+    if (frame == null) return;
+    Graph graph = frame.getGraph();
+    try {
+      FileService.Save save = fileService.save(null, frame.getFileName(), violetFilter, null, defaultExtension);
+      OutputStream out = save.getOutputStream();
+      if (out != null) {
+        try {
+          saveFile(graph, out);
+        }
+        finally {
+          out.close();
+        }
+        frame.setFileName(save.getName());
+        setTitle();
+        frame.getGraphPanel().setModified(false);
+      }
+    }
+    catch (IOException exception) {
+      JOptionPane.showInternalMessageDialog(desktop, exception);
+    }
+  }
+
+  /**
+   * Exports the current graph to an image file.
+   */
+  public void exportImage() {
+    GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+    if (frame == null) return;
+
+    try {
+      String imageExtensions = editorResources.getString("files.image.extension");
+      FileService.Save save = fileService.save(null, frame.getFileName(), exportFilter, defaultExtension,
+          imageExtensions);
+      OutputStream out = save.getOutputStream();
+      if (out != null) {
+        String format;
+        String fileName = save.getName();
+        if (fileName == null) {
+          int n = imageExtensions.indexOf("|");
+          if (n < 0) n = imageExtensions.length();
+          format = imageExtensions.substring(1, n);
+        } else format = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (!ImageIO.getImageWritersByFormatName(format).hasNext()) {
+          MessageFormat formatter = new MessageFormat(editorResources.getString("error.unsupported_image"));
+          JOptionPane.showInternalMessageDialog(desktop, formatter.format(new Object[] { format }));
+          return;
+        }
+
         Graph graph = frame.getGraph();
         try {
-            FileService.Save save = fileService.save(null, frame.getFileName(), violetFilter, null, defaultExtension);
-            OutputStream out = save.getOutputStream();
-            if (out != null) {
-                try {
-                    saveFile(graph, out);
-                } finally {
-                    out.close();
-                }
-                frame.setFileName(save.getName());
-                setTitle();
-                frame.getGraphPanel().setModified(false);
-            }
-        } catch (IOException exception) {
-            JOptionPane.showInternalMessageDialog(desktop, exception);
+          saveImage(graph, out, format);
         }
-    }
-
-    /**
-     * Exports the current graph to an image file.
-     */
-    public void exportImage() {
-        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-        if (frame == null)
-            return;
-
-        try {
-            String imageExtensions = editorResources.getString("files.image.extension");
-            FileService.Save save = fileService.save(null, frame.getFileName(), exportFilter, defaultExtension,
-                    imageExtensions);
-            OutputStream out = save.getOutputStream();
-            if (out != null) {
-                String format;
-                String fileName = save.getName();
-                if (fileName == null) {
-                    int n = imageExtensions.indexOf("|");
-                    if (n < 0)
-                        n = imageExtensions.length();
-                    format = imageExtensions.substring(1, n);
-                } else
-                    format = fileName.substring(fileName.lastIndexOf(".") + 1);
-                if (!ImageIO.getImageWritersByFormatName(format).hasNext()) {
-                    MessageFormat formatter = new MessageFormat(editorResources.getString("error.unsupported_image"));
-                    JOptionPane.showInternalMessageDialog(desktop, formatter.format(new Object[] { format }));
-                    return;
-                }
-
-                Graph graph = frame.getGraph();
-                try {
-                    saveImage(graph, out, format);
-                } finally {
-                    out.close();
-                }
-            }
-        } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(desktop, exception);
+        finally {
+          out.close();
         }
+      }
     }
-
-    /**
-     * Prints the current graph.
-     */
-    public void print() {
-        GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
-        if (frame == null)
-            return;
-
-        PrintDialog dialog = new PrintDialog(frame.getGraph());
-        dialog.setVisible(true);
+    catch (Exception exception) {
+      JOptionPane.showInternalMessageDialog(desktop, exception);
     }
+  }
 
-    /**
-     * Reads a graph file
+  /**
+   * Prints the current graph.
+   */
+  public void print() {
+    GraphFrame frame = (GraphFrame) desktop.getSelectedFrame();
+    if (frame == null) return;
+
+    PrintDialog dialog = new PrintDialog(frame.getGraph());
+    dialog.setVisible(true);
+  }
+
+  /**
+   * Reads a graph file
+   * @param in the input stream to read
+   * @return the graph that is read in
+   * @throws IOException exception
+   */
+  public static Graph read(InputStream in) throws IOException {
+    XMLDecoder reader = new XMLDecoder(in);
+    Graph graph = (Graph) reader.readObject();
+    in.close();
+    return graph;
+  }
+
+  /**
+   * Saves the current graph in a file. We use long-term bean persistence to
+   * save the program data. See
+   * http://java.sun.com/products/jfc/tsc/articles/persistence4/index.html for
+   * an overview.
+   * @param out the stream for saving
+   */
+  private static void saveFile(Graph graph, OutputStream out) {
+    XMLEncoder encoder = new XMLEncoder(out);
+
+    encoder.setExceptionListener(new ExceptionListener() {
+      public void exceptionThrown(Exception ex) {
+        ex.printStackTrace();
+      }
+    });
+    /*
+     * The following does not work due to bug #4741757
      * 
-     * @param in
-     *            the input stream to read
-     * @return the graph that is read in
-     * @throws IOException
-     *             exception
+     * encoder.setPersistenceDelegate( Point2D.Double.class, new
+     * DefaultPersistenceDelegate( new String[]{ "x", "y" }) );
      */
-    public static Graph read(InputStream in) throws IOException {
-        XMLDecoder reader = new XMLDecoder(in);
-        Graph graph = (Graph) reader.readObject();
-        in.close();
-        return graph;
+    encoder.setPersistenceDelegate(Point2D.Double.class, new DefaultPersistenceDelegate() {
+      protected void initialize(Class type, Object oldInstance, Object newInstance, Encoder out) {
+        super.initialize(type, oldInstance, newInstance, out);
+        Point2D p = (Point2D) oldInstance;
+        out.writeStatement(
+            new Statement(oldInstance, "setLocation", new Object[] { new Double(p.getX()), new Double(p.getY()) }));
+      }
+    });
+
+    encoder.setPersistenceDelegate(BentStyle.class, staticFieldDelegate);
+    encoder.setPersistenceDelegate(LineStyle.class, staticFieldDelegate);
+    encoder.setPersistenceDelegate(ArrowHead.class, staticFieldDelegate);
+
+    Graph.setPersistenceDelegate(encoder);
+    AbstractNode.setPersistenceDelegate(encoder);
+
+    encoder.writeObject(graph);
+    encoder.close();
+  }
+
+  /**
+   * Exports a current graph to an image file.
+   * @param graph the graph
+   * @param out the output stream
+   * @param format the image file format
+   * @throws IOException exception
+   */
+  public static void saveImage(Graph graph, OutputStream out, String format) throws IOException {
+    BufferedImage dummy = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+    // need a dummy image to get a Graphics to
+    // measure the size
+    Rectangle2D bounds = graph.getBounds((Graphics2D) dummy.getGraphics());
+    BufferedImage image = new BufferedImage((int) bounds.getWidth() + 1, (int) bounds.getHeight() + 1,
+        BufferedImage.TYPE_INT_RGB);
+    Graphics2D g2 = (Graphics2D) image.getGraphics();
+    g2.translate(-bounds.getX(), -bounds.getY());
+    g2.setColor(Color.WHITE);
+    g2.fill(new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth() + 1, bounds.getHeight() + 1));
+    g2.setColor(Color.BLACK);
+    g2.setBackground(Color.WHITE);
+    graph.draw(g2, null);
+    ImageIO.write(image, format, out);
+  }
+
+  /**
+   * Displays the About dialog box.
+   */
+  public void showAboutDialog() {
+    MessageFormat formatter = new MessageFormat(editorResources.getString("dialog.about.version"));
+    JOptionPane.showInternalMessageDialog(desktop,
+        formatter.format(new Object[] { appResources.getString("app.name"),
+            versionResources.getString("version.number"), versionResources.getString("version.date"),
+            appResources.getString("app.copyright"), editorResources.getString("dialog.about.license") }),
+        null, JOptionPane.INFORMATION_MESSAGE,
+        new ImageIcon(getClass().getResource(appResources.getString("app.icon"))));
+  }
+
+  /**
+   * Exits the program if no graphs have been modified or if the user agrees to
+   * abandon modified graphs.
+   */
+  public void exit() {
+    int modcount = 0;
+    JInternalFrame[] frames = desktop.getAllFrames();
+    for (int i = 0; i < frames.length; i++) {
+      if (frames[i] instanceof GraphFrame) {
+        GraphFrame frame = (GraphFrame) frames[i];
+        if (frame.getGraphPanel().isModified()) modcount++;
+      }
     }
+    if (modcount > 0) {
+      // ask user if it is ok to close
+      int result = JOptionPane.showInternalConfirmDialog(desktop,
+          MessageFormat.format(editorResources.getString("dialog.exit.ok"), new Object[] { new Integer(modcount) }),
+          null, JOptionPane.YES_NO_OPTION);
 
-    /**
-     * Saves the current graph in a file. We use long-term bean persistence to
-     * save the program data. See
-     * http://java.sun.com/products/jfc/tsc/articles/persistence4/index.html for
-     * an overview.
-     * 
-     * @param out
-     *            the stream for saving
-     */
-    private static void saveFile(Graph graph, OutputStream out) {
-        XMLEncoder encoder = new XMLEncoder(out);
-
-        encoder.setExceptionListener(new ExceptionListener() {
-            public void exceptionThrown(Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-        /*
-         * The following does not work due to bug #4741757
-         * 
-         * encoder.setPersistenceDelegate( Point2D.Double.class, new
-         * DefaultPersistenceDelegate( new String[]{ "x", "y" }) );
-         */
-        encoder.setPersistenceDelegate(Point2D.Double.class, new DefaultPersistenceDelegate() {
-            protected void initialize(Class type, Object oldInstance, Object newInstance, Encoder out) {
-                super.initialize(type, oldInstance, newInstance, out);
-                Point2D p = (Point2D) oldInstance;
-                out.writeStatement(new Statement(oldInstance, "setLocation",
-                        new Object[] { new Double(p.getX()), new Double(p.getY()) }));
-            }
-        });
-
-        encoder.setPersistenceDelegate(BentStyle.class, staticFieldDelegate);
-        encoder.setPersistenceDelegate(LineStyle.class, staticFieldDelegate);
-        encoder.setPersistenceDelegate(ArrowHead.class, staticFieldDelegate);
-
-        Graph.setPersistenceDelegate(encoder);
-        AbstractNode.setPersistenceDelegate(encoder);
-
-        encoder.writeObject(graph);
-        encoder.close();
+      // if the user doesn't agree, veto the close
+      if (result != JOptionPane.YES_OPTION) return;
     }
+    savePreferences();
+    System.exit(0);
+  }
 
-    /**
-     * Exports a current graph to an image file.
-     * 
-     * @param graph
-     *            the graph
-     * @param out
-     *            the output stream
-     * @param format
-     *            the image file format
-     * @throws IOException
-     *             exception
-     */
-    public static void saveImage(Graph graph, OutputStream out, String format) throws IOException {
-        BufferedImage dummy = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-        // need a dummy image to get a Graphics to
-        // measure the size
-        Rectangle2D bounds = graph.getBounds((Graphics2D) dummy.getGraphics());
-        BufferedImage image = new BufferedImage((int) bounds.getWidth() + 1, (int) bounds.getHeight() + 1,
-                BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = (Graphics2D) image.getGraphics();
-        g2.translate(-bounds.getX(), -bounds.getY());
-        g2.setColor(Color.WHITE);
-        g2.fill(new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth() + 1, bounds.getHeight() + 1));
-        g2.setColor(Color.BLACK);
-        g2.setBackground(Color.WHITE);
-        graph.draw(g2, null);
-        ImageIO.write(image, format, out);
+  /**
+   * Saves the user preferences before exiting.
+   */
+  public void savePreferences() {
+    String recent = "";
+    for (int i = 0; i < Math.min(recentFiles.size(), maxRecentFiles); i++) {
+      if (recent.length() > 0) recent += "|";
+      recent += recentFiles.get(i);
     }
+    preferences.put("recent", recent);
+  }
 
-    /**
-     * Displays the About dialog box.
-     */
-    public void showAboutDialog() {
-        MessageFormat formatter = new MessageFormat(editorResources.getString("dialog.about.version"));
-        JOptionPane.showInternalMessageDialog(desktop,
-                formatter.format(new Object[] { appResources.getString("app.name"),
-                        versionResources.getString("version.number"), versionResources.getString("version.date"),
-                        appResources.getString("app.copyright"), editorResources.getString("dialog.about.license") }),
-                null, JOptionPane.INFORMATION_MESSAGE,
-                new ImageIcon(getClass().getResource(appResources.getString("app.icon"))));
-    }
+  private ResourceFactory appFactory;
+  private ResourceFactory factory;
+  private ResourceBundle appResources;
+  private ResourceBundle versionResources;
+  private ResourceBundle editorResources;
+  private JDesktopPane desktop;
+  private FileService fileService;
+  private PreferencesService preferences;
+  private JMenu newMenu;
+  private String defaultExtension;
+  private ArrayList recentFiles;
+  private JMenu recentFilesMenu;
+  private int maxRecentFiles = DEFAULT_MAX_RECENT_FILES;
 
-    /**
-     * Exits the program if no graphs have been modified or if the user agrees
-     * to abandon modified graphs.
-     */
-    public void exit() {
-        int modcount = 0;
-        JInternalFrame[] frames = desktop.getAllFrames();
-        for (int i = 0; i < frames.length; i++) {
-            if (frames[i] instanceof GraphFrame) {
-                GraphFrame frame = (GraphFrame) frames[i];
-                if (frame.getGraphPanel().isModified())
-                    modcount++;
-            }
+  private ExtensionFilter violetFilter;
+  private ExtensionFilter exportFilter;
+
+  private static final int FRAME_GAP = 20;
+  private static final int ESTIMATED_FRAMES = 5;
+  private static final int DEFAULT_MAX_RECENT_FILES = 5;
+  private static final double GROW_SCALE_FACTOR = Math.sqrt(2);
+
+  private static PersistenceDelegate staticFieldDelegate = new DefaultPersistenceDelegate() {
+    protected Expression instantiate(Object oldInstance, Encoder out) {
+      try {
+        Class cl = oldInstance.getClass();
+        Field[] fields = cl.getFields();
+        for (int i = 0; i < fields.length; i++) {
+          if (Modifier.isStatic(fields[i].getModifiers())
+              && fields[i].get(null) == oldInstance) { return new Expression(fields[i], "get", new Object[] { null }); }
         }
-        if (modcount > 0) {
-            // ask user if it is ok to close
-            int result = JOptionPane.showInternalConfirmDialog(desktop, MessageFormat
-                    .format(editorResources.getString("dialog.exit.ok"), new Object[] { new Integer(modcount) }), null,
-                    JOptionPane.YES_NO_OPTION);
-
-            // if the user doesn't agree, veto the close
-            if (result != JOptionPane.YES_OPTION)
-                return;
-        }
-        savePreferences();
-        System.exit(0);
+      }
+      catch (IllegalAccessException ex) {
+        ex.printStackTrace();
+      }
+      return null;
     }
 
-    /**
-     * Saves the user preferences before exiting.
-     */
-    public void savePreferences() {
-        String recent = "";
-        for (int i = 0; i < Math.min(recentFiles.size(), maxRecentFiles); i++) {
-            if (recent.length() > 0)
-                recent += "|";
-            recent += recentFiles.get(i);
-        }
-        preferences.put("recent", recent);
+    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
+      return oldInstance == newInstance;
     }
+  };
 
-    private ResourceFactory appFactory;
-    private ResourceFactory factory;
-    private ResourceBundle appResources;
-    private ResourceBundle versionResources;
-    private ResourceBundle editorResources;
-    private JDesktopPane desktop;
-    private FileService fileService;
-    private PreferencesService preferences;
-    private JMenu newMenu;
-    private String defaultExtension;
-    private ArrayList recentFiles;
-    private JMenu recentFilesMenu;
-    private int maxRecentFiles = DEFAULT_MAX_RECENT_FILES;
-
-    private ExtensionFilter violetFilter;
-    private ExtensionFilter exportFilter;
-
-    private static final int FRAME_GAP = 20;
-    private static final int ESTIMATED_FRAMES = 5;
-    private static final int DEFAULT_MAX_RECENT_FILES = 5;
-    private static final double GROW_SCALE_FACTOR = Math.sqrt(2);
-
-    private static PersistenceDelegate staticFieldDelegate = new DefaultPersistenceDelegate() {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            try {
-                Class cl = oldInstance.getClass();
-                Field[] fields = cl.getFields();
-                for (int i = 0; i < fields.length; i++) {
-                    if (Modifier.isStatic(fields[i].getModifiers()) && fields[i].get(null) == oldInstance) {
-                        return new Expression(fields[i], "get", new Object[] { null });
-                    }
-                }
-            } catch (IllegalAccessException ex) {
-                ex.printStackTrace();
-            }
-            return null;
-        }
-
-        protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-            return oldInstance == newInstance;
-        }
-    };
-
-    // workaround for bug #4646747 in J2SE SDK 1.4.0
-    private static java.util.HashMap beanInfos;
-    static {
-        beanInfos = new java.util.HashMap();
-        Class[] cls = new Class[] { Point2D.Double.class, BentStyle.class, ArrowHead.class, LineStyle.class,
-                Graph.class, AbstractNode.class, };
-        for (int i = 0; i < cls.length; i++) {
-            try {
-                beanInfos.put(cls[i], java.beans.Introspector.getBeanInfo(cls[i]));
-            } catch (java.beans.IntrospectionException ex) {
-            }
-        }
+  // workaround for bug #4646747 in J2SE SDK 1.4.0
+  private static java.util.HashMap beanInfos;
+  static {
+    beanInfos = new java.util.HashMap();
+    Class[] cls = new Class[] { Point2D.Double.class, BentStyle.class, ArrowHead.class, LineStyle.class, Graph.class,
+        AbstractNode.class, };
+    for (int i = 0; i < cls.length; i++) {
+      try {
+        beanInfos.put(cls[i], java.beans.Introspector.getBeanInfo(cls[i]));
+      }
+      catch (java.beans.IntrospectionException ex) {}
     }
+  }
 }

@@ -471,6 +471,10 @@ public abstract class Graph implements Serializable {
    * @param aCommand to send
    */
   public void send(CommandData aCommand) {
+	  if (checkCollab() == false) { // the client didn't click the collaborate yet, store the command
+		  return;
+		  // need do more
+	  }
       byte[] content = serialize(aCommand);
       Base64.Encoder ec = Base64.getEncoder();
       sender.sendString(ec.encodeToString(content));
@@ -513,7 +517,14 @@ public abstract class Graph implements Serializable {
       e.printStackTrace();
     }
   }
-
+  
+  /**
+   * @author Bing Liang
+   * @return ture if this graph already collaborate, otherwise return false.
+   */
+  private boolean checkCollab() {
+	  return this.roomID != null;
+  }
 
   /**
    * Sets an ID
