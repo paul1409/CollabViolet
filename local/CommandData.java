@@ -18,8 +18,7 @@ public class CommandData implements Serializable {
    * @param command a command
    * @param id ID
    */
-  @JsonCreator
-  public CommandData(@JsonProperty("Command") Command command, @JsonProperty("id") int id) {
+  public CommandData(Command command,int id) {
     this.command = command;
     this.id = id;
   }
