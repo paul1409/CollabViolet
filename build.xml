@@ -22,9 +22,12 @@
 			<fileset dir=".">
 				<exclude name="**/*.launch" />
 				<exclude name="**/*.java" />
+				<exclude name="cloud/**"/>
 			</fileset>
 		</copy>
-		<javac srcdir="local:com/horstmann/violet:com/horstmann/violet/framework" includeantruntime="false" />
+		<javac srcdir="local:com/horstmann/violet:com/horstmann/violet/framework" includeantruntime="false" classpathref="jars">
+			<exclude name="cloud/**" />
+		</javac>
 		<javadoc sourcepath="." destdir="bin" />
 	</target>
 
