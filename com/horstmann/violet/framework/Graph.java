@@ -75,7 +75,8 @@ public abstract class Graph implements Serializable {
     edgesToBeRemoved = new ArrayList<Edge>();
     needsLayout = true;
 
-    commandList = new ArrayList<CommandData>();
+    commandList = new ArrayList<>();
+    cloudList = new ArrayList<>();
     pointer = -1;
   }
 
@@ -145,7 +146,6 @@ public abstract class Graph implements Serializable {
       send();
       //pointer = id;  // don't need update the pointer yet because it is not sure this command sent to the server.
     }
-    System.out.println("node size : " + nodes.size());
     Rectangle2D bounds = n.getBounds();
     n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
 
@@ -491,8 +491,10 @@ public abstract class Graph implements Serializable {
    * Checks for updates to the file
    */
   public void checkUpdate() {
+	  // mark
       System.out.println("local size" + commandList.size());
-    String dest = "http://localhost:9000/checkUpdate/" + roomID + "/" + commandList.size();
+      System.out.println("node size : " + nodes.size());
+    String dest = "http://localhost:9000/checkUpdate/" + roomID + "/" + this.getTotalSize();
     URL url;
     try {
       url = new URL(dest);
@@ -513,6 +515,7 @@ public abstract class Graph implements Serializable {
           CommandData theCD = (CommandData) ois.readObject();
           //Ruiyang edit something, successfuly sync command object Bing continue below
           System.out.println("update"); // mark
+          cloudList.add(theCD);
           theCD.getCommand().execute(this);
         }
         System.out.println("jump out");
@@ -527,6 +530,9 @@ public abstract class Graph implements Serializable {
     }
   }
   
+  private int getTotalSize() {
+	  return commandList.size() + cloudList.size();
+  }
   /**
    * @author Bing Liang
    * @return ture if this graph already collaborate, otherwise return false.
@@ -548,6 +554,7 @@ public abstract class Graph implements Serializable {
 
   private String roomID;
   private ArrayList<CommandData> commandList;
+  private ArrayList<CommandData> cloudList;
   private CommandData commands;
   private ArrayList<Node> nodes;
   private ArrayList<Edge> edges;

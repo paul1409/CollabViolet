@@ -1,5 +1,7 @@
 package local;
 
+import java.util.ArrayList;
+
 import com.horstmann.violet.framework.Graph;
 import com.horstmann.violet.framework.Node;
 
@@ -21,7 +23,10 @@ public class RemoveNodeCommand implements Command {
 
   @Override
   public void execute(Graph graph) {
-    graph.removeNode(n, true);
+	int nodeID = n.getID();
+	ArrayList<Node> nodes = (ArrayList<Node>) (graph.getNodes());
+	Node nodeNeedBeRemove = nodes.get(nodeID);
+    graph.removeNode(nodeNeedBeRemove, true);
   }
 
 }
