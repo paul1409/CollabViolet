@@ -95,8 +95,8 @@ public abstract class Graph implements Serializable {
       int id = commandList.size();
       CommandData aCommand = new CommandData(new ConnectCommand(e, p1, p2), id);
       commandList.add(aCommand);
-      send(aCommand);
-      pointer = id;
+      send();
+      //pointer = id; // don't need update the pointer yet because it is not sure this command sent to the server.
     }
 
     Node n1 = findNode(p1);
@@ -141,8 +141,8 @@ public abstract class Graph implements Serializable {
       int id = commandList.size();
       CommandData aCommand = new CommandData(new AddNodeCommand(n, p), id);
       commandList.add(aCommand); // Edit
-      send(aCommand);
-      pointer = id;
+      send();
+      //pointer = id;  // don't need update the pointer yet because it is not sure this command sent to the server.
     }
     Rectangle2D bounds = n.getBounds();
     n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
@@ -232,8 +232,8 @@ public abstract class Graph implements Serializable {
       int id = commandList.size();
       CommandData aCommand = new CommandData(new RemoveNodeCommand(n), id);
       commandList.add(aCommand); // Edit
-      send(aCommand);
-      pointer = id;
+      send();
+      //pointer = id; // don't need update the pointer yet because it is not sure this command sent to the server.
     }
     if (nodesToBeRemoved.contains(n)) return;
     nodesToBeRemoved.add(n);
@@ -270,8 +270,8 @@ public abstract class Graph implements Serializable {
       int id = commandList.size();
       CommandData aCommand = new CommandData(new RemoveEdgeCommand(e), id);
       commandList.add(aCommand);
-      send(aCommand);
-      pointer = id;
+      send();
+      //pointer = id;  // don't need update the pointer yet because it is not sure this command sent to the server.
     }
 
     if (edgesToBeRemoved.contains(e)) return;
@@ -470,14 +470,17 @@ public abstract class Graph implements Serializable {
    * Sends the file to other clients
    * @param aCommand to send
    */
-  public void send(CommandData aCommand) {
+  public void send() {
 	  if (checkCollab() == false) { // the client didn't click the collaborate yet, store the command
 		  return;
-		  // need do more
+	  } 
+	  for (int i = pointer + 1; i < commandList.size(); i++) {
+		  CommandData aCommand = commandList.get(i);
+		  byte[] content = serialize(aCommand);
+	      Base64.Encoder ec = Base64.getEncoder();
+	      sender.sendString(ec.encodeToString(content));
 	  }
-      byte[] content = serialize(aCommand);
-      Base64.Encoder ec = Base64.getEncoder();
-      sender.sendString(ec.encodeToString(content));
+      
   }
 
   /**
