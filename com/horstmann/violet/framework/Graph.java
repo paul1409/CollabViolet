@@ -530,7 +530,10 @@ public abstract class Graph implements Serializable {
       e.printStackTrace();
     }
   }
-  
+  /**
+   * This method gets the total size of command
+   * @return total size of command at local
+   */
   private int getTotalSize() {
 	  return commandList.size() + cloudList.size();
   }
