@@ -494,7 +494,7 @@ public abstract class Graph implements Serializable {
 	  // mark
       System.out.println("local size" + this.getTotalSize());
       System.out.println("node size : " + nodes.size());
-    String dest = "http://localhost:9000/checkUpdate/" + roomID + "/" + this.getTotalSize();
+    String dest = "http://104.198.99.184:9000/checkUpdate/" + roomID + "/" + this.getTotalSize();
     URL url;
     try {
       url = new URL(dest);

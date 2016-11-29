@@ -82,7 +82,7 @@ public class Sender {
      */
     public void sendString(String content) {
         try {
-            String dest = "http://localhost:9000/addAction/" + id + "/";
+            String dest = "http://104.198.99.184:9000/addAction/" + id + "/";
             URL url = new URL(dest);
             //FileReader fr = new FileReader((File) cache);
             //BufferedReader br = new BufferedReader(fr);

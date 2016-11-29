@@ -427,7 +427,7 @@ public class EditorFrame extends JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
             return;
           }
-          URL url = new URL("http://localhost:9000/newRoom");
+          URL url = new URL("http://104.198.99.184:9000/newRoom");
           BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
           String ipl;
           while ((ipl = in.readLine()) != null) {
@@ -454,7 +454,7 @@ public class EditorFrame extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         String input = JOptionPane.showInputDialog("Please input key");
-        String surl = "http://localhost:9000/join/" + Integer.parseInt(input);
+        String surl = "http://104.198.99.184:9000/join/" + Integer.parseInt(input);
         GraphFrame gf = (GraphFrame) desktop.getSelectedFrame();
         try {
           URL url = new URL(surl);
