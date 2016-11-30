@@ -23,13 +23,13 @@ public class RemoveNodeCommand implements Command {
 
   @Override
   public void execute(Graph graph) {
-	ArrayList<Node> nodes = (ArrayList<Node>) (graph.getNodes());
-	Node nodeNeedBeRemove = null;
-	for (Node node : nodes) {
-		if (node.getID() == n.getID()) {
-			nodeNeedBeRemove = node;
-		}
-	}
+    ArrayList<Node> nodes = (ArrayList<Node>) (graph.getNodes());
+    Node nodeNeedBeRemove = null;
+    for (Node node : nodes) {
+      if (node.getID() == n.getID()) {
+        nodeNeedBeRemove = node;
+      }
+    }
     graph.removeNode(nodeNeedBeRemove, true);
   }
 

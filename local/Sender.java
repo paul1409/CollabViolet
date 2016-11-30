@@ -27,17 +27,16 @@ import local.CommandData;
  *
  */
 public class Sender {
-    private String id;
+  private String id;
 
-    /**
-     * Construct sender
-     * 
-     * @param id
-     *            the id of this violet
-     */
-    public Sender(String id) {
-        this.id = id;
-    }
+  /**
+   * Construct sender
+   * 
+   * @param id the id of this violet
+   */
+  public Sender(String id) {
+    this.id = id;
+  }
 
    /**
     public void send() {
@@ -74,55 +73,56 @@ public class Sender {
     }
     **/
     
-    /**
-     * The send method
-     * 
-     * @throws IOException
-     *             too many exceptions
-     */
-    public void sendString(String content) {
-        try {
-            String dest = "http://104.198.99.184:9000/addAction/" + id + "/";
-            URL url = new URL(dest);
-            //FileReader fr = new FileReader((File) cache);
-            //BufferedReader br = new BufferedReader(fr);
-            //StringBuilder sb = new StringBuilder();
-            //while (br.readLine() != null) {
-              //  sb.append(br.readLine());
-            //}
-            //String parame = URLEncoder.encode(content,"UTF-8");
-            String parame = content;
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("content-type", "text/plain; charset=utf-8");
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            writer.write(parame);
-            writer.close();
-            //br.close();
-            int response = connection.getResponseCode();
-            System.out.println(response);
-        } catch(IOException e) {
-            e.printStackTrace();
-            
-        } 
+  /**
+   * The send method
+   * 
+   * @throws IOException too many exceptions
+   * @param content some content
+   */
+  public void sendString(String content) {
+    try {
+      String dest = "http://104.198.99.184:9000/addAction/" + id + "/";
+      URL url = new URL(dest);
+      // FileReader fr = new FileReader((File) cache);
+      // BufferedReader br = new BufferedReader(fr);
+      // StringBuilder sb = new StringBuilder();
+      // while (br.readLine() != null) {
+      // sb.append(br.readLine());
+      // }
+      // String parame = URLEncoder.encode(content,"UTF-8");
+      String parame = content;
+      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+      connection.setDoOutput(true);
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("content-type", "text/plain; charset=utf-8");
+      OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+      writer.write(parame);
+      writer.close();
+      // br.close();
+      int response = connection.getResponseCode();
+      System.out.println(response);
     }
+    catch (IOException e) {
+      e.printStackTrace();
 
-    /**
-     * 
-     * @param is the input stream
-     * @return the string result 
-     * @throws IOException 
-     */
-    public static String inputStreamToString(InputStream is) throws IOException {
-        BufferedReader br = null;
-        StringBuilder sb = new StringBuilder();
-        String line;
-        br = new BufferedReader(new InputStreamReader(is));
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-        br.close();
-        return sb.toString();
     }
+  }
+
+  /**
+   * 
+   * @param is the input stream
+   * @return the string result
+   * @throws IOException
+   */
+  public static String inputStreamToString(InputStream is) throws IOException {
+    BufferedReader br = null;
+    StringBuilder sb = new StringBuilder();
+    String line;
+    br = new BufferedReader(new InputStreamReader(is));
+    while ((line = br.readLine()) != null) {
+      sb.append(line);
+    }
+    br.close();
+    return sb.toString();
+  }
 }

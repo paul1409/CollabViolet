@@ -27,21 +27,14 @@ import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
 import java.beans.Statement;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.io.StringBufferInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -49,7 +42,6 @@ import java.util.Collection;
 import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
-import local.Sender;
 import local.AddNodeCommand;
 import local.CommandData;
 import local.ConnectCommand;
@@ -97,7 +89,8 @@ public abstract class Graph implements Serializable {
       CommandData aCommand = new CommandData(new ConnectCommand(e, p1, p2), id);
       commandList.add(aCommand);
       send();
-      //pointer = id; // don't need update the pointer yet because it is not sure this command sent to the server.
+      // pointer = id; // don't need update the pointer yet because it is not
+      // sure this command sent to the server.
     }
 
     Node n1 = findNode(p1);
@@ -139,12 +132,13 @@ public abstract class Graph implements Serializable {
    */
   public boolean add(Node n, Point2D p, boolean fromCommand) {
     if (!fromCommand) {
-    	System.out.println("from if ");
+      System.out.println("from if ");
       int id = commandList.size();
       CommandData aCommand = new CommandData(new AddNodeCommand(n, p), id);
       commandList.add(aCommand); // Edit
       send();
-      //pointer = id;  // don't need update the pointer yet because it is not sure this command sent to the server.
+      // pointer = id; // don't need update the pointer yet because it is not
+      // sure this command sent to the server.
     }
     Rectangle2D bounds = n.getBounds();
     n.translate(p.getX() - bounds.getX(), p.getY() - bounds.getY());
@@ -237,7 +231,8 @@ public abstract class Graph implements Serializable {
       CommandData aCommand = new CommandData(new RemoveNodeCommand(n), id);
       commandList.add(aCommand); // Edit
       send();
-      //pointer = id; // don't need update the pointer yet because it is not sure this command sent to the server.
+      // pointer = id; // don't need update the pointer yet because it is not
+      // sure this command sent to the server.
     }
     if (nodesToBeRemoved.contains(n)) return;
     nodesToBeRemoved.add(n);
@@ -275,7 +270,8 @@ public abstract class Graph implements Serializable {
       CommandData aCommand = new CommandData(new RemoveEdgeCommand(e), id);
       commandList.add(aCommand);
       send();
-      //pointer = id;  // don't need update the pointer yet because it is not sure this command sent to the server.
+      // pointer = id; // don't need update the pointer yet because it is not
+      // sure this command sent to the server.
     }
 
     if (edgesToBeRemoved.contains(e)) return;
@@ -456,7 +452,7 @@ public abstract class Graph implements Serializable {
    * @return a serialized file
    */
   public byte[] serialize(CommandData aCommand) {
-      byte[] result = null;
+    byte[] result = null;
     try {
       ByteOutputStream bos = new ByteOutputStream();
       ObjectOutputStream out = new ObjectOutputStream(bos);
@@ -472,28 +468,28 @@ public abstract class Graph implements Serializable {
 
   /**
    * Sends the file to other clients
-   * @param aCommand to send
    */
   public void send() {
-	  if (checkCollab() == false) { // the client didn't click the collaborate yet, store the command
-		  return;
-	  } 
-	  for (int i = pointer + 1; i < commandList.size(); i++) {
-		  CommandData aCommand = commandList.get(i);
-		  byte[] content = serialize(aCommand);
-	      Base64.Encoder ec = Base64.getEncoder();
-	      sender.sendString(ec.encodeToString(content));
-	  }
-	  pointer = commandList.size() - 1;
+    if (checkCollab() == false) { // the client didn't click the collaborate
+                                  // yet, store the command
+      return;
+    }
+    for (int i = pointer + 1; i < commandList.size(); i++) {
+      CommandData aCommand = commandList.get(i);
+      byte[] content = serialize(aCommand);
+      Base64.Encoder ec = Base64.getEncoder();
+      sender.sendString(ec.encodeToString(content));
+    }
+    pointer = commandList.size() - 1;
   }
 
   /**
    * Checks for updates to the file
    */
   public void checkUpdate() {
-	  // mark
-      System.out.println("local size" + this.getTotalSize());
-      System.out.println("node size : " + nodes.size());
+    // mark
+    System.out.println("local size" + this.getTotalSize());
+    System.out.println("node size : " + nodes.size());
     String dest = "http://104.198.99.184:9000/checkUpdate/" + roomID + "/" + this.getTotalSize();
     URL url;
     try {
@@ -506,17 +502,18 @@ public abstract class Graph implements Serializable {
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         String ipl;
         while ((ipl = in.readLine()) != null) {
-          //String content = URLDecoder.decode(ipl, "UTF-8");
+          // String content = URLDecoder.decode(ipl, "UTF-8");
           Base64.Decoder dc = Base64.getDecoder();
-          InputStream ips = new ByteInputStream(dc.decode(ipl),dc.decode(ipl).length);
+          InputStream ips = new ByteInputStream(dc.decode(ipl), dc.decode(ipl).length);
 
           // Bing's code
           ObjectInputStream ois = new ObjectInputStream(ips);
           CommandData theCD = (CommandData) ois.readObject();
-          //Ruiyang edit something, successfuly sync command object Bing continue below
+          // Ruiyang edit something, successfuly sync command object Bing
+          // continue below
           System.out.println("update"); // mark
           cloudList.add(theCD);
-          System.out.println(theCD.getCommand().getClass());  // Mark
+          System.out.println(theCD.getCommand().getClass()); // Mark
           theCD.getCommand().execute(this);
         }
         System.out.println("jump out");
@@ -530,19 +527,21 @@ public abstract class Graph implements Serializable {
       e.printStackTrace();
     }
   }
+
   /**
    * This method gets the total size of command
    * @return total size of command at local
    */
   private int getTotalSize() {
-	  return commandList.size() + cloudList.size();
+    return commandList.size() + cloudList.size();
   }
+
   /**
    * @author Bing Liang
-   * @return ture if this graph already collaborate, otherwise return false.
+   * @return true if this graph already collaborate, otherwise return false.
    */
   private boolean checkCollab() {
-	  return this.roomID != null;
+    return this.roomID != null;
   }
 
   /**
@@ -554,7 +553,6 @@ public abstract class Graph implements Serializable {
     this.roomID = id;
     sender = new Sender(this.roomID);
   }
-
 
   private String roomID;
   private ArrayList<CommandData> commandList;

@@ -23,14 +23,14 @@ public class RemoveEdgeCommand implements Command {
 
   @Override
   public void execute(Graph graph) {
-	  ArrayList<Edge> edges = (ArrayList<Edge>) (graph.getEdges());
-	  Edge edgeNeedBeRemove = null;
-	  for (Edge edge : edges) {
-		  if (edge.getStart().getID() == e.getStart().getID() && edge.getEnd().getID() == e.getEnd().getID()) {
-			  edgeNeedBeRemove = edge;
-		  }
-	  }
-	  graph.removeEdge(edgeNeedBeRemove, true);
+    ArrayList<Edge> edges = (ArrayList<Edge>) (graph.getEdges());
+    Edge edgeNeedBeRemove = null;
+    for (Edge edge : edges) {
+      if (edge.getStart().getID() == e.getStart().getID() && edge.getEnd().getID() == e.getEnd().getID()) {
+        edgeNeedBeRemove = edge;
+      }
+    }
+    graph.removeEdge(edgeNeedBeRemove, true);
   }
 
 }

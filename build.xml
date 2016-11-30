@@ -4,49 +4,96 @@
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="CollabViolet">
+<project basedir="." default="build" name="collab">
 	<property environment="env" />
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.8" />
 	<property name="source" value="1.8" />
-	<path id="CollabViolet.classpath">
+	<path id="collab.classpath">
 		<pathelement location="bin" />
-	</path>
-	<path id="jars">
-		<fileset dir="lib" includes="**/*.jar" />
+		<pathelement location="lib/java.jnlp.jar" />
+		<pathelement location="lib/javaws.jar" />
+		<pathelement location="lib/jfxrt.jar" />
+		<pathelement location="lib/jackson-core-2.8.5.jar" />
+		<pathelement location="lib/jackson-databind-2.8.5.jar" />
+		<pathelement location="lib/com.fasterxml.jackson.annotations.jar" />
+		<pathelement location="lib/jackson-annotations-2.0.2-sources.jar" />
+		<pathelement location="lib/saaj-ri.jar" />
 	</path>
 	<taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties" classpath="checkstyle-7.2-all.jar" />
+
+	<!--Compiles the project-->
 	<target name="init" depends="clean">
 		<mkdir dir="bin" />
 		<copy includeemptydirs="false" todir="bin">
 			<fileset dir=".">
 				<exclude name="**/*.launch" />
 				<exclude name="**/*.java" />
-				<exclude name="cloud/**"/>
+				<exclude name="cloud/" />
+				<exclude name="cloud/app/Application/" />
+				<exclude name="cloud/app/Application/Room.java" />
+				<exclude name="cloud/app/controllers/" />
+				<exclude name="cloud/app/controllers/Application.java" />
+				<exclude name="cloud/bin/" />
+				<exclude name="cloud/conf/" />
+				<exclude name="cloud/libexec/" />
+				<exclude name="cloud/project/" />
+				<exclude name="cloud/test/" />
+				<exclude name="diagrams/" />
 			</fileset>
 		</copy>
-		<javac srcdir="local:com/horstmann/violet:com/horstmann/violet/framework" includeantruntime="false" classpathref="jars">
-			<exclude name="cloud/**" />
-		</javac>
-		<javadoc sourcepath="." destdir="bin" />
 	</target>
 
+	<!--Cleans the project-->
 	<target name="clean">
 		<delete dir="bin" />
 	</target>
-
 	<target depends="clean" name="cleanall" />
 	<target depends="build-subprojects,build-project" name="build" />
 	<target name="build-subprojects" />
+
+	<!--Compiles the project-->
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}" />
-		<javac srcdir="local" includeantruntime="false" />
-		<javac debug="true" srcdir="local" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-			<src path="local" />
-			<classpath refid="CollabViolet.classpath" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+			<src path="local:com/horstmann/violet:com/horstmann/violet/framework" />
+			<exclude name="cloud/" />
+			<exclude name="cloud/app/Application/" />
+			<exclude name="cloud/app/Application/Room.java" />
+			<exclude name="cloud/app/controllers/" />
+			<exclude name="cloud/app/controllers/Application.java" />
+			<exclude name="cloud/bin/" />
+			<exclude name="cloud/conf/" />
+			<exclude name="cloud/libexec/" />
+			<exclude name="cloud/project/" />
+			<exclude name="cloud/test/" />
+			<exclude name="diagrams/" />
+			<classpath refid="collab.classpath" />
 		</javac>
 	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+	<target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+		<copy todir="${ant.library.dir}">
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
+		</copy>
+		<unzip dest="${ant.library.dir}">
+			<patternset includes="jdtCompilerAdapter.jar" />
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
+		</unzip>
+	</target>
 
+	<target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+		<antcall target="build" />
+	</target>
+
+	<target name="UMLEditor">
+		<java classname="com.horstmann.violet.UMLEditor" failonerror="true" fork="yes">
+			<classpath refid="collab.classpath" />
+		</java>
+	</target>
+
+	<!--Runs Checkstyle on source code-->
 	<target name="checkstyle" description="Checks for code style violations on all local files">
 		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
 			<formatter type="xml" tofile="checkstyle_local.xml" />
@@ -62,7 +109,7 @@
 		</checkstyle>
 	</target>
 
-	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+
 	<target name="war" description="Bundles the application as a WAR file" depends="clean, build, init">
 		<mkdir dir="WebContent/WEB-INF/classes" />
 		<copy includeemptydirs="false" todir="WebContent/WEB-INF/classes">
@@ -73,6 +120,7 @@
 		<war destfile="UploadServlet30.war" basedir="WebContent" needxmlfile="false" />
 	</target>
 
+	<!--Creates a jar file-->
 	<target name="jar" depends="init">
 		<mkdir dir="jar" />
 		<jar destfile="jar/Violet.jar" basedir="bin">
@@ -82,6 +130,7 @@
 		</jar>
 	</target>
 
+	<!--Runs the jar file-->
 	<target name="run">
 		<java jar="jar/Violet.jar" fork="true" />
 	</target>

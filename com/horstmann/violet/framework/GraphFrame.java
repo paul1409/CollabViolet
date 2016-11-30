@@ -12,26 +12,19 @@
  * Boston, MA 02111-1307 USA
  */
 package com.horstmann.violet.framework;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.geom.Point2D;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Stack;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
-
-import com.horstmann.violet.StateNode;
 
 /**
  * A frame for showing a graphical editor
@@ -69,8 +62,8 @@ public class GraphFrame extends JInternalFrame {
       }
     });
     //
-    
-   // graph.add(new StateNode(), new Point2D.Double(100,100));
+
+    // graph.add(new StateNode(), new Point2D.Double(100,100));
     panel.setGraph(graph);
   }
 
@@ -110,36 +103,42 @@ public class GraphFrame extends JInternalFrame {
     fileName = newValue;
     setTitle(newValue);
   }
-  
+
   /**
    * Sets an ID
    * @param id ID
    */
   public void setId(String id) {
-      this.ID = id;
-      this.graph.setID(id);
-      this.graph.send(); // send the commands before the client 1 click the collaborate button
+    this.ID = id;
+    this.graph.setID(id);
+    this.graph.send(); // send the commands before the client 1 click the
+                       // collaborate button
   }
-  
+
   /**
    * Gets the ID
    * @return ID
    */
   public String getId() {
-      return this.ID;
+    return this.ID;
   }
-  
+
+  /**
+   * Starts collaboration
+   */
   public void startCollab() {
-      ActionListener listener = event -> this.getGraph().checkUpdate();
-      final int DELAY = 1000;
-      t = new Timer(DELAY, listener);
-      t.start();
+    ActionListener listener = event -> this.getGraph().checkUpdate();
+    final int DELAY = 1000;
+    t = new Timer(DELAY, listener);
+    t.start();
   }
-  
+
+  /**
+   * Ends collaboration
+   */
   public void stopCollab() {
-      t.stop();
+    t.stop();
   }
-  
 
   private String ID;
   private Graph graph;
