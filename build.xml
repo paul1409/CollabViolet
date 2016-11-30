@@ -11,7 +11,6 @@
 	<property name="source" value="1.8" />
 	<path id="collab.classpath">
 		<pathelement location="bin" />
-		<pathelement location="lib/java.jnlp.jar" />
 		<pathelement location="lib/javaws.jar" />
 		<pathelement location="lib/jfxrt.jar" />
 		<pathelement location="lib/jackson-core-2.8.5.jar" />
