@@ -25,7 +25,8 @@ public class TranslateNodeCommand implements Command{
 	    		nodeNeedBeMove = node;
 	    	}
 	    }
-	    // Need do more
+	    System.out.println("now run the tranfer method");
+	    nodeNeedBeMove.translate(dx, dy);
 	}
 
 }

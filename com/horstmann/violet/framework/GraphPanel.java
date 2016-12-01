@@ -144,6 +144,26 @@ public class GraphPanel extends JPanel {
             setModified(true);
             setSelectedItem(newEdge);
           }
+          
+          // add code // mark
+          /*
+          Iterator iter2 = selectedItems.iterator();
+          while (iter2.hasNext()) {
+              Object selected = iter2.next();
+              if (selected instanceof Node) {
+                Node n = (Node) selected;
+                TranslateNodeCommand aCommand = new TranslateNodeCommand(n, deltaX, deltaY);
+                int id = graph.getNextNodeID();
+                CommandData cd = new CommandData(aCommand, id);
+                graph.addCommandToList(cd);
+              }
+          }
+          */
+          
+          
+          
+          /**********************************/
+          
         } else if (dragMode == DRAG_MOVE) {
           graph.layout();
           setModified(true);
@@ -186,9 +206,12 @@ public class GraphPanel extends JPanel {
             if (selected instanceof Node) {
               Node n = (Node) selected;
               // add code here // mark
+              /*
               TranslateNodeCommand aCommand = new TranslateNodeCommand(n, dx, dy);
               int id = graph.getNextNodeID();
               CommandData cd = new CommandData(aCommand, id);
+              graph.addCommandToList(cd);
+              */
               n.translate(dx, dy);
             }
           }
@@ -213,8 +236,32 @@ public class GraphPanel extends JPanel {
             }
           }
         }
-
+        
+        
+        // add code here// mark
+        /**********************************/
+        // doesn't work put the code here
+        /*
+        Iterator iter2 = selectedItems.iterator();
+       double deltaX = lastMousePoint.getX() - mousePoint.getX();
+       double deltaY = lastMousePoint.getY() - mousePoint.getY();
+       while (iter2.hasNext()) {
+           Object selected = iter2.next();
+           if (selected instanceof Node) {
+             Node n = (Node) selected;
+             TranslateNodeCommand aCommand = new TranslateNodeCommand(n, deltaX, deltaY);
+             int id = graph.getNextNodeID();
+             CommandData cd = new CommandData(aCommand, id);
+             graph.addCommandToList(cd);
+           }
+       }
+       */
+       /****************************/
+        //double deltaX = lastMousePoint.getX() - mousePoint.getX();
+        //double deltaY = lastMousePoint.getY() - mousePoint.getY();
+        // ****** mark *************/
         lastMousePoint = mousePoint;
+   
         repaint();
       }
     });
@@ -505,6 +552,12 @@ public class GraphPanel extends JPanel {
   public boolean getHideGrid() {
     return hideGrid;
   }
+  
+  // add some fields
+  private double deltaX;
+  private double deltaY;
+    
+  // add some fields
 
   private Graph graph;
   private Grid grid;

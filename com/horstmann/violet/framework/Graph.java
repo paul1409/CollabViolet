@@ -239,6 +239,10 @@ public abstract class Graph implements Serializable {
     // notify nodes of removals
     for (int i = 0; i < nodes.size(); i++) {
       Node n2 = (Node) nodes.get(i);
+      if (this == null) {
+    	  System.out.print("nothing to remove : Node"); // mark ; just for test
+    	  return;
+      }
       n2.removeNode(this, n);
     }
     for (int i = 0; i < edges.size(); i++) {
