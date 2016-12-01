@@ -45,6 +45,9 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import local.CommandData;
+import local.TranslateNodeCommand;
+
 /**
  * A panel to draw a graph
  */
@@ -182,6 +185,10 @@ public class GraphPanel extends JPanel {
             Object selected = iter.next();
             if (selected instanceof Node) {
               Node n = (Node) selected;
+              // add code here // mark
+              TranslateNodeCommand aCommand = new TranslateNodeCommand(n, dx, dy);
+              int id = graph.getNextNodeID();
+              CommandData cd = new CommandData(aCommand, id);
               n.translate(dx, dy);
             }
           }

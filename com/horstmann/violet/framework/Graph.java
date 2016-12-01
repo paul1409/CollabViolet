@@ -543,6 +543,14 @@ public abstract class Graph implements Serializable {
   private boolean checkCollab() {
     return this.roomID != null;
   }
+  
+  public int getNextNodeID() {
+	  return commandList.size();
+  }
+  
+  public void addCommandToList(CommandData cd) {
+	  commandList.add(cd);
+  }
 
   /**
    * Sets an ID

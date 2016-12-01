@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import com.horstmann.violet.framework.Graph;
 import com.horstmann.violet.framework.Node;
 
-public class TranslateNdoeCommand implements Command{
+public class TranslateNodeCommand implements Command{
 	private Node n;
 	private double dx;
 	private double dy;
 	
-	TranslateNdoeCommand(Node n, double dx, double dy) {
+	public TranslateNodeCommand(Node n, double dx, double dy) {
 		this.n = n;
 		this.dx = dx;
 		this.dy = dy;
