@@ -12,60 +12,40 @@
 	<path id="collab.classpath">
 		<pathelement location="bin" />
 		<pathelement location="lib/javaws.jar" />
-		<pathelement location="lib/jfxrt.jar" />
-		<pathelement location="lib/jackson-core-2.8.5.jar" />
-		<pathelement location="lib/jackson-databind-2.8.5.jar" />
 		<pathelement location="lib/com.fasterxml.jackson.annotations.jar" />
-		<pathelement location="lib/jackson-annotations-2.0.2-sources.jar" />
-		<pathelement location="lib/saaj-ri.jar" />
 	</path>
-	<taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties" classpath="checkstyle-7.2-all.jar" />
-
-	<!--Compiles the project-->
-	<target name="init" depends="clean">
+	<target name="init">
 		<mkdir dir="bin" />
 		<copy includeemptydirs="false" todir="bin">
 			<fileset dir=".">
 				<exclude name="**/*.launch" />
 				<exclude name="**/*.java" />
 				<exclude name="cloud/" />
-				<exclude name="cloud/app/Application/" />
-				<exclude name="cloud/app/Application/Room.java" />
-				<exclude name="cloud/app/controllers/" />
-				<exclude name="cloud/app/controllers/Application.java" />
 				<exclude name="cloud/bin/" />
 				<exclude name="cloud/conf/" />
 				<exclude name="cloud/libexec/" />
 				<exclude name="cloud/project/" />
-				<exclude name="cloud/test/" />
+				<exclude name="jar/" />
 				<exclude name="diagrams/" />
 			</fileset>
 		</copy>
 	</target>
-
-	<!--Cleans the project-->
 	<target name="clean">
 		<delete dir="bin" />
 	</target>
 	<target depends="clean" name="cleanall" />
 	<target depends="build-subprojects,build-project" name="build" />
 	<target name="build-subprojects" />
-
-	<!--Compiles the project-->
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}" />
 		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-			<src path="local:com/horstmann/violet:com/horstmann/violet/framework" />
+			<src path="." />
 			<exclude name="cloud/" />
-			<exclude name="cloud/app/Application/" />
-			<exclude name="cloud/app/Application/Room.java" />
-			<exclude name="cloud/app/controllers/" />
-			<exclude name="cloud/app/controllers/Application.java" />
 			<exclude name="cloud/bin/" />
 			<exclude name="cloud/conf/" />
 			<exclude name="cloud/libexec/" />
 			<exclude name="cloud/project/" />
-			<exclude name="cloud/test/" />
+			<exclude name="jar/" />
 			<exclude name="diagrams/" />
 			<classpath refid="collab.classpath" />
 		</javac>
@@ -80,18 +60,15 @@
 			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
 		</unzip>
 	</target>
-
 	<target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
 		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
 		<antcall target="build" />
 	</target>
-
 	<target name="UMLEditor">
 		<java classname="com.horstmann.violet.UMLEditor" failonerror="true" fork="yes">
 			<classpath refid="collab.classpath" />
 		</java>
 	</target>
-
 	<!--Runs Checkstyle on source code-->
 	<target name="checkstyle" description="Checks for code style violations on all local files">
 		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
@@ -120,7 +97,7 @@
 	</target>
 
 	<!--Creates a jar file-->
-	<target name="jar" depends="init">
+	<target name="jar" depends="build-project">
 		<mkdir dir="jar" />
 		<jar destfile="jar/Violet.jar" basedir="bin">
 			<manifest>
