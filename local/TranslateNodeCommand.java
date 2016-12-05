@@ -5,11 +5,22 @@ import java.util.ArrayList;
 import com.horstmann.violet.framework.Graph;
 import com.horstmann.violet.framework.Node;
 
+/**
+ * 
+ * @author Bing Liang
+ *
+ */
 public class TranslateNodeCommand implements Command{
 	private Node n;
 	private double dx;
 	private double dy;
 	
+	/**
+	 * Create t TranslateNodeCommand
+	 * @param n the node 
+	 * @param dx dx
+	 * @param dy dy
+	 */
 	public TranslateNodeCommand(Node n, double dx, double dy) {
 		this.n = n;
 		this.dx = dx;
@@ -25,7 +36,7 @@ public class TranslateNodeCommand implements Command{
 	    		nodeNeedBeMove = node;
 	    	}
 	    }
-	    System.out.println("now run the tranfer method");
+	    System.out.println("now run the tranfer method"); // mark
 	    nodeNeedBeMove.translate(dx, dy);
 	}
 

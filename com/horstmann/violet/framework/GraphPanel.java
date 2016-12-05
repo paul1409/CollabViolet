@@ -158,7 +158,8 @@ public class GraphPanel extends JPanel {
                 graph.addCommandToList(cd);
               }
           }
-          */
+          
+          
           
           
           

@@ -133,6 +133,8 @@ public abstract class Graph implements Serializable {
   public boolean add(Node n, Point2D p, boolean fromCommand) {
     if (!fromCommand) {
       System.out.println("from if ");
+      int nodeID = nodes.size();
+      n.setID(nodeID);
       int id = commandList.size();
       CommandData aCommand = new CommandData(new AddNodeCommand(n, p), id);
       commandList.add(aCommand); // Edit
@@ -154,8 +156,6 @@ public abstract class Graph implements Serializable {
     }
     if (insideANode && !accepted) return false;
     nodes.add(n);
-    int nodeID = nodes.size() - 1;
-    n.setID(nodeID);
     needsLayout = true;
     return true;
   }
@@ -239,7 +239,7 @@ public abstract class Graph implements Serializable {
     // notify nodes of removals
     for (int i = 0; i < nodes.size(); i++) {
       Node n2 = (Node) nodes.get(i);
-      if (this == null) {
+      if (n2 == null) {
     	  System.out.print("nothing to remove : Node"); // mark ; just for test
     	  return;
       }
