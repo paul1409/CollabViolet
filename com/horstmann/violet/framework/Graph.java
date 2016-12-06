@@ -44,6 +44,7 @@ import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import local.AddNodeCommand;
+import local.Command;
 import local.CommandData;
 import local.ConnectCommand;
 import local.RemoveEdgeCommand;
@@ -494,9 +495,11 @@ public abstract class Graph implements Serializable {
     pointer = commandList.size() - 1;
   }
 
+  
   /**
    * Checks for updates to the file
    */
+  /*
   public void checkUpdate() {
     // mark
     System.out.println("local size" + this.getTotalSize());
@@ -520,8 +523,8 @@ public abstract class Graph implements Serializable {
           // Bing's code
           ObjectInputStream ois = new ObjectInputStream(ips);
           CommandData theCD = (CommandData) ois.readObject();
-          // Ruiyang edit something, successfuly sync command object Bing
-          // continue below
+          // Ruiyang edit something, successfuly sync command object 
+          //Bing continue below
           System.out.println("update"); // mark
           cloudList.add(theCD);
           System.out.println(theCD.getCommand().getClass()); // Mark
@@ -534,16 +537,16 @@ public abstract class Graph implements Serializable {
       e.printStackTrace();
     }
     catch (ClassNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
+  */
 
   /**
    * This method gets the total size of command
    * @return total size of command at local
    */
-  private int getTotalSize() {
+  public int getTotalSize() {
     return commandList.size() + cloudList.size();
   }
 
@@ -563,6 +566,17 @@ public abstract class Graph implements Serializable {
 	  commandList.add(cd);
   }
 
+  /**
+   * Gets the roomID
+   * @return roomID
+   */
+  public String roomID() {
+	  return this.roomID;
+  }
+  
+  public ArrayList<CommandData> getCloudList() {
+	  return this.cloudList;
+  }
   /**
    * Sets an ID
    * 

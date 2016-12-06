@@ -437,7 +437,7 @@ public class EditorFrame extends JFrame {
           JOptionPane.showMessageDialog(null,
               "Collaborate Success!\nShare room number with friends\nRoom Number:" + sb.toString(), "Success",
               JOptionPane.INFORMATION_MESSAGE);
-          ActionListener listener = event -> gf.getGraph().checkUpdate();
+          ActionListener listener = event -> gf.getGraphPanel().checkUpdate();
           final int DELAY = 1000;
           Timer t = new Timer(DELAY, listener);
           t.start();
@@ -465,7 +465,7 @@ public class EditorFrame extends JFrame {
           if (response == 200) {
               gf.setId(input);
             JOptionPane.showMessageDialog(null, "Collaborate Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            ActionListener listener = event -> gf.getGraph().checkUpdate();
+            ActionListener listener = event -> gf.getGraphPanel().checkUpdate();
             final int DELAY = 1000;
             Timer t = new Timer(DELAY, listener);
             t.start();
