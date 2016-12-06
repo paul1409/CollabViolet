@@ -13,8 +13,10 @@
 		<pathelement location="bin" />
 		<pathelement location="lib/javaws.jar" />
 		<pathelement location="lib/com.fasterxml.jackson.annotations.jar" />
+		<pathelement location="lib/rt.jar" />
 	</path>
-	<target name="init">
+	<taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties" classpath="checkstyle-7.2-all.jar"/>
+	<target name="init" depends="clean">
 		<mkdir dir="bin" />
 		<copy includeemptydirs="false" todir="bin">
 			<fileset dir=".">
@@ -64,11 +66,14 @@
 		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
 		<antcall target="build" />
 	</target>
+	
+	<!-- Runs the main class in case jar file fails-->
 	<target name="UMLEditor">
 		<java classname="com.horstmann.violet.UMLEditor" failonerror="true" fork="yes">
 			<classpath refid="collab.classpath" />
 		</java>
 	</target>
+	
 	<!--Runs Checkstyle on source code-->
 	<target name="checkstyle" description="Checks for code style violations on all local files">
 		<checkstyle config="checkstyle.xml" failureProperty="checkstyle.failure" failOnViolation="false">
