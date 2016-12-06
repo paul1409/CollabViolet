@@ -191,11 +191,13 @@ public class GraphPanel extends JPanel
             
             // add nodes here // mark
             for (Object n : selectedItems) {
-            	int aID = graph.getNextNodeID();
-            	TranslateNodeCommand command = new TranslateNodeCommand((Node) n);
-            	CommandData cd = new CommandData(command, aID);
-            	graph.addCommandDataToList(cd);
-            	//graph.send();
+            	if (n instanceof Node) {
+            		int aID = graph.getNextNodeID();
+                	TranslateNodeCommand command = new TranslateNodeCommand((Node) n);
+                	CommandData cd = new CommandData(command, aID);
+                	graph.addCommandDataToList(cd);
+                	//graph.send();
+            	}
             }
             graph.send();
             // **************************** //
