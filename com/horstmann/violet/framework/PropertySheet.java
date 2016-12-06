@@ -123,10 +123,9 @@ public class PropertySheet extends JPanel {
             setter.invoke(bean, new Object[] { editor.getValue() });
             fireStateChanged(null);
             SetPropertiesCommand command = new SetPropertiesCommand(bean, editor.getValue(), setter);
-            Field c = parent.getClass().getDeclaredField("graph");
-            c.setAccessible(true);
-            Field[] test = c.getClass().getDeclaredFields();
-            Field f = c.getClass().getDeclaredField("roomID");
+            Graph g = ((GraphPanel)parent).getGraph();
+            Field[] test = g.getClass().getSuperclass().getDeclaredFields();
+            Field id = g.getClass().getSuperclass().getDeclaredField("roomID");
           }
           catch (IllegalAccessException exception) {
             exception.printStackTrace();
