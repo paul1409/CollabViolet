@@ -82,6 +82,8 @@ public class PropertySheet extends JPanel {
       });
       setLayout(new FormLayout());
       for (int i = 0; i < descriptors.length; i++) {
+        if(descriptors[i].getName().toLowerCase().equals("id"))
+            continue;
         PropertyEditor editor = getEditor(bean, descriptors[i]);
         if (editor != null) {
           add(new JLabel(descriptors[i].getName()));
