@@ -357,6 +357,10 @@ public class GraphPanel extends JPanel
       repaint();
    }
 
+   /**
+    * Paints the component
+    * @param g graphics
+    */
    public void paintComponent(Graphics g)
    {
       super.paintComponent(g);
@@ -437,6 +441,10 @@ public class GraphPanel extends JPanel
       g2.setColor(oldColor);
    }
 
+   /**
+    * Gets preferable size for dimensions
+    * @return new dimension
+    */
    public Dimension getPreferredSize()
    {
       Rectangle2D bounds = graph.getBounds((Graphics2D) getGraphics());
@@ -481,6 +489,10 @@ public class GraphPanel extends JPanel
       repaint();
    }
 
+   /**
+    * Gets the next item in arraylist
+    * @param n index
+    */
    public void selectNext(int n)
    {
       ArrayList selectables = new ArrayList();
@@ -666,7 +678,10 @@ public class GraphPanel extends JPanel
    {
       return hideGrid;
    }
-   
+   /**
+    * Get graph of this panel
+    * @return the graph of this panel
+    */
    public Graph getGraph() {
        return graph;
    }
