@@ -18,9 +18,7 @@ public class SetPropertiesCommand implements Command {
     private Object value;
     private String method;
     private Class<?>[] classes;
-    public SetPropertiesCommand(Object bean, Object value, String method,Class<?>[] classes) {
-        
-            System.out.println("node");
+    public SetPropertiesCommand(Object bean, Object value, String method,Class<?>[] classes) {        
         this.classes = classes;
         this.bean = bean;
         this.value = value;
