@@ -6,7 +6,7 @@ import com.horstmann.violet.framework.Graph;
 import com.horstmann.violet.framework.Node;
 
 /**
- * 
+ * A command that use to translation
  * @author Bing Liang
  *
  */
@@ -32,8 +32,8 @@ public class TranslateNodeCommand implements Command{
 	    }
 	    double dx = n.getBounds().getCenterX()  - nodeNeedBeMove.getBounds().getCenterX();
 	    double dy = n.getBounds().getCenterY() - nodeNeedBeMove.getBounds().getCenterY();
-	    System.out.println("now run the tranfer method"); // mark
-	   nodeNeedBeMove.translate(dx, dy);
+	    if (nodeNeedBeMove == null) return;
+	    nodeNeedBeMove.translate(dx, dy);
 	}
 
 }
