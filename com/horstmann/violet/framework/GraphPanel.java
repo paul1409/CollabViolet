@@ -668,6 +668,8 @@ public class GraphPanel extends JPanel
    {
       return hideGrid;
    }
+   
+   
 
    private Graph graph;
    private Grid grid;
