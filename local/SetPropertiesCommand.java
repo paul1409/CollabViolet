@@ -14,47 +14,58 @@ import com.horstmann.violet.framework.Node;
  *
  */
 public class SetPropertiesCommand implements Command {
-    private Object bean;
-    private Object value;
-    private String method;
-    private Class<?>[] classes;
-    public SetPropertiesCommand(Object bean, Object value, String method,Class<?>[] classes) {        
-        this.classes = classes;
-        this.bean = bean;
-        this.value = value;
-        this.method = method;
-    }
+  private Object bean;
+  private Object value;
+  private String method;
+  private Class<?>[] classes;
+
+  /**
+   * Constructor
+   * @param bean a bean
+   * @param value a value
+   * @param method a method string
+   * @param classes a class
+   */
+  public SetPropertiesCommand(Object bean, Object value, String method, Class<?>[] classes) {
+    this.classes = classes;
+    this.bean = bean;
+    this.value = value;
+    this.method = method;
+  }
 
   @Override
   public void execute(Graph graph) {
-      Object beSet = null;
-      if(bean instanceof Node)  {
+    Object beSet = null;
+    if (bean instanceof Node) {
       ArrayList<Node> nodes = (ArrayList<Node>) (graph.getNodes());
       for (Node node : nodes) {
-          if (node.getID() == ((Node)bean).getID()) {
-           beSet = node;
-          }
-       }
-      } else {
-          Edge cache = (Edge)bean;
-          ArrayList<Edge> edges = (ArrayList<Edge>) (graph.getEdges());
-          for (Edge e : edges) {
-              if (e.getStart().getID() == cache.getStart().getID() && e.getEnd().getID() == e.getEnd().getID()) {
-               beSet = e;
-              }
-           }
+        if (node.getID() == ((Node) bean).getID()) {
+          beSet = node;
+        }
       }
-      try {
-        Method m = bean.getClass().getMethod(method, classes);
-        m.invoke(beSet, new Object[] { value });
-    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-        e.printStackTrace();
-    } catch (NoSuchMethodException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    } catch (SecurityException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+    } else {
+      Edge cache = (Edge) bean;
+      ArrayList<Edge> edges = (ArrayList<Edge>) (graph.getEdges());
+      for (Edge e : edges) {
+        if (e.getStart().getID() == cache.getStart().getID() && e.getEnd().getID() == e.getEnd().getID()) {
+          beSet = e;
+        }
+      }
+    }
+    try {
+      Method m = bean.getClass().getMethod(method, classes);
+      m.invoke(beSet, new Object[] { value });
+    }
+    catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+      e.printStackTrace();
+    }
+    catch (NoSuchMethodException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    catch (SecurityException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 

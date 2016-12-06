@@ -240,19 +240,17 @@ public abstract class Graph implements Serializable {
     // notify nodes of removals
     for (int i = 0; i < nodes.size(); i++) {
       Node n2 = (Node) nodes.get(i);
-      if (n2 == null) {
-    	  return;
-      }
+      if (n2 == null) { return; }
       n2.removeNode(this, n);
     }
     for (int i = 0; i < edges.size(); i++) {
       Edge e = (Edge) edges.get(i);
       if (e.getStart() == n || e.getEnd() == n) {
-    	  removeEdge(e);
-    	  RemoveEdgeCommand deleteCommand = new RemoveEdgeCommand(e);
-    	  int deleteID = commandList.size();
-    	  CommandData deleteCD = new CommandData(deleteCommand, deleteID);
-    	  commandList.add(deleteCD);
+        removeEdge(e);
+        RemoveEdgeCommand deleteCommand = new RemoveEdgeCommand(e);
+        int deleteID = commandList.size();
+        CommandData deleteCD = new CommandData(deleteCommand, deleteID);
+        commandList.add(deleteCD);
       }
     }
 
@@ -508,13 +506,21 @@ public abstract class Graph implements Serializable {
   private boolean checkCollab() {
     return this.roomID != null;
   }
-  
+
+  /**
+   * Gets the next command's ID
+   * @return size of the command list
+   */
   public int getNextCDID() {
-	  return commandList.size();
+    return commandList.size();
   }
-  
+
+  /**
+   * Adds a command to the list
+   * @param cd a command
+   */
   public void addCommandDataToList(CommandData cd) {
-	  commandList.add(cd);
+    commandList.add(cd);
   }
 
   /**
@@ -522,12 +528,17 @@ public abstract class Graph implements Serializable {
    * @return roomID
    */
   public String roomID() {
-	  return this.roomID;
+    return this.roomID;
   }
-  
+
+  /**
+   * Gets the list of commands from the server
+   * @return cloudlist
+   */
   public ArrayList<CommandData> getCloudList() {
-	  return this.cloudList;
+    return this.cloudList;
   }
+
   /**
    * Sets an ID
    * 
@@ -537,7 +548,7 @@ public abstract class Graph implements Serializable {
     this.roomID = id;
     sender = new Sender(this.roomID);
   }
-  
+
   private String roomID;
   private ArrayList<CommandData> commandList;
   private ArrayList<CommandData> cloudList;
