@@ -1,13 +1,16 @@
-New log file opened at Tue Nov 29 01:12:53 PST 2016 by 41990@liangbingdeMBP7.hsd1.ca.comcast.net
-Taking next connection to: 62906
-New client attempting to connect on port: 62907-62906
-  Address = /192.168.1.116:62906
-This client on port 62907 has uuid 701a3922-0b54-485f-8393-76fa37dbc3d0 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
-Connected Clients: play-fork-run-701a3922-0b54-485f-8393-76fa37dbc3d0
-Taking next connection to: 62906
+New log file opened at Tue Dec 06 03:01:41 PST 2016 by 12396@ReyoungdeMacBook-Pro.local
+Taking next connection to: 57936
+New client attempting to connect on port: 57937-57936
+  Address = /192.168.1.100:57936
+This client on port 57937 has uuid c6c19f52-fdca-4948-9e50-92983bae8ab7 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-c6c19f52-fdca-4948-9e50-92983bae8ab7
+Taking next connection to: 57936
 Checking to see if clients are empty...
 We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 62906
+Taking next connection to: 57936
 Checking to see if clients are empty...
 We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 62906
+Taking next connection to: 57936
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 57936

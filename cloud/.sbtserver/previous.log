@@ -1,26 +1,4 @@
-New log file opened at Tue Nov 29 01:10:09 PST 2016 by 41971@liangbingdeMBP7.hsd1.ca.comcast.net
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-logging#commons-logging;1.2 [compile->master(compile)]
-Read from stdout: Resolving commons-logging#commons-logging;1.2 ...
-Resolving commons-logging#commons-logging;1.2 ...
-sbt-chain: Checking cache for: dependency: commons-logging#commons-logging;1.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
-sbt-chain: module revision found in cache: commons-logging#commons-logging;1.2
-	found commons-logging#commons-logging;1.2 in sbt-chain
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-logging#commons-logging;1.2 [compile->compile(*)]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-logging#commons-logging;1.2 [compile->runtime(*)]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-logging#commons-logging;1.2 [compile->compile]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-codec#commons-codec;1.9 [compile->master(compile)]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-codec#commons-codec;1.10 [compile->master(compile)]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-codec#commons-codec;1.9 [compile->compile(*)]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-codec#commons-codec;1.10 [compile->compile(*)]
-== resolving dependencies net.sourceforge.htmlunit#htmlunit;2.20->org.apache.httpcomponents#httpclient;4.5.2 [compile->runtime(*)]
-== resolving dependencies net.sourceforge.htmlunit#htmlunit;2.20->org.apache.httpcomponents#httpclient;4.5.2 [compile->compile]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->org.apache.httpcomponents#httpcore;4.4.4 [runtime->runtime(*)]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->org.apache.httpcomponents#httpcore;4.4.4 [runtime->compile]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-logging#commons-logging;1.2 [runtime->runtime(*)]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-logging#commons-logging;1.2 [runtime->compile]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-codec#commons-codec;1.9 [runtime->runtime(*)]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-codec#commons-codec;1.10 [runtime->runtime(*)]
-== resolving dependencies org.apache.httpcomponents#httpclient;4.5.2->commons-codec#commons-codec;1.10 [runtime->compile]
+New log file opened at Tue Dec 06 02:58:52 PST 2016 by 12328@ReyoungdeMacBook-Pro.local
 == resolving dependencies net.sourceforge.htmlunit#htmlunit;2.20->org.apache.httpcomponents#httpmime;4.5.2 [compile->master(compile)]
 Read from stdout: Resolving org.apache.httpcomponents#httpmime;4.5.2 ...
 Resolving org.apache.httpcomponents#httpmime;4.5.2 ...
@@ -4877,70 +4855,31 @@ all callers are evicted for commons-logging#commons-logging;1.1.1: evicting too
 	[NOT REQUIRED] com.typesafe.akka#akka-actor_2.11;2.3.8!akka-actor_2.11.jar
 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.11;2.3.8!akka-testkit_2.11.jar
 	[NOT REQUIRED] com.typesafe#config;1.2.1!config.jar(bundle)
-:: resolution report :: resolve 3605ms :: artifacts dl 99ms
-	report for cloud#cloud_2.11;1.0-SNAPSHOT compile produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-compile.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT runtime produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-runtime.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT test produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-test.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT provided produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-provided.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT optional produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-optional.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT compile-internal produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-compile-internal.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT runtime-internal produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-runtime-internal.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT test-internal produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-test-internal.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT plugin produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-plugin.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT sources produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-sources.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT docs produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-docs.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT pom produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-pom.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT scala-tool produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-scala-tool.xml
-	report for cloud#cloud_2.11;1.0-SNAPSHOT fork-run produced in /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-fork-run.xml
-	resolve done (3605ms resolve - 99ms download)
+:: resolution report :: resolve 2574ms :: artifacts dl 76ms
+	report for cloud#cloud_2.11;1.0-SNAPSHOT compile produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-compile.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT runtime produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-runtime.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT test produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-test.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT provided produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-provided.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT optional produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-optional.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT compile-internal produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-compile-internal.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT runtime-internal produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-runtime-internal.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT test-internal produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-test-internal.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT plugin produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-plugin.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT sources produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-sources.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT docs produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-docs.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT pom produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-pom.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT scala-tool produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-scala-tool.xml
+	report for cloud#cloud_2.11;1.0-SNAPSHOT fork-run produced in /Users/reyoungwang/Documents/CollabViolet/cloud/target/resolution-cache/reports/cloud-cloud_2.11-fork-run.xml
+	resolve done (2574ms resolve - 76ms download)
 Read from stdout: Done updating.
 Done updating.
-Total time: 4 s, completed Nov 29, 2016 1:10:11 AM
+Total time: 3 s, completed Dec 6, 2016 2:58:54 AM
 > server-post-command-cleanup
 > server-handle-next-server-request
 > root/playForkNotifyStart http://localhost:9000
 Evaluating tasks: *:playForkNotifyStart
-Running task... Cancel: sbt.server.ServerTaskCancellation@4ccbc11d, check cycles: false
-Total time: 0 s, completed Nov 29, 2016 1:10:13 AM
-> server-post-command-cleanup
-> server-handle-next-server-request
-> {file:/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/}root/*:playForkReload
-Evaluating tasks: *:playForkReload
-Running task... Cancel: sbt.server.ServerTaskCancellation@7eddaf1a, check cycles: false
-
-Initial source changes: 
-	removed:Set()
-	added: Set()
-	modified: Set(/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/app/Application/Room.java, /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/app/controllers/Application.java)
-Removed products: Set()
-External API changes: API Changes: Set()
-Modified binary dependencies: Set()
-Initial directly invalidated sources: Set(/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/app/Application/Room.java, /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/app/controllers/Application.java)
-
-Sources indirectly invalidated by:
-	product: Set()
-	binary dep: Set()
-	external source: Set()
-All initially invalidated sources: Set(/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/app/Application/Room.java, /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/app/controllers/Application.java)
-
-Read from stdout: Compiling 2 Java sources to /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/scala-2.11/classes...
-Compiling 2 Java sources to /Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/scala-2.11/classes...
-Attempting to call com.sun.tools.javac.api.JavacTool@33eefd52 directly...
-Warning: node.js detection failed, sbt will use the Rhino based Trireme JavaScript engine instead to run JavaScript assets compilation, which in some cases may be orders of magnitude slower than using node.js.
-Java compilation took 1.056054906 s
-Java analysis took 0.30066916 s
-Java compile + analysis took 1.370357843 s
-New invalidations:
-	Set()
-Initial set of included nodes: Set()
-Previously invalidated, but (transitively) depend on new invalidations:
-	Set()
-All newly invalidated sources after taking into account (previously) recompiled sources:Set()
-Copy resource mappings: 
-	(/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/conf/application.conf,/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/scala-2.11/classes/application.conf)
-	(/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/conf/logback.xml,/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/scala-2.11/classes/logback.xml)
-	(/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/conf/routes,/Users/liangbing/Desktop/SJSU/CollabViolet/cloud/target/scala-2.11/classes/routes)
-Total time: 3 s, completed Nov 29, 2016 1:10:53 AM
+Running task... Cancel: sbt.server.ServerTaskCancellation@6d80151d, check cycles: false
+Total time: 0 s, completed Dec 6, 2016 2:58:55 AM
 > server-post-command-cleanup
 > server-handle-next-server-request
 Done executing sbt server engine, result Right(Exit(0))
@@ -4949,4 +4888,4 @@ Waiting for socket thread
 Waiting for request processor thread
 Waiting for command engine result
 Returning control to sbt launcher with result Exit(0)
-Closing the 41971@liangbingdeMBP7.hsd1.ca.comcast.net logs at Tue Nov 29 01:12:47 PST 2016, goodbye.
+Closing the 12328@ReyoungdeMacBook-Pro.local logs at Tue Dec 06 03:01:35 PST 2016, goodbye.
