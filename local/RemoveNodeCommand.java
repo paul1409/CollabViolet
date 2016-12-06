@@ -30,6 +30,7 @@ public class RemoveNodeCommand implements Command {
         nodeNeedBeRemove = node;
       }
     }
+    if (nodeNeedBeRemove == null) return;
     graph.removeNode(nodeNeedBeRemove, true);
   }
 
