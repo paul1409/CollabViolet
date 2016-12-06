@@ -558,7 +558,7 @@ public abstract class Graph implements Serializable {
     return this.roomID != null;
   }
   
-  public int getNextNodeID() {
+  public int getNextCDID() {
 	  return commandList.size();
   }
   

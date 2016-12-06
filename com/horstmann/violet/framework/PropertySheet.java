@@ -50,6 +50,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import local.CommandData;
 import local.SetPropertiesCommand;
 
 /**
@@ -122,20 +123,18 @@ public class PropertySheet extends JPanel {
           try {
             setter.invoke(bean, new Object[] { editor.getValue() });
             fireStateChanged(null);
-            SetPropertiesCommand command = new SetPropertiesCommand(bean, editor.getValue(), setter);
+            SetPropertiesCommand command = new SetPropertiesCommand(bean, editor.getValue(), setter.getName(),setter.getParameterTypes());
             Graph g = ((GraphPanel)parent).getGraph();
-            Field[] test = g.getClass().getSuperclass().getDeclaredFields();
-            Field id = g.getClass().getSuperclass().getDeclaredField("roomID");
+            CommandData toadd = new CommandData(command, g.getNextCDID());
+            g.addCommandDataToList(toadd);
+            g.send();
           }
           catch (IllegalAccessException exception) {
             exception.printStackTrace();
           }
           catch (InvocationTargetException exception) {
             exception.printStackTrace();
-          } catch (NoSuchFieldException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SecurityException e) {
+          } catch (SecurityException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

@@ -15,8 +15,10 @@ import com.horstmann.violet.framework.Node;
 public class SetPropertiesCommand implements Command {
     private Object bean;
     private Object value;
-    private Method method;
-    public SetPropertiesCommand(Object bean, Object value, Method method) {
+    private String method;
+    private Class<?>[] classes;
+    public SetPropertiesCommand(Object bean, Object value, String method,Class<?>[] classes) {
+        this.classes = classes;
         this.bean = bean;
         this.value = value;
         this.method = method;
@@ -32,8 +34,15 @@ public class SetPropertiesCommand implements Command {
           }
        }
       try {
-        method.invoke(bean, new Object[] { value });
+        Method m = bean.getClass().getMethod(method, classes);
+        m.invoke(nodeBeSet, new Object[] { value });
     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (SecurityException e) {
+        // TODO Auto-generated catch block
         e.printStackTrace();
     }
   }

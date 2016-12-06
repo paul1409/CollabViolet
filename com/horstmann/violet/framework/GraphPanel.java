@@ -203,7 +203,7 @@ public class GraphPanel extends JPanel
             // add nodes here // mark
             for (Object n : selectedItems) {
             	if (n instanceof Node) {
-            		int aID = graph.getNextNodeID();
+            		int aID = graph.getNextCDID();
                 	TranslateNodeCommand command = new TranslateNodeCommand((Node) n);
                 	CommandData cd = new CommandData(command, aID);
                 	graph.addCommandDataToList(cd);
@@ -629,6 +629,7 @@ public class GraphPanel extends JPanel
            graph.getCloudList().add(theCD);
            System.out.println(theCD.getCommand().getClass()); // Mark
            theCD.getCommand().execute(graph);
+           graph.layout();
            repaint();
          }
          System.out.println("jump out");
@@ -667,6 +668,10 @@ public class GraphPanel extends JPanel
    public boolean getHideGrid()
    {
       return hideGrid;
+   }
+   
+   public Graph getGraph() {
+       return graph;
    }
    
    
