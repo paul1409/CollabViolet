@@ -195,9 +195,11 @@ public class GraphPanel extends JPanel
             	TranslateNodeCommand command = new TranslateNodeCommand((Node) n);
             	CommandData cd = new CommandData(command, aID);
             	graph.addCommandDataToList(cd);
+            	//graph.send();
             }
-            
+            graph.send();
             // **************************** //
+            
             dragMode = DRAG_NONE;
 
             revalidate();
