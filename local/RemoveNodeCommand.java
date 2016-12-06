@@ -6,7 +6,7 @@ import com.horstmann.violet.framework.Graph;
 import com.horstmann.violet.framework.Node;
 
 /**
- * 
+ * A command that use remove a edge
  * @author Bing Liang
  *
  */
