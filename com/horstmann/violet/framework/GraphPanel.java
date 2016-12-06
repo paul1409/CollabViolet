@@ -39,6 +39,9 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import local.CommandData;
+import local.TranslateNodeCommand;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -188,7 +191,10 @@ public class GraphPanel extends JPanel
             
             // add nodes here // mark
             for (Object n : selectedItems) {
-            	
+            	int aID = graph.getNextNodeID();
+            	TranslateNodeCommand command = new TranslateNodeCommand((Node) n);
+            	CommandData cd = new CommandData(command, aID);
+            	graph.addCommandDataToList(cd);
             }
             
             // **************************** //
@@ -575,6 +581,17 @@ public class GraphPanel extends JPanel
       lastSelected = obj;
       if (obj != null) selectedItems.add(obj);
    }
+   
+   /**
+    * @author Bing Liang
+    * @param obj the object that need be translate
+    */
+   private void transtateSeletedItem(Object obj) {
+	   
+   }
+   
+   
+  
    
    private void clearSelection()
    {

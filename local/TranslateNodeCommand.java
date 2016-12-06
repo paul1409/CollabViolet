@@ -12,19 +12,13 @@ import com.horstmann.violet.framework.Node;
  */
 public class TranslateNodeCommand implements Command{
 	private Node n;
-	private double dx;
-	private double dy;
 	
 	/**
 	 * Create t TranslateNodeCommand
-	 * @param n the node 
-	 * @param dx dx
-	 * @param dy dy
+	 * @param n the node after be translated
 	 */
-	public TranslateNodeCommand(Node n, double dx, double dy) {
+	public TranslateNodeCommand(Node n) {
 		this.n = n;
-		this.dx = dx;
-		this.dy = dy;
 	}
 	
 	@Override
@@ -36,8 +30,10 @@ public class TranslateNodeCommand implements Command{
 	    		nodeNeedBeMove = node;
 	    	}
 	    }
+	    double dx = n.getBounds().getCenterX()  - nodeNeedBeMove.getBounds().getCenterX();
+	    double dy = n.getBounds().getCenterY() - nodeNeedBeMove.getBounds().getCenterY();
 	    System.out.println("now run the tranfer method"); // mark
-	    nodeNeedBeMove.translate(dx, dy);
+	   nodeNeedBeMove.translate(dx, dy);
 	}
 
 }

@@ -558,7 +558,7 @@ public abstract class Graph implements Serializable {
 	  return commandList.size();
   }
   
-  public void addCommandToList(CommandData cd) {
+  public void addCommandDataToList(CommandData cd) {
 	  commandList.add(cd);
   }
 
