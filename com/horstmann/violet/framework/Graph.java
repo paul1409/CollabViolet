@@ -247,7 +247,13 @@ public abstract class Graph implements Serializable {
     }
     for (int i = 0; i < edges.size(); i++) {
       Edge e = (Edge) edges.get(i);
-      if (e.getStart() == n || e.getEnd() == n) removeEdge(e);
+      if (e.getStart() == n || e.getEnd() == n) {
+    	  removeEdge(e);
+    	  RemoveEdgeCommand deleteCommand = new RemoveEdgeCommand(e);
+    	  int deleteID = commandList.size();
+    	  CommandData deleteCD = new CommandData(deleteCommand, deleteID);
+    	  commandList.add(deleteCD);
+      }
     }
 
     needsLayout = true;
