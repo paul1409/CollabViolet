@@ -152,7 +152,7 @@ public class ImplicitParameterNode extends RectangularNode {
 
     @Override
     public void setID(int i) {
-        this.id = id;
+        this.id = i;
     }
 
     @Override
