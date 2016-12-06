@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
@@ -571,7 +572,7 @@ public abstract class Graph implements Serializable {
     this.roomID = id;
     sender = new Sender(this.roomID);
   }
-
+  
   private String roomID;
   private ArrayList<CommandData> commandList;
   private ArrayList<CommandData> cloudList;

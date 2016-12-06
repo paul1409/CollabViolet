@@ -32,6 +32,7 @@ import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.beans.PropertyEditorSupport;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import local.SetPropertiesCommand;
 
 /**
  * A component filled with editors for all editable properties of an object.
@@ -119,13 +122,24 @@ public class PropertySheet extends JPanel {
           try {
             setter.invoke(bean, new Object[] { editor.getValue() });
             fireStateChanged(null);
+            SetPropertiesCommand command = new SetPropertiesCommand(bean, editor.getValue(), setter);
+            Field c = parent.getClass().getDeclaredField("graph");
+            c.setAccessible(true);
+            Field[] test = c.getClass().getDeclaredFields();
+            Field f = c.getClass().getDeclaredField("roomID");
           }
           catch (IllegalAccessException exception) {
             exception.printStackTrace();
           }
           catch (InvocationTargetException exception) {
             exception.printStackTrace();
-          }
+          } catch (NoSuchFieldException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         }
       });
       return editor;
