@@ -127,7 +127,7 @@ public class GraphFrame extends JInternalFrame {
    * Starts collaboration
    */
   public void startCollab() {
-    ActionListener listener = event -> this.getGraph().checkUpdate();
+    ActionListener listener = event -> this.getGraphPanel().checkUpdate();
     final int DELAY = 1000;
     t = new Timer(DELAY, listener);
     t.start();
@@ -139,6 +139,7 @@ public class GraphFrame extends JInternalFrame {
   public void stopCollab() {
     t.stop();
   }
+  
 
   private String ID;
   private Graph graph;

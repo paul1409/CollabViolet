@@ -34,15 +34,26 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+
 import local.CommandData;
 import local.TranslateNodeCommand;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ResourceBundle;
@@ -587,13 +598,49 @@ public class GraphPanel extends JPanel
    }
    
    /**
-    * @author Bing Liang
-    * @param obj the object that need be translate
+    * Checks for updates to the file
     */
-   private void transtateSeletedItem(Object obj) {
-	   
+   public void checkUpdate() {
+     // mark
+     System.out.println("local size" + graph.getTotalSize());
+     System.out.println("node size : " + graph.getNodes().size()); //mark
+     String dest = "http://104.198.99.184:9000/checkUpdate/" + graph.roomID() + "/" + graph.getTotalSize();
+     URL url;
+     try {
+       url = new URL(dest);
+       HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+       connection.setRequestMethod("GET");
+       connection.connect();
+       int response = connection.getResponseCode();
+       if (response == 200) {
+         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+         String ipl;
+         while ((ipl = in.readLine()) != null) {
+           // String content = URLDecoder.decode(ipl, "UTF-8");
+           Base64.Decoder dc = Base64.getDecoder();
+           InputStream ips = new ByteInputStream(dc.decode(ipl), dc.decode(ipl).length);
+
+           // Bing's code
+           ObjectInputStream ois = new ObjectInputStream(ips);
+           CommandData theCD = (CommandData) ois.readObject();
+           // Ruiyang edit something, successfuly sync command object 
+           //Bing continue below
+           System.out.println("update"); // mark
+           graph.getCloudList().add(theCD);
+           System.out.println(theCD.getCommand().getClass()); // Mark
+           theCD.getCommand().execute(graph);
+           repaint();
+         }
+         System.out.println("jump out");
+       }
+     }
+     catch (IOException e) {
+       e.printStackTrace();
+     }
+     catch (ClassNotFoundException e) {
+       e.printStackTrace();
+     }
    }
-   
    
   
    
