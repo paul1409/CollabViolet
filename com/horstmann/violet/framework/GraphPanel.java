@@ -601,9 +601,8 @@ public class GraphPanel extends JPanel
     * Checks for updates to the file
     */
    public void checkUpdate() {
-     // mark
-     System.out.println("local size" + graph.getTotalSize());
-     System.out.println("node size : " + graph.getNodes().size()); //mark
+     //System.out.println("local size" + graph.getTotalSize());
+     //System.out.println("node size : " + graph.getNodes().size()); //mark
      String dest = "http://104.198.99.184:9000/checkUpdate/" + graph.roomID() + "/" + graph.getTotalSize();
      URL url;
      try {
@@ -625,14 +624,12 @@ public class GraphPanel extends JPanel
            CommandData theCD = (CommandData) ois.readObject();
            // Ruiyang edit something, successfuly sync command object 
            //Bing continue below
-           System.out.println("update"); // mark
            graph.getCloudList().add(theCD);
-           System.out.println(theCD.getCommand().getClass()); // Mark
+           //System.out.println(theCD.getCommand().getClass()); // Mark
            theCD.getCommand().execute(graph);
            graph.layout();
            repaint();
          }
-         System.out.println("jump out");
        }
      }
      catch (IOException e) {
