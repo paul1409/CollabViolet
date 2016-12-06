@@ -100,7 +100,6 @@ public class Sender {
       writer.close();
       // br.close();
       int response = connection.getResponseCode();
-      System.out.println(response);
     }
     catch (IOException e) {
       e.printStackTrace();

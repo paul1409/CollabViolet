@@ -461,6 +461,7 @@ public class EditorFrame extends JFrame {
                     final int DELAY = 1000;
                     Timer t = new Timer(DELAY, listener);
                     t.start();
+                    gf.setTitle("Collaborating Number: "+sb.toString()+" "+ gf.getTitle());
                 } catch (IOException e1) {
                     e1.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error" + e1.getMessage(), "Error!",
@@ -503,6 +504,7 @@ public class EditorFrame extends JFrame {
                         final int DELAY = 1000;
                         Timer t = new Timer(DELAY, listener);
                         t.start();
+                        gf.setTitle("Collaborating Number: "+Integer.parseInt(input)+" "+gf.getTitle());
                     } else {
                         JOptionPane.showMessageDialog(null, "Cannot find this room!\nCheck with your friend.", "Failed",
                                 JOptionPane.INFORMATION_MESSAGE);
