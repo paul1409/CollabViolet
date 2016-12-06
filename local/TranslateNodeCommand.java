@@ -30,9 +30,10 @@ public class TranslateNodeCommand implements Command {
         nodeNeedBeMove = node;
       }
     }
+    if (nodeNeedBeMove == null) return;
+
     double dx = n.getBounds().getCenterX() - nodeNeedBeMove.getBounds().getCenterX();
     double dy = n.getBounds().getCenterY() - nodeNeedBeMove.getBounds().getCenterY();
-    if (nodeNeedBeMove == null) return;
     nodeNeedBeMove.translate(dx, dy);
   }
 
